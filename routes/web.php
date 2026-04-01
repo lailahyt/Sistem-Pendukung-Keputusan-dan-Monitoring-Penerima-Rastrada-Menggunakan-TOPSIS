@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ResidentController;
+use App\Http\Controllers\KriteriaController;
 
 Route::get('/', function () {
     return view('layouts.app');
@@ -22,9 +23,7 @@ Route::get('/employee', function () {
     return view('pages.employee.index');
 });
 
-Route::get('/kriteria', function () {
-    return view('pages.kriteria.index');
-});
+Route::get('/kriteria', [KriteriaController::class, 'index']);
 
 Route::get('/penilaian', function () {
     return view('pages.penilaian.index');

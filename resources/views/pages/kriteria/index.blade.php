@@ -54,9 +54,10 @@
                             <tbody>
                                 @foreach ($kriteria as $item)
                                     <tr>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->kode }}</td>
                                         <td>{{ $item->nama_kriteria }}</td>
-                                        <td>{{ $item->bobot }}</td>
+                                        <td>{{ number_format($item->bobot, 2) }}</td>
                                         <th>
                                             <div class="d-flex align-items-center" style="gap: 10px;">
                                                 <a href="/kriteria/{{ $item->kode }}"
