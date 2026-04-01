@@ -41,6 +41,7 @@
                                 <th>Kode</th>
                                 <th>Nama Kriteria</th>
                                 <th>Bobot</th>
+                                <th>Atribut</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -58,6 +59,7 @@
                                         <td>{{ $item->kode }}</td>
                                         <td>{{ $item->nama_kriteria }}</td>
                                         <td>{{ number_format($item->bobot, 2) }}</td>
+                                        <td>{{ $item->atribut }}</td>
                                         <th>
                                             <div class="d-flex align-items-center" style="gap: 10px;">
                                                 <a href="/kriteria/{{ $item->kode }}"

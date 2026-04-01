@@ -24,6 +24,9 @@ Route::get('/employee', function () {
 });
 
 Route::get('/kriteria', [KriteriaController::class, 'index']);
+Route::get('/kriteria/create', [KriteriaController::class, 'create']);
+Route::get('/kriteria/{id}', [KriteriaController::class, 'edit']);
+Route::post('/kriteria', [KriteriaController::class, 'store']);
 
 Route::get('/penilaian', function () {
     return view('pages.penilaian.index');

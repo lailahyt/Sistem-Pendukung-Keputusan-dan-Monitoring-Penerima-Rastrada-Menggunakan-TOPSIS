@@ -9,4 +9,11 @@ class Kriteria extends Model
     protected $table = 'kriteria';
 
     protected $guarded = [];
+
+    protected $fillable = [
+        'kode',
+        'nama_kriteria',
+        'bobot',
+        'atribut'
+    ];
 }
