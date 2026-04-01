@@ -30,9 +30,9 @@ class ResidentController extends Controller
             'alamat' => 'required',
             'desa' => 'required',
             'kecamatan' => 'required',
-            'penghasilan' => 'required|integer',
-            'tanggungan' => 'required|integer',
-            'kondisi_rumah' => 'required',
+            'penghasilan' => 'integer',
+            'tanggungan' => 'integer',
+            'kondisi_rumah' => '',
         ]);
 
         Resident::create($validatedData);

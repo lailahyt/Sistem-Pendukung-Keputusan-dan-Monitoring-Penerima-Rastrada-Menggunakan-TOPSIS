@@ -18,6 +18,10 @@ Route::post('/resident', [ResidentController::class, 'store']);
 Route::put('/resident/{id}', [ResidentController::class, 'update']);
 Route::delete('/resident/{id}', [ResidentController::class, 'destroy']);
 
+Route::get('/employee', function () {
+    return view('pages.employee.index');
+});
+
 Route::get('/kriteria', function () {
     return view('pages.kriteria.index');
 });

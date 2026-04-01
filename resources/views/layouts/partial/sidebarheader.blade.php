@@ -1,6 +1,9 @@
         <div class="d-flex justify-content-between align-items-center">
-            <div class="logo">
+            {{-- <div class="logo">
                 <a href="index.html"><img src="./assets/compiled/svg/logo.svg" alt="Logo" srcset=""></a>
+            </div> --}}
+            <div class="logo-name">
+                <h5>SPK RASTRADA</h5>
             </div>
             <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"

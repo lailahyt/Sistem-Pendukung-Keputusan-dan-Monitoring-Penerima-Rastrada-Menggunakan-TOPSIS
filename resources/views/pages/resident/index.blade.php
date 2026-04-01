@@ -34,7 +34,7 @@
                 </h5>
             </div>
             <div class="card-body">
-                <table class="table table-striped" id="table1">
+                <table class="table table-striped table-responsive" id="table1">
                     <thead>
                         <tr>
                             <th>NIK</th>
@@ -42,36 +42,47 @@
                             <th>Alamat</th>
                             <th>Desa</th>
                             <th>Kecamatan</th>
-                            <th>Penghasila</th>
+                            {{-- <th>Penghasila</th>
                             <th>Tanggungan</th>
-                            <th>Kondisi Rumah</th>
+                            <th>Kondisi Rumah</th> --}}
                             <th>Aksi</th>
                         </tr>
                     </thead>
+                    @if (count($residents) < 1)
                     <tbody>
                         <tr>
-                            <th>NIK</th>
-                            <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Desa</th>
-                            <th>Kecamatan</th>
-                            <th>Penghasila</th>
-                            <th>Tanggungan</th>
-                            <th>Kondisi Rumah</th>
+                            <td colspan="6" class="text-center">Tidak ada data penduduk</td>
+                        </tr>
+                    </tbody>
+                    @else
+
+                    <tbody>
+                        @foreach ($residents as $item)
+                        <tr>
+                            <td>{{ $item->nik }}</td>
+                            <td>{{ $item->nama }}</td>
+                            <td>{{ $item->alamat }}</td>
+                            <td>{{ $item->desa }}</td>
+                            <td>{{ $item->kecamatan }}</td>
+                            {{-- <th>{{ $item->penghasilan }}</th>
+                            <th>{{ $item->tanggungan }}</th>
+                            <th>{{ $item->k }}</th> --}}
                             <th>
                                 <div class="d-flex align-items-center" style="gap: 10px;" >
-                                    <a href="/resident/" class="d-inline-block btn btn-warning btn-sm">
+                                    <a href="/resident/{{ $item->id }}" class="d-inline-block btn btn-warning btn-sm">
                                         <i class="bi bi-pencil-fill"></i>
                                     </a>
-                                    {{-- <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmationDelete{{ }}">
-                                        <i class="fas fa-eraser"></i>
-                                    </button> --}}
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmationDelete{{ $item->id }}">
+                                        <i class="bi bi-eraser-fill"></i>
+                                    </button>
                                 </div>
                             </th>
 
                         </tr>
+                        @endforeach
 
                     </tbody>
+                    @endif
                 </table>
             </div>
         </div>
