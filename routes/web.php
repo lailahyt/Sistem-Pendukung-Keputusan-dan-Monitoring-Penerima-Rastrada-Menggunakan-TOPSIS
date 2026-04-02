@@ -25,7 +25,8 @@ Route::get('/employee', function () {
 
 Route::get('/kriteria', [KriteriaController::class, 'index']);
 Route::get('/kriteria/create', [KriteriaController::class, 'create']);
-Route::get('/kriteria/{id}', [KriteriaController::class, 'edit']);
+Route::get('/kriteria/{kode}', [KriteriaController::class, 'edit']);
+Route::put('/kriteria/{kode}', [KriteriaController::class, 'update']);
 Route::post('/kriteria', [KriteriaController::class, 'store']);
 
 Route::get('/penilaian', function () {
