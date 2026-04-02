@@ -51,7 +51,7 @@ class ResidentController extends Controller
     public function update(Request $request, $id)
     {
         // Logic to update an existing resident in the database
-        $validated = $request->validate([
+        $validatedData = $request->validate([
             'nik' => 'required' ,
             'nama' => 'required',
             'alamat' => 'required',
