@@ -37,6 +37,7 @@
                 <table class="table table-striped table-responsive" id="table1">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>NIK</th>
                             <th>Nama</th>
                             <th>Alamat</th>
@@ -59,6 +60,7 @@
                     <tbody>
                         @foreach ($residents as $item)
                         <tr>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->nik }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->alamat }}</td>
@@ -79,10 +81,10 @@
                             </th>
 
                         </tr>
+                        @include('pages.resident.delete', ['resident' => $item])
                         @endforeach
-
+                        @endif
                     </tbody>
-                    @endif
                 </table>
             </div>
         </div>
