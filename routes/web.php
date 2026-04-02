@@ -28,6 +28,7 @@ Route::get('/kriteria/create', [KriteriaController::class, 'create']);
 Route::get('/kriteria/{kode}', [KriteriaController::class, 'edit']);
 Route::put('/kriteria/{kode}', [KriteriaController::class, 'update']);
 Route::post('/kriteria', [KriteriaController::class, 'store']);
+Route::delete('/kriteria/{kode}', [KriteriaController::class, 'destroy']);
 
 Route::get('/penilaian', function () {
     return view('pages.penilaian.index');

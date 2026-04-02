@@ -64,4 +64,13 @@ class KriteriaController extends Controller
 
         return redirect('/kriteria')->with('success', 'Data berhasil diupdate');
     }
+
+    public function destroy($kode)
+    {
+        $kriteria = Kriteria::where('kode', $kode)->firstOrFail();
+
+        $kriteria->delete();
+
+        return redirect('/kriteria')->with('success', 'Data berhasil dihapus');
+    }
 }

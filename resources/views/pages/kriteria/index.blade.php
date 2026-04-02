@@ -60,22 +60,56 @@
                                         <td>{{ $item->nama_kriteria }}</td>
                                         <td>{{ number_format($item->bobot, 2) }}</td>
                                         <td>{{ $item->atribut }}</td>
-                                        <th>
+                                        <td>
                                             <div class="d-flex align-items-center" style="gap: 10px;">
-                                                <a href="/kriteria/{{ $item->kode }}"
-                                                    class="d-inline-block btn btn-warning btn-sm">
+                                                <a href="/kriteria/{{ $item->kode }}" class="btn btn-warning btn-sm">
                                                     <i class="bi bi-pencil-fill"></i>
                                                 </a>
+
                                                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#confirmationDelete{{ $item->kode }}">
+                                                    data-bs-target="#deleteModal{{ $item->kode }}">
                                                     <i class="bi bi-eraser-fill"></i>
                                                 </button>
                                             </div>
-                                        </th>
-
+                                        </td>
                                     </tr>
-                                @endforeach
 
+                                    <!-- MODAL HAPUS -->
+                                    <div class="modal fade" id="deleteModal{{ $item->kode }}" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Konfirmasi Hapus</h5>
+                                                    <button type="button" class="btn-close"
+                                                        data-bs-dismiss="modal"></button>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    Yakin ingin menghapus data
+                                                    <strong>{{ $item->nama_kriteria }}</strong>?
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">
+                                                        Batal
+                                                    </button>
+
+                                                    <form action="/kriteria/{{ $item->kode }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+
+                                                        <button type="submit" class="btn btn-danger">
+                                                            Hapus
+                                                        </button>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </tbody>
                         @endif
                     </table>
