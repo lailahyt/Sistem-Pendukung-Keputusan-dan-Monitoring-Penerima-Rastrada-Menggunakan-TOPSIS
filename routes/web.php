@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\KriteriaController;
+use App\Http\Controllers\PegawaiController;
 
 Route::get('/', function () {
     return view('layouts.app');
@@ -19,9 +20,12 @@ Route::post('/resident', [ResidentController::class, 'store']);
 Route::put('/resident/{id}', [ResidentController::class, 'update']);
 Route::delete('/resident/{id}', [ResidentController::class, 'destroy']);
 
-Route::get('/employee', function () {
-    return view('pages.employee.index');
-});
+Route::resource('employee', PegawaiController::class);
+Route::get('/employee/create', [PegawaiController::class, 'create']);
+Route::get('/employee/{id}', [PegawaiController::class, 'edit']);
+Route::post('/employee', [PegawaiController::class, 'store']);
+Route::put('/employee/{id}', [PegawaiController::class, 'update']);
+Route::delete('/employee/{id}', [PegawaiController::class, 'destroy']);
 
 Route::get('/kriteria', [KriteriaController::class, 'index']);
 Route::get('/kriteria/create', [KriteriaController::class, 'create']);

@@ -1,0 +1,61 @@
+@extends('layouts.app')
+@section('content')
+    <div class="page-heading">
+        <h3>Tambah Data Pegawai</h3>
+
+        <section class="section">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Form Input Pegawai</h5>
+                </div>
+
+                <div class="card-body">
+                    <form action="/employee" method="POST">
+                        @csrf
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label>Nama Pegawai</label>
+                                <input type="text" name="nama" class="form-control"
+                                    placeholder="Masukkan nama pegawai" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>NIP</label>
+                                <input type="text" name="nip" class="form-control"
+                                    placeholder="Masukkan NIP (opsional)">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Jabatan</label>
+                                <select name="jabatan" class="form-control" required>
+                                    <option value="">-- Pilih Jabatan --</option>
+                                    <option value="Pegawai">Pegawai</option>
+                                    <option value="Lurah">Lurah</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>No HP</label>
+                                <input type="text" name="no_hp" class="form-control" placeholder="Contoh: 08123456789">
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label>Alamat</label>
+                                <textarea name="alamat" class="form-control" rows="3" placeholder="Masukkan alamat"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <a href="/employee" class="btn btn-secondary">Kembali</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+@endsection

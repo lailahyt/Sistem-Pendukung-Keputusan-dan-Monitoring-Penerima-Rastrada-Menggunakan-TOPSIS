@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="mt-3">
-                            <button type="submit" class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                             <a href="/kriteria" class="btn btn-secondary">Kembali</a>
                         </div>
 
