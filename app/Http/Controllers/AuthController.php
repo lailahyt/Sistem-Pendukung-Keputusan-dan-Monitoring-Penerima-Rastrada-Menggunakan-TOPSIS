@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -35,12 +36,12 @@ class AuthController extends Controller
             $userStatus = Auth::user()->status;
 
             if ($userStatus === 'submitted') {
-                // $this->_logout($request);
+                $this->_logout($request);
                 return back()->withErrors([
                     'email' => 'Akun anda belum disetujui, silahkan tunggu konfirmasi dari admin.',
                 ]);
             } elseif ($userStatus === 'rejected') {
-                // $this->_logout($request);
+                $this->_logout($request);
                 return back()->withErrors([
                     'email' => 'Akun anda ditolak oleh admin.',
                 ]);
@@ -56,17 +57,17 @@ class AuthController extends Controller
 
         public function registerView()
     {
-        if (Auth::check()) {
-            return back(); // Redirect to dashboard if already authenticated
-        }
+        // if (Auth::check()) {
+        //     return back(); // Redirect to dashboard if already authenticated
+        // }
         return view('pages.auth.register'); // Assuming you have a register view
     }
 
         public function register(Request $request)
     {
-        if (Auth::check()) {
-            return back(); // Redirect to dashboard if already authenticated
-        }
+        // if (Auth::check()) {
+        //     return back(); // Redirect to dashboard if already authenticated
+        // }
 
         $data = $request->validate([
             'name' => ['required'],
@@ -86,8 +87,8 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        if (Auth::check()) {
-            return redirect('/'); // Redirect to dashboard if already authenticated
+        if (!Auth::check()) {
+            return redirect('/'); // Redirect if not authenticated
         }
 
         Auth::logout();

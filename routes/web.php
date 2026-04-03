@@ -16,7 +16,7 @@ Route::post('/register', [AuthController::class, 'register'] );
 
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
-});
+})->middleware('role:Admin,Petugas,Lurah');
 
 Route::get('/resident', [ResidentController::class, 'index']);
 Route::get('/resident/create', [ResidentController::class, 'create']);
@@ -25,12 +25,12 @@ Route::post('/resident', [ResidentController::class, 'store']);
 Route::put('/resident/{id}', [ResidentController::class, 'update']);
 Route::delete('/resident/{id}', [ResidentController::class, 'destroy']);
 
-Route::resource('employee', PegawaiController::class);
-Route::get('/employee/create', [PegawaiController::class, 'create']);
-Route::get('/employee/{id}', [PegawaiController::class, 'edit']);
-Route::post('/employee', [PegawaiController::class, 'store']);
-Route::put('/employee/{id}', [PegawaiController::class, 'update']);
-Route::delete('/employee/{id}', [PegawaiController::class, 'destroy']);
+Route::get('/employee', [PegawaiController::class, 'index'])->middleware(['role:Admin']);
+Route::get('/employee/create', [PegawaiController::class, 'create'])->middleware(['role:Admin']);
+Route::get('/employee/{id}', [PegawaiController::class, 'edit'])->middleware(['role:Admin']);
+Route::post('/employee', [PegawaiController::class, 'store'])->middleware(['role:Admin']);
+Route::put('/employee/{id}', [PegawaiController::class, 'update'])->middleware(['role:Admin']);
+Route::delete('/employee/{id}', [PegawaiController::class, 'destroy'])->middleware(['role:Admin']);
 
 Route::get('/kriteria', [KriteriaController::class, 'index']);
 Route::get('/kriteria/create', [KriteriaController::class, 'create']);
