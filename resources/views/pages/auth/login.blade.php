@@ -36,8 +36,8 @@
             <div class="auth-logo">
                 <a href="index.html"><img src="{{ asset('assets/compiled/svg/logo.svg') }}" alt="Logo"></a>
             </div>
-            <h1 class="auth-title">Log in.</h1>
-            <p class="auth-subtitle mb-5"></p>
+            <h2 class="mb-4">SPK RASTRADA</h2>
+            <p class="text-muted">Silakan login untuk melanjutkan</p>
             <form class=user action="/login" method="POST">
                 @csrf
                 @method('POST')
