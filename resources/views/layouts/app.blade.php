@@ -17,16 +17,16 @@
             </div>
         </div>
     </div>
-    <div id="main" class='layout-navbar navbar-fixed'>
+        <div id="main" class='layout-navbar navbar-fixed'>
 
-        @include('layouts.partial.navbar')
+            @include('layouts.partial.navbar')
 
-        <div id="main-content">
-            @yield('content')
+            <div id="main-content">
+                @yield('content')
+            </div>
+
+            @include('layouts.partial.footer')
         </div>
-
-        @include('layouts.partial.footer')
-    </div>
     </div>
     <script src="{{ asset('assets/static/js/components/sidebar.js') }}"></script>
     <script src="{{ asset('assets/static/js/components/dark.js') }}"></script>
@@ -47,6 +47,36 @@
             new simpleDatatables.DataTable(table);
         }
     </script>
+
+    {{-- 🔥 TARUH MODAL DI SINI --}}
+    <div class="modal fade" id="logoutModal" tabindex="-1">
+        <div class="modal-dialog">
+            <form action="/logout" method="POST">
+                @csrf
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ready to Leave?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        Apakah anda yakin ingin keluar?
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-danger">
+                            Logout
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
 
 </body>
 
