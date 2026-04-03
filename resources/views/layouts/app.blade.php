@@ -9,10 +9,6 @@
     <script src="assets/static/js/initTheme.js"></script>
     <div id="app">
         <div class="sidebar-wrapper active" id="sidebar">
-            <div class="sidebar-header position-relative">
-                @include('layouts.partial.sidebarheader')
-            </div>
-            <div class="sidebar-menu">
                 @include('layouts.partial.sidebar')
             </div>
         </div>
