@@ -12,11 +12,18 @@ class AuthController extends Controller
 {
     public function login()
     {
+        if (Auth::check()) {
+            return back(); // Redirect to dashboard if already authenticated
+        }
         return view('pages.auth.login'); // Assuming you have a login view
     }
 
     public function authenticate(Request $request)
     {
+        if (Auth::check()) {
+            return back(); // Redirect to dashboard if already authenticated
+        }
+
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
@@ -49,11 +56,18 @@ class AuthController extends Controller
 
         public function registerView()
     {
+        if (Auth::check()) {
+            return back(); // Redirect to dashboard if already authenticated
+        }
         return view('pages.auth.register'); // Assuming you have a register view
     }
 
         public function register(Request $request)
     {
+        if (Auth::check()) {
+            return back(); // Redirect to dashboard if already authenticated
+        }
+
         $data = $request->validate([
             'name' => ['required'],
             'email' => ['required', 'email'],
@@ -72,6 +86,10 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        if (Auth::check()) {
+            return redirect('/'); // Redirect to dashboard if already authenticated
+        }
+
         Auth::logout();
 
         $request->session()->invalidate();
