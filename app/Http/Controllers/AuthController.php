@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+
+class AuthController extends Controller
+{
+    public function login()
+    {
+        return view('pages.auth.login'); // Assuming you have a login view
+    }
+
+    public function authenticate(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            $userStatus = Auth::user()->status;
+
+            if ($userStatus === 'submitted') {
+                // $this->_logout($request);
+                return back()->withErrors([
+                    'email' => 'Akun anda belum disetujui, silahkan tunggu konfirmasi dari admin.',
+                ]);
+            } elseif ($userStatus === 'rejected') {
+                // $this->_logout($request);
+                return back()->withErrors([
+                    'email' => 'Akun anda ditolak oleh admin.',
+                ]);
+            }
+
+            return redirect()->intended('dashboard');
+        }
+
+        return back()->withErrors([
+            'email' => 'Terjadi kesalahan, periksa kembali email atau password anda.',
+        ])->onlyInput('email');
+    }
+
+}

@@ -1,13 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\PegawaiController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('layouts.app');
-});
+
+// Authentication routes
+Route::get('/', [AuthController::class, 'login'] );
+Route::post('/login', [AuthController::class, 'authenticate']);
+Route::post('/logout', [AuthController::class, 'logout']);
+Route::get('/register', [AuthController::class, 'registerView'] );
+Route::post('/register', [AuthController::class, 'register'] );
 
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
