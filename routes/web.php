@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -38,6 +39,9 @@ Route::get('/kriteria/{kode}', [KriteriaController::class, 'edit'])->middleware(
 Route::put('/kriteria/{kode}', [KriteriaController::class, 'update'])->middleware(['role:Admin,Petugas']);
 Route::post('/kriteria', [KriteriaController::class, 'store'])->middleware(['role:Admin,Petugas']);
 Route::delete('/kriteria/{kode}', [KriteriaController::class, 'destroy'])->middleware(['role:Admin,Petugas']);
+
+Route::get('/account-request', [UserController::class, 'account_request_view'])->middleware(['role:Admin']);
+Route::post('/account-request/approval/{id}', [UserController::class, 'account_approval'])->middleware(['role:Admin']);
 
 Route::get('/penilaian', function () {
     return view('pages.penilaian.index');

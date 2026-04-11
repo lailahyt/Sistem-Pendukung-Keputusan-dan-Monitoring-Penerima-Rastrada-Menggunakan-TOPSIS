@@ -69,9 +69,21 @@
                 'icon'  => 'bi bi-file-earmark-text',
             ],
             (object)[
+                'type' => 'dropdown',
                 'title' => 'User Management',
-                'path'  => '#',
-                'icon'  => 'bi bi-shield-lock',
+                'icon'  => 'bi bi-person-badge',
+                'children' => [
+                    (object)[
+                        'title' => 'Daftar Akun',
+                        'path'  => 'account-list',
+                        'icon'  => 'bi bi-person-lines-fill',
+                    ],
+                    (object)[
+                        'title' => 'Permintaan Akun',
+                        'path'  => 'account-request',
+                        'icon'  => 'bi bi-person-plus',
+                    ],
+                ]
             ],
         ],
 
@@ -245,8 +257,8 @@
 
                             <ul class="submenu">
                                 @foreach ($menu->children as $child)
-                                    <li class="sidebar-item {{ request()->is($child->path.'*') ? 'active' : '' }}">
-                                        <a href="/{{ $child->path }}" class="sidebar-link">
+                                    <li class="submenu-item {{ request()->is($child->path.'*') ? 'active' : '' }}">
+                                        <a href="/{{ $child->path }}" class="submenu-link">
                                             <i class="{{ $child->icon }}"></i>
                                             <span>{{ $child->title }}</span>
                                         </a>
