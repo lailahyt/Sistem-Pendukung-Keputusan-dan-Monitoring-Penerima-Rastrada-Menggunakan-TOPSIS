@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('assets/compiled/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/compiled/css/app-dark.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/compiled/css/auth.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -24,12 +25,21 @@
     <script>
         Swal.fire({
             title: "Error",
-            text: "@foreach ($errors->all() as $error) {{ $error }} @endforeach",
+            text: "@foreach ($errors->all() as $error) {{ $error }}{{ $loop->last ? '.':',' }}@endforeach",
             icon: "error"
         });
     </script>
     @endif
 
+    {{-- @error('email')
+    <script>
+        Swal.fire({
+            title: "Error",
+            text: " {{ $message }} ",
+            icon: "error"
+        });
+    </script>
+    @enderror --}}
 
     <div class="col-lg-5 col-12">
         <div id="auth-left">

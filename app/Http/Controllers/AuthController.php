@@ -28,6 +28,10 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
+        ], [
+            'email.required' => 'Email wajib diisi',
+            'email.email' => 'Format email tidak valid',
+            'password.required' => 'Password wajib diisi',
         ]);
 
         if (Auth::attempt($credentials)) {
@@ -84,6 +88,14 @@ class AuthController extends Controller
         return redirect('/')->with('success', 'Registrasi berhasil, silahkan tunggu konfirmasi dari admin.');
     }
 
+    public function _logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+    }
 
     public function logout(Request $request)
     {
@@ -91,11 +103,7 @@ class AuthController extends Controller
             return redirect('/'); // Redirect if not authenticated
         }
 
-        Auth::logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
+        $this->_logout($request);
 
         return redirect('/');
     }
