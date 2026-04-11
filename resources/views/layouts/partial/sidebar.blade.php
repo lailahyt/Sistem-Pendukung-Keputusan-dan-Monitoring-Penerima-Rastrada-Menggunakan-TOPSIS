@@ -1,10 +1,170 @@
-            <div class="sidebar-header position-relative">
+@php
+    $menus = [
+        1 => [
+            (object)[
+            'type' => 'title',
+            'title' => 'Menu',
+            ],
+            (object) [
+                'title' => 'Dashboard',
+                'path' => 'dashboard',
+                'icon' => 'bi bi-grid'
+            ],
+            (object)[
+                'title' => 'Data Penduduk',
+                'path' => 'resident',
+                'icon' => 'bi bi-people',
+            ],
+            (object)[
+                'title' => 'Data Pegawai',
+                'path' => 'employee',
+                'icon' => 'bi bi-people-fill',
+            ],
+            (object)[
+                'title' => 'Kriteria',
+                'path' => 'kriteria',
+                'icon' => 'bi bi-filter-square',
+            ],
+            (object)[
+                'type' => 'dropdown',
+                'title' => 'Proses',
+                'icon'  => 'bi bi-gear-wide',
+                'children' => [
+                    (object)[
+                        'title' => 'Penilaian',
+                        'path'  => 'penilaian',
+                        'icon'  => 'bi bi-pencil-square',
+                    ],
+                    (object)[
+                        'title' => 'Perhitungan SAW',
+                        'path'  => 'perhitungan',
+                        'icon'  => 'bi bi-calculator',
+                    ],
+                ]
+            ],
+            (object)[
+                'type' => 'dropdown',
+                'title' => 'Hasil',
+                'icon'  => 'bi bi-graph-up-arrow',
+                'children' => [
+                    (object)[
+                        'title' => 'Hasil Rekomendasi',
+                        'path'  => 'hasil',
+                        'icon'  => 'bi bi-clipboard2-check',
+                    ],
+                    (object)[
+                        'title' => 'Monitoring',
+                        'path'  => 'monitoring',
+                        'icon'  => 'bi bi-activity',
+                    ],
+                ]
+            ],
+            (object)[
+            'type' => 'title',
+            'title' => 'Sistem',
+            ],
+            (object)[
+                'title' => 'Laporan',
+                'path'  => 'report',
+                'icon'  => 'bi bi-file-earmark-text',
+            ],
+            (object)[
+                'title' => 'User Management',
+                'path'  => '#',
+                'icon'  => 'bi bi-shield-lock',
+            ],
+        ],
+
+        2 => [ // Petugas
+            (object)[
+                'title' => 'Dashboard',
+                'path'  => 'dashboard',
+                'icon'  => 'bi bi-grid',
+            ],
+            (object)[
+                'title' => 'Data Penduduk',
+                'path'  => 'resident',
+                'icon'  => 'bi bi-people',
+            ],
+            (object)[
+                'type' => 'dropdown',
+                'title' => 'Proses',
+                'icon'  => 'bi bi-gear-wide',
+                'children' => [
+                    (object)[
+                        'title' => 'Penilaian',
+                        'path'  => 'penilaian',
+                        'icon'  => 'bi bi-pencil-square',
+                    ],
+                    (object)[
+                        'title' => 'Perhitungan SAW',
+                        'path'  => 'perhitungan',
+                        'icon'  => 'bi bi-calculator',
+                    ],
+                ]
+            ],
+            (object)[
+                'type' => 'dropdown',
+                'title' => 'Hasil',
+                'icon'  => 'bi bi-graph-up-arrow',
+                'children' => [
+                    (object)[
+                        'title' => 'Hasil Rekomendasi',
+                        'path'  => 'hasil',
+                        'icon'  => 'bi bi-clipboard2-check',
+                    ],
+                    (object)[
+                        'title' => 'Monitoring',
+                        'path'  => 'monitoring',
+                        'icon'  => 'bi bi-activity',
+                    ],
+                ]
+            ],
+        ],
+
+        3 => [ // Lurah
+        (object)[
+            'type' => 'title',
+            'title' => 'Menu',
+            ],
+            (object)[
+                'title' => 'Dashboard',
+                'path'  => 'dashboard',
+                'icon'  => 'bi bi-grid',
+            ],
+            (object)[
+                'type' => 'title',
+                'title' => 'Hasil',
+                // 'icon'  => 'bi bi-graph-up-arrow',
+                // 'children' => [
+                // ]
+            ],
+                    (object)[
+                        'title' => 'Hasil Rekomendasi',
+                        'path'  => 'hasil',
+                        'icon'  => 'bi bi-clipboard2-check',
+                    ],
+                    (object)[
+                        'title' => 'Monitoring',
+                        'path'  => 'monitoring',
+                        'icon'  => 'bi bi-activity',
+                    ],
+            (object)[
+                'title' => 'Laporan',
+                'path'  => 'report',
+                'icon'  => 'bi bi-file-earmark-text',
+            ],
+        ],
+    ];
+@endphp
+
+           <div class="sidebar-header position-relative">
 
                 <div class="d-flex justify-content-between align-items-center">
                     {{-- <div class="logo">
                         <a href="index.html"><img src="./assets/compiled/svg/logo.svg" alt="Logo" srcset=""></a>
                     </div> --}}
-                    <div class="logo-name">
+                    <div class="logo-title">
                         <h5>SPK RASTRADA</h5>
                     </div>
                     <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
@@ -43,37 +203,78 @@
         <div class="sidebar-menu">
 
             <ul class="menu">
-                <li class="sidebar-title">Menu</li>
+                {{-- <li class="sidebar-title">Menu</li> --}}
 
-                <li class="sidebar-item {{ request()->is('dashboard') ? 'active' : '' }}">
+                {{-- <li class="sidebar-item {{ request()->is('dashboard') ? 'active' : '' }}">
                     <a href="/dashboard" class="sidebar-link">
                         <i class="bi bi-grid"></i>
                         <span>Dashboard</span>
                     </a>
-                </li>
+                </li> --}}
 
-                <li class="sidebar-item {{ request()->is('resident*') ? 'active' : '' }}">
+                {{-- <li class="sidebar-item {{ request()->is('resident*') ? 'active' : '' }}">
                     <a href="/resident" class="sidebar-link">
                         <i class="bi bi-people"></i>
                         <span>Data Penduduk</span>
                     </a>
-                </li>
-
-                <li class="sidebar-item {{ request()->is('employee*') ? 'active' : '' }}">
-                    <a href="/employee" class="sidebar-link">
-                        <i class="bi bi-person"></i>
-                        <span>Data Pegawai</span>
+                </li> --}}
+                {{-- @foreach ($menus[Auth()->user()->role_id] ?? [] as $menu)
+                <li class="sidebar-item {{ request()->is($menu->path . '*') ? 'active' : '' }}">
+                    <a href="/{{ $menu->path }}" class="sidebar-link">
+                        <i class="{{ $menu->icon }}"></i>
+                        <span>{{ $menu->title }}</span>
                     </a>
                 </li>
+                @endforeach --}}
 
-                <li class="sidebar-item {{ request()->is('kriteria*') ? 'active' : '' }}">
+                @foreach ($menus[Auth()->user()->role_id] ?? [] as $menu)
+
+                    {{-- TITLE --}}
+                    @if(isset($menu->type) && $menu->type == 'title')
+                        <li class="sidebar-title">{{ $menu->title }}</li>
+
+                    {{-- DROPDOWN --}}
+                    @elseif(isset($menu->type) && $menu->type == 'dropdown')
+                        <li class="sidebar-item has-sub
+                            {{ collect($menu->children)->pluck('path')->contains(fn($p) => request()->is($p.'*')) ? 'active' : '' }}">
+
+                            <a href="#" class="sidebar-link">
+                                <i class="{{ $menu->icon }}"></i>
+                                <span>{{ $menu->title }}</span>
+                            </a>
+
+                            <ul class="submenu">
+                                @foreach ($menu->children as $child)
+                                    <li class="sidebar-item {{ request()->is($child->path.'*') ? 'active' : '' }}">
+                                        <a href="/{{ $child->path }}" class="sidebar-link">
+                                            <i class="{{ $child->icon }}"></i>
+                                            <span>{{ $child->title }}</span>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+
+                    {{-- MENU BIASA --}}
+                    @else
+                        <li class="sidebar-item {{ request()->is($menu->path.'*') ? 'active' : '' }}">
+                            <a href="/{{ $menu->path }}" class="sidebar-link">
+                                <i class="{{ $menu->icon }}"></i>
+                                <span>{{ $menu->title }}</span>
+                            </a>
+                        </li>
+                    @endif
+
+                @endforeach
+
+                {{-- <li class="sidebar-item {{ request()->is('kriteria*') ? 'active' : '' }}">
                     <a href="/kriteria" class="sidebar-link">
                         <i class="bi-filter-square"></i>
                         <span>Kriteria</span>
                     </a>
-                </li>
+                </li> --}}
 
-                <li
+                {{-- <li
                     class="sidebar-item  has-sub">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-gear-wide"></i>
@@ -137,7 +338,7 @@
                         <i class="bi bi-shield-lock"></i>
                         <span>User Management</span>
                     </a>
-                </li>
+                </li> --}}
 
             </ul>
         </div>

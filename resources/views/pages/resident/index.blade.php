@@ -52,7 +52,7 @@
                     @if (count($residents) < 1)
                     <tbody>
                         <tr>
-                            <td colspan="6" class="text-center">Tidak ada data penduduk</td>
+                            <td colspan="7" class="text-center">Tidak ada data penduduk</td>
                         </tr>
                     </tbody>
                     @else

@@ -18,12 +18,12 @@ Route::get('/dashboard', function () {
     return view('pages.dashboard');
 })->middleware('role:Admin,Petugas,Lurah');
 
-Route::get('/resident', [ResidentController::class, 'index']);
-Route::get('/resident/create', [ResidentController::class, 'create']);
-Route::get('/resident/{id}', [ResidentController::class, 'edit']);
-Route::post('/resident', [ResidentController::class, 'store']);
-Route::put('/resident/{id}', [ResidentController::class, 'update']);
-Route::delete('/resident/{id}', [ResidentController::class, 'destroy']);
+Route::get('/resident', [ResidentController::class, 'index'])->middleware(['role:Admin,Petugas,Lurah']);
+Route::get('/resident/create', [ResidentController::class, 'create'])->middleware(['role:Admin,Petugas,Lurah ']);
+Route::get('/resident/{id}', [ResidentController::class, 'edit'])->middleware(['role:Admin,Petugas,Lurah']);
+Route::post('/resident', [ResidentController::class, 'store'])->middleware(['role:Admin,Petugas,Lurah']);
+Route::put('/resident/{id}', [ResidentController::class, 'update'])->middleware(['role:Admin,Petugas,Lurah']);
+Route::delete('/resident/{id}', [ResidentController::class, 'destroy'])->middleware(['role:Admin,Petugas,Lurah']);
 
 Route::get('/employee', [PegawaiController::class, 'index'])->middleware(['role:Admin']);
 Route::get('/employee/create', [PegawaiController::class, 'create'])->middleware(['role:Admin']);
@@ -32,12 +32,12 @@ Route::post('/employee', [PegawaiController::class, 'store'])->middleware(['role
 Route::put('/employee/{id}', [PegawaiController::class, 'update'])->middleware(['role:Admin']);
 Route::delete('/employee/{id}', [PegawaiController::class, 'destroy'])->middleware(['role:Admin']);
 
-Route::get('/kriteria', [KriteriaController::class, 'index']);
-Route::get('/kriteria/create', [KriteriaController::class, 'create']);
-Route::get('/kriteria/{kode}', [KriteriaController::class, 'edit']);
-Route::put('/kriteria/{kode}', [KriteriaController::class, 'update']);
-Route::post('/kriteria', [KriteriaController::class, 'store']);
-Route::delete('/kriteria/{kode}', [KriteriaController::class, 'destroy']);
+Route::get('/kriteria', [KriteriaController::class, 'index'])->middleware(['role:Admin,Petugas']);
+Route::get('/kriteria/create', [KriteriaController::class, 'create'])->middleware(['role:Admin,Petugas']);
+Route::get('/kriteria/{kode}', [KriteriaController::class, 'edit'])->middleware(['role:Admin,Petugas']);
+Route::put('/kriteria/{kode}', [KriteriaController::class, 'update'])->middleware(['role:Admin,Petugas']);
+Route::post('/kriteria', [KriteriaController::class, 'store'])->middleware(['role:Admin,Petugas']);
+Route::delete('/kriteria/{kode}', [KriteriaController::class, 'destroy'])->middleware(['role:Admin,Petugas']);
 
 Route::get('/penilaian', function () {
     return view('pages.penilaian.index');
