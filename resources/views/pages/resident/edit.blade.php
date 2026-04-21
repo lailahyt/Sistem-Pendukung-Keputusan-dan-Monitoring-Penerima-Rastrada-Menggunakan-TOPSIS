@@ -11,7 +11,7 @@
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Form Layout</li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit Penduduk</li>
                     </ol>
                 </nav>
             </div>
@@ -85,34 +85,24 @@
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="email-id-column">Penghasilan</label>
-                                            <input type="number" id="penghasilan" class="form-control @error('penghasilan') is-invalid @enderror"
-                                            name="penghasilan" placeholder="Penghasilan" value="{{ old('penghasilan', $resident->penghasilan) }}" required>
-                                            @error('penghasilan')
+                                            <label>Desil</label>
+                                            <input type="number" name="desil" class="form-control @error('desil') is-invalid @enderror"
+                                                placeholder="Masukkan desil (1-10)"
+                                                value="{{ old('desil', $resident->desil) }}">
+                                            @error('desil')
                                                 <span class="invalid-feedback">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="email-id-column">Tanggungan</label>
-                                            <input type="number" id="tanggungan" class="form-control @error('tanggungan') is-invalid @enderror" name="tanggungan"
-                                            placeholder="Jumlah Tanggungan" value="{{ old('tanggungan', $resident->tanggungan) }}" required>
-                                            @error('tanggungan')
-                                                <span class="invalid-feedback">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <label for="email-id-column">Kondisi Rumah</label>
-                                            <select id="kondisi_rumah" name="kondisi_rumah" class="form-control @error('kondisi_rumah') is-invalid @enderror" required>
-                                                <option value="">-- Pilih Kondisi --</option>
-                                                <option value="buruk" {{ old('kondisi_rumah', $resident->kondisi_rumah) == 'buruk' ? 'selected' : '' }}>Buruk</option>
-                                                <option value="sedang" {{ old('kondisi_rumah', $resident->kondisi_rumah) == 'sedang' ? 'selected' : '' }}>Sedang</option>
-                                                <option value="baik" {{ old('kondisi_rumah', $resident->kondisi_rumah) == 'baik' ? 'selected' : '' }}>Baik</option>
+                                            <label>Status</label>
+                                            <select name="status" class="form-control @error('status') is-invalid @enderror">
+                                                <option value="active" {{ old('status', $resident->status) == 'active' ? 'selected' : '' }}>Aktif</option>
+                                                <option value="moved" {{ old('status', $resident->status) == 'moved' ? 'selected' : '' }}>Pindah</option>
+                                                <option value="deceased" {{ old('status', $resident->status) == 'deceased' ? 'selected' : '' }}>Meninggal</option>
                                             </select>
-                                            @error('kondisi_rumah')
+                                            @error('status')
                                                 <span class="invalid-feedback">{{ $message }}</span>
                                             @enderror
                                         </div>

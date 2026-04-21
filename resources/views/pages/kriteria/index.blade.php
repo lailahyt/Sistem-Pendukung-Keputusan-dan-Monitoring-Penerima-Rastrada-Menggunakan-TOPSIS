@@ -63,7 +63,7 @@
                                         <td>
                                             <div class="d-flex align-items-center" style="gap: 10px;">
                                                 <a href="/kriteria/{{ $item->kode }}" class="btn btn-warning btn-sm">
-                                                    <i class="bi bi-pencil-fill"></i>
+                                                    <i class="bi bi-pencil-fill text-white"></i>
                                                 </a>
 
                                                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"

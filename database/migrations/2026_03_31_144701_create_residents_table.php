@@ -18,9 +18,8 @@ return new class extends Migration
             $table->text('alamat');
             $table->string('desa');
             $table->string('kecamatan');
-            $table->integer('penghasilan');
-            $table->integer('tanggungan');
-            $table->string('kondisi_rumah');
+            $table->integer('desil')->nullable();
+            $table->enum('status', ['active', 'moved', 'deceased'])->default('active');
             $table->timestamps();
         });
     }

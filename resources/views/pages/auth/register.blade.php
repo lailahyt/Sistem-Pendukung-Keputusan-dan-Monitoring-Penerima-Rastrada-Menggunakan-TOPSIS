@@ -528,7 +528,7 @@
             </form>
 
             <div class="login-row">
-                Sudah punya akun? <a href="/login">Masuk di sini</a>
+                Sudah punya akun? <a href="/">Masuk di sini</a>
             </div>
 
         </div>

@@ -30,9 +30,8 @@ class ResidentController extends Controller
             'alamat' => 'required',
             'desa' => 'required',
             'kecamatan' => 'required',
-            'penghasilan' => 'integer',
-            'tanggungan' => 'integer',
-            'kondisi_rumah' => '',
+            'desil' => 'nullable|integer',
+            'status' => 'required',
         ]);
 
         Resident::create($validatedData);
@@ -57,9 +56,8 @@ class ResidentController extends Controller
             'alamat' => 'required',
             'desa' => 'required',
             'kecamatan' => 'required',
-            'penghasilan' => 'required|integer',
-            'tanggungan' => 'required|integer',
-            'kondisi_rumah' => 'required',
+            'desil' => 'nullable|integer',
+            'status' => 'required',
         ]);
 
         Resident::findOrFail($id)->update($validatedData);

@@ -43,16 +43,15 @@
                             <th>Alamat</th>
                             <th>Desa</th>
                             <th>Kecamatan</th>
-                            {{-- <th>Penghasila</th>
-                            <th>Tanggungan</th>
-                            <th>Kondisi Rumah</th> --}}
+                            <th>Desil</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     @if (count($residents) < 1)
                     <tbody>
                         <tr>
-                            <td colspan="7" class="text-center">Tidak ada data penduduk</td>
+                            <td colspan="9" class="text-center">Tidak ada data penduduk</td>
                         </tr>
                     </tbody>
                     @else
@@ -66,16 +65,16 @@
                             <td>{{ $item->alamat }}</td>
                             <td>{{ $item->desa }}</td>
                             <td>{{ $item->kecamatan }}</td>
-                            {{-- <th>{{ $item->penghasilan }}</th>
-                            <th>{{ $item->tanggungan }}</th>
-                            <th>{{ $item->k }}</th> --}}
+                            <td>{{ $item->desil ?? '-' }}</td>
+                            {{-- <td>{{ $item->desil }}</td> --}}
+                            <td>{{ $item->status }}</td>
                             <th>
                                 <div class="d-flex align-items-center" style="gap: 10px;" >
                                     <a href="/resident/{{ $item->id }}" class="d-inline-block btn btn-warning btn-sm">
-                                        <i class="bi bi-pencil-fill"></i>
+                                        <i class="fas fa-edit text-white"></i>
                                     </a>
                                     <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmationDelete{{ $item->id }}">
-                                        <i class="bi bi-eraser-fill"></i>
+                                        <i class="fas fa-eraser"></i>
                                     </button>
                                 </div>
                             </th>

@@ -28,7 +28,7 @@ class UserController extends Controller
         $for = $request->input('for');
 
         $user = User::findOrFail($userId);
-        $user->status = $request->input('for') == 'approve' ? 'approved' : 'rejected'; // Update the status to approved
+        $user->status = ($for== 'approve' || $for == 'activate') ? 'approved' : 'rejected'; // Update the status to approved
         $user->save();
 
         // $residentId = $request->input('resident_id');
@@ -39,13 +39,22 @@ class UserController extends Controller
         //     ]);
         // }
 
-        // if($for == 'activate') {
-        //     return back()->with('success', 'Akun berhasil diaktifkan.');
-        // } elseif ($for == 'deactivate') {
-        //     return back()->with('success', 'Akun berhasil dinonaktifkan.');
-        // }
+        if($for == 'activate') {
+            return back()->with('success', 'Akun berhasil diaktifkan.');
+        } elseif ($for == 'deactivate') {
+            return back()->with('success', 'Akun berhasil dinonaktifkan.');
+        }
 
         return back()->with('success',$for == 'approve' ? 'Akun berhasil disetujui.' : 'Akun berhasil ditolak.');
     }
+
+        public function account_list_view()
+    {
+        $users = User::where('role_id', 2)->where('status','!=','submitted')->paginate(5);
+        return view('pages.account-list.index',[
+            'users' => $users,
+        ]); // Assuming you have an account list view
+    }
+
 
 }
