@@ -18,4 +18,32 @@ class SubkriteriaController extends Controller
             'subkriteria' => $subkriteria
         ]);
     }
+
+    public function create(int $id)
+    {
+        $kriteria = Kriteria::findOrFail($id);
+
+        return view('pages.subkriteria.create', [
+            'kriteria' => $kriteria
+        ]);
+    }
+
+    public function store(Request $request, int $id)
+    {
+        $request->validate([
+            'label_subkriteria' => 'required',
+            'nilai' => 'required|integer|min:1|max:5',
+            'keterangan' => 'nullable'
+        ]);
+
+        Subkriteria::create([
+            'kriteria_id' => $id,
+            'label_subkriteria' => $request->label_subkriteria,
+            'nilai' => $request->nilai,
+            'keterangan' => $request->keterangan,
+        ]);
+
+        return redirect('/kriteria/' . $id . '/subkriteria')
+            ->with('success', 'Data subkriteria berhasil ditambahkan');
+    }
 }
