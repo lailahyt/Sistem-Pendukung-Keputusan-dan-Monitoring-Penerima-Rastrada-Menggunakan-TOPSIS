@@ -5,15 +5,16 @@ use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SubkriteriaController;
 use Illuminate\Support\Facades\Route;
 
 
 // Authentication routes
-Route::get('/', [AuthController::class, 'login'] );
+Route::get('/', [AuthController::class, 'login']);
 Route::post('/login', [AuthController::class, 'authenticate']);
 Route::post('/logout', [AuthController::class, 'logout']);
-Route::get('/register', [AuthController::class, 'registerView'] );
-Route::post('/register', [AuthController::class, 'register'] );
+Route::get('/register', [AuthController::class, 'registerView']);
+Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
@@ -39,6 +40,8 @@ Route::get('/kriteria/{kode}', [KriteriaController::class, 'edit'])->middleware(
 Route::put('/kriteria/{kode}', [KriteriaController::class, 'update'])->middleware(['role:Admin,Petugas']);
 Route::post('/kriteria', [KriteriaController::class, 'store'])->middleware(['role:Admin,Petugas']);
 Route::delete('/kriteria/{kode}', [KriteriaController::class, 'destroy'])->middleware(['role:Admin,Petugas']);
+
+Route::get('/kriteria/{id}/subkriteria', [SubkriteriaController::class, 'index'])->middleware(['role:Admin,Petugas']);
 
 Route::get('/account-list', [UserController::class, 'account_list_view'])->middleware(['role:Admin']);
 
