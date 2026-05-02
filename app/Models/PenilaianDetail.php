@@ -9,6 +9,7 @@ class PenilaianDetail extends Model
     protected $table = 'penilaian_detail';
 
     protected $fillable = [
+        'penduduk_id',
         'penilaian_id',
         'kriteria_id',
         'subkriteria_id',
@@ -30,10 +31,5 @@ class PenilaianDetail extends Model
     public function subkriteria()
     {
         return $this->belongsTo(Subkriteria::class);
-    }
-
-    public function resident()
-    {
-        return $this->belongsTo(Resident::class, 'penduduk_id');
     }
 }

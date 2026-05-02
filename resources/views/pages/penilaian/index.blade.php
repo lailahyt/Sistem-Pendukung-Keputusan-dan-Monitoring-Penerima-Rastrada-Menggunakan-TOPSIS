@@ -108,6 +108,11 @@
                                             <a href="/penilaian/{{ $item->id }}" class="btn btn-primary btn-sm">
                                                 Nilai
                                             </a>
+
+                                            <button class="btn btn-info btn-sm btn-detail" data-id="{{ $item->id }}"
+                                                data-nama="{{ $item->nama }}">
+                                                Detail
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -115,6 +120,42 @@
                         @endif
 
                     </table>
+
+                    <div class="modal fade" id="modalDetail" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Detail Penilaian</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <h6 id="namaPenduduk"></h6>
+
+                                    <table class="table table-bordered mt-3">
+                                        <thead>
+                                            <tr>
+                                                <th>Kriteria</th>
+                                                <th>Subkriteria</th>
+                                                <th>Nilai</th>
+                                                <th>Bukti</th>
+                                                <th>Catatan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="detailBody">
+                                            <tr>
+                                                <td colspan="5" class="text-center">Loading...</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>

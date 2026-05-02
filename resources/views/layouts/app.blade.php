@@ -9,20 +9,20 @@
     <script src="assets/static/js/initTheme.js"></script>
     <div id="app">
         <div class="sidebar-wrapper active" id="sidebar">
-                @include('layouts.partial.sidebar')
-            </div>
+            @include('layouts.partial.sidebar')
         </div>
     </div>
-        <div id="main" class='layout-navbar navbar-fixed'>
+    </div>
+    <div id="main" class='layout-navbar navbar-fixed'>
 
-            @include('layouts.partial.navbar')
+        @include('layouts.partial.navbar')
 
-            <div id="main-content">
-                @yield('content')
-            </div>
-
-            @include('layouts.partial.footer')
+        <div id="main-content">
+            @yield('content')
         </div>
+
+        @include('layouts.partial.footer')
+    </div>
     </div>
     <script src="{{ asset('assets/static/js/components/sidebar.js') }}"></script>
     <script src="{{ asset('assets/static/js/components/dark.js') }}"></script>
@@ -42,6 +42,58 @@
         if (table) {
             new simpleDatatables.DataTable(table);
         }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            document.querySelectorAll('.btn-detail').forEach(button => {
+                button.addEventListener('click', function() {
+
+                    let id = this.dataset.id;
+                    let nama = this.dataset.nama;
+
+                    document.getElementById('namaPenduduk').innerText = nama;
+
+                    let tbody = document.getElementById('detailBody');
+                    tbody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
+
+                    fetch(`/penilaian/detail-json/${id}`)
+                        .then(res => res.json())
+                        .then(data => {
+
+                            let html = '';
+
+                            if (data.length === 0) {
+                                html = '<tr><td colspan="5">Tidak ada data</td></tr>';
+                            } else {
+                                data.forEach(item => {
+
+                                    let bukti = item.bukti_file ?
+                                        `<a href="/storage/${item.bukti_file}" target="_blank">Lihat</a>` :
+                                        '-';
+
+                                    html += `
+                                <tr>
+                                    <td>${item.kriteria.nama_kriteria}</td>
+                                    <td>${item.subkriteria.label_subkriteria}</td>
+                                    <td>${item.nilai}</td>
+                                    <td>${bukti}</td>
+                                    <td>${item.catatan ?? '-'}</td>
+                                </tr>
+                            `;
+                                });
+                            }
+
+                            tbody.innerHTML = html;
+                        });
+
+                    let modal = new bootstrap.Modal(document.getElementById('modalDetail'));
+                    modal.show();
+                });
+            });
+
+        });
     </script>
 
     {{-- 🔥 TARUH MODAL DI SINI --}}

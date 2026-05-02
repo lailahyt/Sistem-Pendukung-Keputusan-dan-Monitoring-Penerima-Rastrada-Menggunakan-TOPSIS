@@ -48,6 +48,9 @@ Route::get('/kriteria/{id}/subkriteria/create', [SubkriteriaController::class, '
 Route::post('/kriteria/{id}/subkriteria', [SubkriteriaController::class, 'store'])->middleware(['role:Admin,Petugas']);
 
 Route::get('/penilaian', [PenilaianController::class, 'index'])->middleware(['role:Admin,Petugas']);
+Route::get('/penilaian/{id}', [PenilaianController::class, 'create'])->middleware(['role:Admin,Petugas']);
+Route::post('/penilaian/store', [PenilaianController::class, 'store'])->middleware(['role:Admin,Petugas']);
+Route::get('/penilaian/detail-json/{id}', [PenilaianController::class, 'detailJson'])->middleware(['role:Admin,Petugas']);
 
 Route::get('/account-list', [UserController::class, 'account_list_view'])->middleware(['role:Admin']);
 
