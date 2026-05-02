@@ -6,6 +6,8 @@ use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SubkriteriaController;
+use App\Http\Controllers\PenilaianController;
+use App\Models\Penilaian;
 use Illuminate\Support\Facades\Route;
 
 
@@ -45,7 +47,7 @@ Route::get('/kriteria/{id}/subkriteria', [SubkriteriaController::class, 'index']
 Route::get('/kriteria/{id}/subkriteria/create', [SubkriteriaController::class, 'create'])->middleware(['role:Admin,Petugas']);
 Route::post('/kriteria/{id}/subkriteria', [SubkriteriaController::class, 'store'])->middleware(['role:Admin,Petugas']);
 
-
+Route::get('/penilaian', [PenilaianController::class, 'index'])->middleware(['role:Admin,Petugas']);
 
 Route::get('/account-list', [UserController::class, 'account_list_view'])->middleware(['role:Admin']);
 
