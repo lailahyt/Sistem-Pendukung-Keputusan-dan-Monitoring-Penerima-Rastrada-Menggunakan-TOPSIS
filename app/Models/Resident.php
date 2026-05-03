@@ -14,4 +14,9 @@ class Resident extends Model
     {
         return $this->hasMany(PenilaianDetail::class, 'penduduk_id');
     }
+
+    public function penilaian()
+    {
+        return $this->hasMany(Penilaian::class, 'penduduk_id');
+    }
 }

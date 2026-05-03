@@ -10,16 +10,17 @@ class Penilaian extends Model
 
     protected $fillable = [
         'penduduk_id',
+        'periode',
         'status'
     ];
-
-    public function detail()
-    {
-        return $this->hasMany(PenilaianDetail::class);
-    }
 
     public function penduduk()
     {
         return $this->belongsTo(Resident::class);
+    }
+
+    public function penilaianDetail()
+    {
+        return $this->hasMany(PenilaianDetail::class);
     }
 }

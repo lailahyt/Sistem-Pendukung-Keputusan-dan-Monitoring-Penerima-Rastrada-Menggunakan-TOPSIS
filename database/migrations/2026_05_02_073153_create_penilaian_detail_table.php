@@ -14,9 +14,17 @@ return new class extends Migration
         Schema::create('penilaian_detail', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('penduduk_id')->constrained('residents')->onDelete('cascade');
-            $table->foreignId('kriteria_id')->constrained('kriteria')->onDelete('cascade');
-            $table->foreignId('subkriteria_id')->constrained('subkriteria')->onDelete('cascade');
+            $table->foreignId('penilaian_id')
+                ->constrained('penilaian')
+                ->onDelete('cascade');
+
+            $table->foreignId('kriteria_id')
+                ->constrained('kriteria')
+                ->onDelete('cascade');
+
+            $table->foreignId('subkriteria_id')
+                ->constrained('subkriteria')
+                ->onDelete('cascade');
 
             $table->integer('nilai');
             $table->string('bukti_file')->nullable();

@@ -16,6 +16,7 @@
                     <nav aria-label="breadcrumb" class="breadcrumb-header text-md-end">
                         <ol class="breadcrumb justify-content-md-end">
                             <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item">Proses</li>
                             <li class="breadcrumb-item active">Penilaian</li>
                         </ol>
                     </nav>
@@ -33,6 +34,36 @@
                 </div>
 
                 <div class="card-body">
+                    <form method="GET" action="/penilaian">
+                        <div class="row mb-3">
+
+                            <!-- PERIODE -->
+                            <div class="col-md-3">
+                                <select name="periode" class="form-select" onchange="this.form.submit()">
+                                    @for ($i = date('Y') - 2; $i <= date('Y') + 1; $i++)
+                                        <option value="{{ $i }}"
+                                            {{ request('periode', date('Y')) == $i ? 'selected' : '' }}>
+                                            Periode {{ $i }}
+                                        </option>
+                                    @endfor
+                                </select>
+                            </div>
+
+                            <!-- STATUS -->
+                            <div class="col-md-3">
+                                <select name="status" class="form-select" onchange="this.form.submit()">
+                                    <option value="">Semua Status</option>
+                                    <option value="belum" {{ request('status') == 'belum' ? 'selected' : '' }}>Belum
+                                    </option>
+                                    <option value="proses" {{ request('status') == 'proses' ? 'selected' : '' }}>Proses
+                                    </option>
+                                    <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai
+                                    </option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </form>
 
                     <table class="table table-striped table-responsive" id="table1">
                         <thead>
@@ -106,21 +137,67 @@
                                         <!-- Aksi -->
                                         <td>
                                             <a href="/penilaian/{{ $item->id }}" class="btn btn-primary btn-sm">
-                                                Nilai
+                                                <i class="bi bi-plus-circle"></i>
                                             </a>
 
                                             <button class="btn btn-info btn-sm btn-detail" data-id="{{ $item->id }}"
                                                 data-nama="{{ $item->nama }}">
-                                                Detail
+                                                <i class="bi bi-eye-fill"></i>
+                                            </button>
+
+                                            <a href="/penilaian/{{ $item->id }}/edit" class="btn btn-warning btn-sm">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+
+                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal{{ $item->id }}">
+                                                <i class="bi bi-eraser-fill"></i>
                                             </button>
                                         </td>
                                     </tr>
+
+                                    <!-- MODAL HAPUS -->
+                                    <div class="modal fade" id="deleteModal{{ $item->id }}" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Konfirmasi Hapus</h5>
+                                                    <button type="button" class="btn-close"
+                                                        data-bs-dismiss="modal"></button>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    Yakin ingin menghapus data
+                                                    <strong>{{ $item->nama }}</strong>?
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">
+                                                        Batal
+                                                    </button>
+
+                                                    <form action="/penilaian/{{ $item->id }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+
+                                                        <button type="submit" class="btn btn-danger">
+                                                            Hapus
+                                                        </button>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
                             </tbody>
                         @endif
 
                     </table>
 
+                    <!-- MODAL DETAIL -->
                     <div class="modal fade" id="modalDetail" tabindex="-1">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">

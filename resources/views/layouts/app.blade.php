@@ -53,12 +53,14 @@
                     let id = this.dataset.id;
                     let nama = this.dataset.nama;
 
+                    let periode = document.getElementById('periode').value;
+
                     document.getElementById('namaPenduduk').innerText = nama;
 
                     let tbody = document.getElementById('detailBody');
                     tbody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
 
-                    fetch(`/penilaian/detail-json/${id}`)
+                    fetch(`/penilaian/detail-json/${id}?periode=${periode}`)
                         .then(res => res.json())
                         .then(data => {
 
@@ -70,7 +72,7 @@
                                 data.forEach(item => {
 
                                     let bukti = item.bukti_file ?
-                                        `<a href="/storage/${item.bukti_file}" target="_blank">Lihat</a>` :
+                                        `<a href="${item.bukti_file}" target="_blank">Lihat</a>` :
                                         '-';
 
                                     html += `
