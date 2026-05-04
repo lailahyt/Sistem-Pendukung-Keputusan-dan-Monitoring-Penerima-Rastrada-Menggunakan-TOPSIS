@@ -27,26 +27,15 @@ class PenilaianController extends Controller
         $periode = request('periode', date('Y'));
         $statusFilter = request('status');
 
-        $residents = Resident::whereHas('penilaian', function ($q) use ($periode, $statusFilter) {
-            $q->where('periode', $periode);
-
-            if ($statusFilter) {
-                $q->where('status', $statusFilter);
-            }
-        })
-            ->with([
-                'penilaian' => function ($q) use ($periode) {
-                    $q->where('periode', $periode);
-                },
-                'penilaian.penilaianDetail'
-            ])
-            ->get();
+        $residents = Resident::with([
+            'penilaian' => function ($q) use ($periode) {
+                $q->where('periode', $periode);
+            },
+            'penilaian.penilaianDetail'
+        ])->get();
 
         foreach ($residents as $p) {
-            $penilaian = Penilaian::where('penduduk_id', $p->id)
-                ->where('periode', $periode)
-                ->first();
-
+            $penilaian = $p->penilaian->first();
             $detail = $penilaian ? $penilaian->penilaianDetail : collect();
 
             // rata-rata
@@ -56,22 +45,38 @@ class PenilaianController extends Controller
 
             // hitung kelengkapan
             $validCount = $detail
-                ->whereNotNull('subkriteria_id')
-                ->whereNotNull('nilai')
+                ->filter(function ($d) {
+                    return !is_null($d->kriteria_id)
+                        && !is_null($d->subkriteria_id)
+                        && !is_null($d->nilai);
+                })
                 ->pluck('kriteria_id')
                 ->unique()
                 ->count();
 
             $p->kelengkapan = $validCount . '/' . $totalKriteria;
 
-            // 🔥 AMBIL STATUS DARI DATABASE
-            $p->status = $penilaian->status ?? 'belum';
+            $terisi = $validCount;
+            $total = $totalKriteria;
+
+            if ($terisi == 0) {
+                $p->status = 'belum';
+                $p->status_label = 'Belum';
+                $p->badge = 'secondary';
+            } elseif ($terisi < $total) {
+                $p->status = 'proses';
+                $p->status_label = 'Proses';
+                $p->badge = 'warning';
+            } else {
+                $p->status = 'selesai';
+                $p->status_label = 'Selesai';
+                $p->badge = 'success';
+            }
         }
 
-        // 🔥 FILTER STATUS (case insensitive)
         if ($statusFilter) {
             $residents = $residents->filter(function ($p) use ($statusFilter) {
-                return strtolower($p->status) === strtolower($statusFilter);
+                return $p->status === $statusFilter;
             })->values();
         }
 
@@ -106,7 +111,7 @@ class PenilaianController extends Controller
             'periode' => $periode
         ]);
 
-        foreach ($request->subkriteria as $kriteria_id => $sub_id) {
+        foreach ($request->subkriteria ?? [] as $kriteria_id => $sub_id) {
 
             if (!$sub_id) continue;
 
@@ -117,19 +122,25 @@ class PenilaianController extends Controller
                 $filePath = $file->store('bukti_penilaian', 'public');
             }
 
-            $sub = Subkriteria::findOrFail($sub_id);
+            $sub = Subkriteria::find($sub_id);
+            if (!$sub) continue;
+
+            $data = [
+                'subkriteria_id' => $sub_id,
+                'nilai' => $sub->nilai,
+                'catatan' => $request->catatan[$kriteria_id] ?? null
+            ];
+
+            if ($filePath) {
+                $data['bukti_file'] = $filePath;
+            }
 
             PenilaianDetail::updateOrCreate(
                 [
                     'penilaian_id' => $penilaian->id,
                     'kriteria_id' => $kriteria_id
                 ],
-                [
-                    'subkriteria_id' => $sub_id,
-                    'nilai' => $sub->nilai,
-                    'bukti_file' => $filePath,
-                    'catatan' => $request->catatan[$kriteria_id] ?? null
-                ]
+                $data
             );
         }
 
@@ -227,7 +238,8 @@ class PenilaianController extends Controller
     {
         $periode = request('periode') ?? date('Y');
 
-        $penilaian = Penilaian::where('penduduk_id', $id)
+        $penilaian = Penilaian::with('penilaianDetail.kriteria', 'penilaianDetail.subkriteria')
+            ->where('penduduk_id', $id)
             ->where('periode', $periode)
             ->first();
 
@@ -235,22 +247,20 @@ class PenilaianController extends Controller
             return response()->json([]);
         }
 
-        $data = PenilaianDetail::with(['kriteria', 'subkriteria'])
-            ->where('penilaian_id', $penilaian->id)
-            ->get();
+        $data = $penilaian->penilaianDetail->map(function ($d) {
+            return [
+                'kriteria' => [
+                    'nama_kriteria' => $d->kriteria->nama_kriteria ?? '-'
+                ],
+                'subkriteria' => [
+                    'label_subkriteria' => $d->subkriteria->label_subkriteria ?? '-'
+                ],
+                'nilai' => $d->nilai,
+                'bukti_file' => $d->bukti_file,
+                'catatan' => $d->catatan,
+            ];
+        });
 
-        return response()->json(
-            $data->map(function ($item) {
-                return [
-                    'kriteria' => $item->kriteria,
-                    'subkriteria' => $item->subkriteria,
-                    'nilai' => $item->nilai,
-                    'catatan' => $item->catatan,
-                    'bukti_file' => $item->bukti_file
-                        ? asset('storage/' . $item->bukti_file)
-                        : null
-                ];
-            })
-        );
+        return response()->json($data);
     }
 }

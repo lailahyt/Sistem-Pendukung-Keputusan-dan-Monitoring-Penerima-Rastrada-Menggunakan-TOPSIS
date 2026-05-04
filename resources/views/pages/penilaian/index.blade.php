@@ -3,43 +3,35 @@
     <div class="page-heading">
 
         <!-- HEADER -->
-        <div class="page-title">
-            <div class="row">
+        <div class="page-title mb-4">
 
-                <div class="col-12 col-md-6 order-md-1 order-last">
+            <!-- BARIS 1: Judul + Breadcrumb -->
+            <div class="row align-items-center">
+                <div class="col-md-6">
                     <h3>Data Penilaian</h3>
                 </div>
 
-                <div class="col-12 col-md-6 order-md-2 order-first">
-
-                    <!-- Breadcrumb -->
-                    <nav aria-label="breadcrumb" class="breadcrumb-header text-md-end">
-                        <ol class="breadcrumb justify-content-md-end">
+                <div class="col-md-6 text-md-end">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header">
+                        <ol class="breadcrumb justify-content-md-end mb-0">
                             <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
                             <li class="breadcrumb-item">Proses</li>
                             <li class="breadcrumb-item active">Penilaian</li>
                         </ol>
                     </nav>
-
                 </div>
             </div>
-        </div>
 
-        <!-- CONTENT -->
-        <section class="section">
-            <div class="card">
+            <!-- BARIS 2: FILTER (Dropdown) -->
+            <div class="row mt-2">
+                <div class="col-md-6"></div> <!-- kosong kiri -->
 
-                <div class="card-header">
-                    <h5 class="card-title">Data Calon Penerima</h5>
-                </div>
-
-                <div class="card-body">
+                <div class="col-md-6">
                     <form method="GET" action="/penilaian">
-                        <div class="row mb-3">
+                        <div class="row g-2 justify-content-md-end">
 
-                            <!-- PERIODE -->
-                            <div class="col-md-3">
-                                <select name="periode" class="form-select" onchange="this.form.submit()">
+                            <div class="col-auto">
+                                <select id="periode" name="periode" class="form-select" onchange="this.form.submit()">
                                     @for ($i = date('Y') - 2; $i <= date('Y') + 1; $i++)
                                         <option value="{{ $i }}"
                                             {{ request('periode', date('Y')) == $i ? 'selected' : '' }}>
@@ -49,8 +41,7 @@
                                 </select>
                             </div>
 
-                            <!-- STATUS -->
-                            <div class="col-md-3">
+                            <div class="col-auto">
                                 <select name="status" class="form-select" onchange="this.form.submit()">
                                     <option value="">Semua Status</option>
                                     <option value="belum" {{ request('status') == 'belum' ? 'selected' : '' }}>Belum
@@ -64,6 +55,21 @@
 
                         </div>
                     </form>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CONTENT -->
+        <section class="section">
+            <div class="card">
+
+                <div class="card-header">
+                    <h5 class="card-title">Data Calon Penerima</h5>
+                </div>
+
+                <div class="card-body">
+
 
                     <table class="table table-striped table-responsive" id="table1">
                         <thead>
@@ -88,26 +94,6 @@
                         @else
                             <tbody>
                                 @foreach ($penduduk as $item)
-                                    @php
-                                        // total kriteria
-                                        $total = count($kriteria);
-
-                                        // jumlah yang sudah dinilai
-                                        $terisi = $item->penilaian_detail_count ?? 0;
-
-                                        // status
-                                        if ($terisi == 0) {
-                                            $status = 'Belum';
-                                            $badge = 'secondary';
-                                        } elseif ($terisi < $total) {
-                                            $status = 'Proses';
-                                            $badge = 'warning';
-                                        } else {
-                                            $status = 'Selesai';
-                                            $badge = 'success';
-                                        }
-                                    @endphp
-
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
 
@@ -119,7 +105,7 @@
 
                                         <!-- Kelengkapan -->
                                         <td>
-                                            {{ $terisi }}/{{ $total }}
+                                            {{ $item->kelengkapan }}
                                         </td>
 
                                         <!-- Nilai rata-rata -->
@@ -129,8 +115,8 @@
 
                                         <!-- Status -->
                                         <td>
-                                            <span class="badge bg-{{ $badge }}">
-                                                {{ $status }}
+                                            <span class="badge bg-{{ $item->badge }}">
+                                                {{ $item->status_label }}
                                             </span>
                                         </td>
 
@@ -141,7 +127,8 @@
                                             </a>
 
                                             <button class="btn btn-info btn-sm btn-detail" data-id="{{ $item->id }}"
-                                                data-nama="{{ $item->nama }}">
+                                                data-nama="{{ $item->nama }}" data-bs-toggle="modal"
+                                                data-bs-target="#modalDetail">
                                                 <i class="bi bi-eye-fill"></i>
                                             </button>
 

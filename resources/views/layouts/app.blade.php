@@ -72,7 +72,7 @@
                                 data.forEach(item => {
 
                                     let bukti = item.bukti_file ?
-                                        `<a href="${item.bukti_file}" target="_blank">Lihat</a>` :
+                                        `<a href="/storage/${item.bukti_file}" target="_blank">Lihat</a>` :
                                         '-';
 
                                     html += `
@@ -89,9 +89,6 @@
 
                             tbody.innerHTML = html;
                         });
-
-                    let modal = new bootstrap.Modal(document.getElementById('modalDetail'));
-                    modal.show();
                 });
             });
 
