@@ -23,4 +23,9 @@ class Penilaian extends Model
     {
         return $this->hasMany(PenilaianDetail::class);
     }
+
+    public function periode()
+    {
+        return $this->belongsTo(Periode::class);
+    }
 }

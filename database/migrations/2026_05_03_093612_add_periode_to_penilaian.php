@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('penilaian', function (Blueprint $table) {
-            $table->year('periode')->after('penduduk_id');
-            $table->unique(['penduduk_id', 'periode']);
+            $table->foreignId('periode_id')
+                ->after('penduduk_id')
+                ->constrained('periode')
+                ->onDelete('cascade');
         });
     }
 

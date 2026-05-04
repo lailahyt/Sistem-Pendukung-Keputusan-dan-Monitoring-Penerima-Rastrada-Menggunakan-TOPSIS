@@ -7,29 +7,30 @@ use App\Models\Kriteria;
 use App\Models\Subkriteria;
 use App\Models\Penilaian;
 use App\Models\PenilaianDetail;
+use App\Models\Periode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class PenilaianController extends Controller
 {
-    private $periode;
-
-    public function __construct(Request $request)
-    {
-        $this->periode = $request->periode ?? date('Y');
-    }
-
     public function index()
     {
         $kriteria = Kriteria::all();
         $totalKriteria = $kriteria->count();
 
-        $periode = request('periode', date('Y'));
         $statusFilter = request('status');
 
+        $periode = Periode::first();
+
+        if (!$periode) {
+            return redirect('/periode')->with('error', 'Silakan tambahkan periode terlebih dahulu');
+        }
+
+        $periode_id = request('periode_id') ?? $periode->id;
+
         $residents = Resident::with([
-            'penilaian' => function ($q) use ($periode) {
-                $q->where('periode', $periode);
+            'penilaian' => function ($q) use ($periode_id) {
+                $q->where('periode_id', $periode_id);
             },
             'penilaian.penilaianDetail'
         ])->get();
@@ -80,9 +81,13 @@ class PenilaianController extends Controller
             })->values();
         }
 
+        $periodeList = Periode::all();
+
         return view('pages.penilaian.index', [
             'penduduk' => $residents,
-            'kriteria' => $kriteria
+            'kriteria' => $kriteria,
+            'periodeList' => $periodeList,
+            'periode_id' => $periode_id
         ]);
     }
 
@@ -91,7 +96,9 @@ class PenilaianController extends Controller
         $penduduk = Resident::findOrFail($id);
         $kriteria = Kriteria::with('subkriteria')->get();
 
-        return view('pages.penilaian.create', compact('penduduk', 'kriteria'));
+        $periode_id = request('periode_id');
+
+        return view('pages.penilaian.create', compact('penduduk', 'kriteria', 'periode_id'));
     }
 
     public function store(Request $request)
@@ -104,11 +111,11 @@ class PenilaianController extends Controller
             'catatan.*' => 'nullable|string'
         ]);
 
-        $periode = $request->periode ?? date('Y');
+        $periode_id = $request->periode_id ?? null;
 
         $penilaian = Penilaian::firstOrCreate([
             'penduduk_id' => $request->penduduk_id,
-            'periode' => $periode
+            'periode_id' => $periode_id
         ]);
 
         foreach ($request->subkriteria ?? [] as $kriteria_id => $sub_id) {
@@ -152,8 +159,10 @@ class PenilaianController extends Controller
         $penduduk = Resident::findOrFail($id);
         $kriteria = Kriteria::with('subkriteria')->get();
 
+        $periode_id = request('periode_id');
+
         $penilaian = Penilaian::where('penduduk_id', $id)
-            ->where('periode', $this->periode)
+            ->where('periode_id', $periode_id)
             ->first();
 
         $detail = $penilaian
@@ -163,7 +172,8 @@ class PenilaianController extends Controller
         return view('pages.penilaian.edit', [
             'penduduk' => $penduduk,
             'kriteria' => $kriteria,
-            'penilaian' => $detail
+            'penilaian' => $detail,
+            'periode_id' => $periode_id
         ]);
     }
 
@@ -175,8 +185,10 @@ class PenilaianController extends Controller
             'catatan.*' => 'nullable|string'
         ]);
 
+        $periode_id = $request->periode_id;
+
         $penilaian = Penilaian::where('penduduk_id', $id)
-            ->where('periode', $this->periode)
+            ->where('periode_id', $periode_id)
             ->firstOrFail();
 
         foreach ($request->subkriteria as $kriteria_id => $sub_id) {
@@ -216,8 +228,10 @@ class PenilaianController extends Controller
 
     public function destroy($id)
     {
+        $periode_id = request('periode_id');
+
         $penilaian = Penilaian::where('penduduk_id', $id)
-            ->where('periode', $this->periode)
+            ->where('periode_id', $periode_id)
             ->firstOrFail();
 
         $detail = PenilaianDetail::where('penilaian_id', $penilaian->id)->get();
@@ -236,11 +250,11 @@ class PenilaianController extends Controller
 
     public function detailJson($id)
     {
-        $periode = request('periode') ?? date('Y');
+        $periode_id = request('periode_id');
 
         $penilaian = Penilaian::with('penilaianDetail.kriteria', 'penilaianDetail.subkriteria')
             ->where('penduduk_id', $id)
-            ->where('periode', $periode)
+            ->where('periode_id', $periode_id)
             ->first();
 
         if (!$penilaian) {

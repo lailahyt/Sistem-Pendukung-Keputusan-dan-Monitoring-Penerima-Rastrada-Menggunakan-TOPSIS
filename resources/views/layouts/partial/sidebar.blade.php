@@ -69,6 +69,11 @@
                 'icon' => 'bi bi-file-earmark-text',
             ],
             (object) [
+                'title' => 'Periode',
+                'path' => 'periode',
+                'icon' => 'bi bi-calendar-event',
+            ],
+            (object) [
                 'type' => 'dropdown',
                 'title' => 'User Management',
                 'icon' => 'bi bi-person-badge',

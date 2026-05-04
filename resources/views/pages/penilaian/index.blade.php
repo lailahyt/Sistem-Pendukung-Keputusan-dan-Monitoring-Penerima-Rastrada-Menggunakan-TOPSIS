@@ -31,13 +31,12 @@
                         <div class="row g-2 justify-content-md-end">
 
                             <div class="col-auto">
-                                <select id="periode" name="periode" class="form-select" onchange="this.form.submit()">
-                                    @for ($i = date('Y') - 2; $i <= date('Y') + 1; $i++)
-                                        <option value="{{ $i }}"
-                                            {{ request('periode', date('Y')) == $i ? 'selected' : '' }}>
-                                            Periode {{ $i }}
+                                <select name="periode_id" id="periode" class="form-select" onchange="this.form.submit()">
+                                    @foreach ($periodeList as $p)
+                                        <option value="{{ $p->id }}" {{ $periode_id == $p->id ? 'selected' : '' }}>
+                                            {{ $p->nama_periode }}
                                         </option>
-                                    @endfor
+                                    @endforeach
                                 </select>
                             </div>
 
