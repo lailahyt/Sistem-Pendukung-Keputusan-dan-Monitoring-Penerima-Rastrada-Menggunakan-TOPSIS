@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SubkriteriaController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\PeriodeController;
+use App\Http\Controllers\TopsisController;
 use App\Models\Penilaian;
 use Illuminate\Support\Facades\Route;
 
@@ -57,6 +58,8 @@ Route::get('/penilaian/detail-json/{id}', [PenilaianController::class, 'detailJs
 Route::delete('/penilaian/{id}', [PenilaianController::class, 'destroy'])->middleware(['role:Admin,Petugas']);
 
 Route::resource('periode', PeriodeController::class)->middleware(['role:Admin']);
+
+Route::get('/topsis', [TopsisController::class, 'index'])->middleware(['role:Admin,Petugas']);
 
 Route::get('/account-list', [UserController::class, 'account_list_view'])->middleware(['role:Admin']);
 

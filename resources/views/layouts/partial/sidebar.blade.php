@@ -37,7 +37,7 @@
                     ],
                     (object) [
                         'title' => 'TOPSIS',
-                        'path' => 'perhitungan',
+                        'path' => 'topsis',
                         'icon' => 'bi bi-calculator',
                     ],
                 ],
