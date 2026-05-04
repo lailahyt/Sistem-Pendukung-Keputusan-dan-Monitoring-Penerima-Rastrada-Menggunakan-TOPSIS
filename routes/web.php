@@ -66,17 +66,13 @@ Route::get('/account-list', [UserController::class, 'account_list_view'])->middl
 Route::get('/account-request', [UserController::class, 'account_request_view'])->middleware(['role:Admin']);
 Route::post('/account-request/approval/{id}', [UserController::class, 'account_approval'])->middleware(['role:Admin']);
 
-// Route::get('/penilaian', function () {
-//     return view('pages.penilaian.index');
-// });
-
 // Route::get('/perhitungan', function () {
 //     return view('pages.perhitungan.index');
 // });
 
-// Route::get('/hasil', function () {
-//     return view('pages.hasil.index');
-// });
+Route::get('/hasil', function () {
+    return view('pages.hasil.index');
+});
 
 // Route::get('/monitoring', function () {
 //     return view('pages.monitoring.index');
