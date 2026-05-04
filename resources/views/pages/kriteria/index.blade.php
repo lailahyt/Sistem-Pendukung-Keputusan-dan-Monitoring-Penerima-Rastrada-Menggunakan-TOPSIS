@@ -64,7 +64,7 @@
                                             <div class="d-flex align-items-center" style="gap: 10px;">
 
                                                 <a href="/kriteria/{{ $item->id }}/subkriteria"
-                                                    class="btn btn-primary btn-sm" title="Subkriteria">
+                                                    class="btn btn-sm btn-info text-white" title="Subkriteria">
                                                     <i class="bi bi-eye-fill"></i>
                                                 </a>
 

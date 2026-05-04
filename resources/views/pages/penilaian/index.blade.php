@@ -125,13 +125,13 @@
                                                 <i class="bi bi-plus-circle"></i>
                                             </a>
 
-                                            <button class="btn btn-info btn-sm btn-detail" data-id="{{ $item->id }}"
+                                            <button class="btn btn-sm btn-info text-white btn-detail" data-id="{{ $item->id }}"
                                                 data-nama="{{ $item->nama }}" data-bs-toggle="modal"
                                                 data-bs-target="#modalDetail">
                                                 <i class="bi bi-eye-fill"></i>
                                             </button>
 
-                                            <a href="/penilaian/{{ $item->id }}/edit" class="btn btn-warning btn-sm">
+                                            <a href="/penilaian/{{ $item->id }}/edit" class="btn btn-warning btn-sm text-white">
                                                 <i class="bi bi-pencil-square"></i>
                                             </a>
 

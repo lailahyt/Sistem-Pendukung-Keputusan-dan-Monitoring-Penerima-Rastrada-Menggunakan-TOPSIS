@@ -74,9 +74,9 @@ Route::get('/hasil', function () {
     return view('pages.hasil.index');
 });
 
-// Route::get('/monitoring', function () {
-//     return view('pages.monitoring.index');
-// });
+Route::get('/monitoring', function () {
+    return view('pages.monitoring.index');
+});
 
 // Route::get('/report', function () {
 //     return view('pages.report.index');
