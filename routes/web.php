@@ -78,6 +78,6 @@ Route::get('/monitoring', function () {
     return view('pages.monitoring.index');
 });
 
-// Route::get('/report', function () {
-//     return view('pages.report.index');
-// });
+Route::get('/report', function () {
+    return view('pages.report.index');
+});
