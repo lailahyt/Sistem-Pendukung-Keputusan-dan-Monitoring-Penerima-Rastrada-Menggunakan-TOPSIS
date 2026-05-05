@@ -7,31 +7,26 @@
                 <h3>Data Penduduk</h3>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
-
-                <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb" class="breadcrumb-header text-md-end">
                     <ol class="breadcrumb justify-content-md-end">
                         <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Data Penduduk</li>
                     </ol>
                 </nav>
-
-                <!-- Tombol di bawah breadcrumb -->
-                <div class="text-md-end mt-2 mb-3">
-                    <a href="/resident/create" class="btn btn-sm btn-primary shadow-sm">
-                        <i class="bi bi-plus"></i> Tambah Data
-                    </a>
-                </div>
-
             </div>
         </div>
     </div>
+
     <section class="section">
         <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">
-                    Data Penduduk
-                </h5>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="card-title mb-0">Data Penduduk</h5>
+                    <small class="text-muted">Total {{ $residents->count() }} penduduk terdaftar</small>
+                </div>
+                <a href="/resident/create" class="btn btn-sm btn-primary">
+                    <i class="bi bi-plus"></i> Tambah Data
+                </a>
             </div>
             <div class="card-body">
                 <table class="table table-striped table-responsive" id="table1">
@@ -48,16 +43,8 @@
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    @if (count($residents) < 1)
                     <tbody>
-                        <tr>
-                            <td colspan="9" class="text-center">Tidak ada data penduduk</td>
-                        </tr>
-                    </tbody>
-                    @else
-
-                    <tbody>
-                        @foreach ($residents as $item)
+                        @forelse ($residents as $item)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->nik }}</td>
@@ -66,28 +53,40 @@
                             <td>{{ $item->desa }}</td>
                             <td>{{ $item->kecamatan }}</td>
                             <td>{{ $item->desil ?? '-' }}</td>
-                            {{-- <td>{{ $item->desil }}</td> --}}
-                            <td>{{ $item->status }}</td>
-                            <th>
-                                <div class="d-flex align-items-center" style="gap: 10px;" >
-                                    <a href="/resident/{{ $item->id }}" class="d-inline-block btn btn-warning btn-sm">
+                            <td>
+                                {{ $item->status }}
+                                {{-- @if($item->status == 'aktif')
+                                    <span class="badge bg-success">Aktif</span>
+                                @else
+                                    <span class="badge bg-secondary">Non Aktif</span>
+                                @endif --}}
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center" style="gap:8px">
+                                    <a href="/resident/{{ $item->id }}" class="btn btn-warning btn-sm">
                                         <i class="fas fa-edit text-white"></i>
                                     </a>
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmationDelete{{ $item->id }}">
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#confirmationDelete{{ $item->id }}">
                                         <i class="fas fa-eraser"></i>
                                     </button>
                                 </div>
-                            </th>
-
+                            </td>
                         </tr>
                         @include('pages.resident.delete', ['resident' => $item])
-                        @endforeach
-                        @endif
+                        @empty
+                        <tr>
+                            <td colspan="9" class="text-center py-4 text-muted">
+                                <i class="bi bi-inbox fs-5 d-block mb-1"></i>
+                                Tidak ada data penduduk
+                            </td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
-
     </section>
 </div>
 @endsection
