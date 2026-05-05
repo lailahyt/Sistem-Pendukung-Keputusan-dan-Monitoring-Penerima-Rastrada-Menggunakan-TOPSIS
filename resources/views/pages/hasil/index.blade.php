@@ -20,7 +20,7 @@
     <section class="section">
 
         {{-- Summary Cards --}}
-        <div class="row mb-4">
+        <div class="row">
             <div class="col-6 col-md-3">
                 <div class="card">
                     <div class="card-body px-3 py-3">
@@ -124,7 +124,7 @@
                             <td><span class="badge bg-success">Direkomendasikan</span></td>
                             <td>
                                 <a href="#" class="btn btn-sm btn-primary text-white">
-                                    <i class="bi bi-eye"></i> 
+                                    <i class="bi bi-eye"></i>
                                 </a>
                             </td>
                         </tr>
@@ -149,7 +149,7 @@
                             <td><span class="badge bg-success">Direkomendasikan</span></td>
                             <td>
                                 <a href="#" class="btn btn-sm btn-primary text-white">
-                                    <i class="bi bi-eye"></i> 
+                                    <i class="bi bi-eye"></i>
                                 </a>
                             </td>
                         </tr>
@@ -174,7 +174,7 @@
                             <td><span class="badge bg-success">Direkomendasikan</span></td>
                             <td>
                                 <a href="#" class="btn btn-sm btn-primary text-white">
-                                    <i class="bi bi-eye"></i> 
+                                    <i class="bi bi-eye"></i>
                                 </a>
                             </td>
                         </tr>
@@ -195,7 +195,7 @@
                             <td><span class="badge bg-success">Direkomendasikan</span></td>
                             <td>
                                 <a href="#" class="btn btn-sm btn-primary text-white">
-                                    <i class="bi bi-eye"></i> 
+                                    <i class="bi bi-eye"></i>
                                 </a>
                             </td>
                         </tr>
@@ -216,7 +216,7 @@
                             <td><span class="badge bg-danger">Tidak</span></td>
                             <td>
                                 <a href="#" class="btn btn-sm btn-primary text-white">
-                                    <i class="bi bi-eye"></i> 
+                                    <i class="bi bi-eye"></i>
                                 </a>
                             </td>
                         </tr>
@@ -237,7 +237,7 @@
                             <td><span class="badge bg-danger">Tidak</span></td>
                             <td>
                                 <a href="#" class="btn btn-sm btn-primary text-white">
-                                    <i class="bi bi-eye"></i> 
+                                    <i class="bi bi-eye"></i>
                                 </a>
                             </td>
                         </tr>

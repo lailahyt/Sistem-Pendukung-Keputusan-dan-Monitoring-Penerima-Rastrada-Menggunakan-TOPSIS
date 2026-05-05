@@ -20,7 +20,7 @@
     <section class="section">
 
         {{-- Summary Cards --}}
-        <div class="row mb-4">
+        <div class="row">
             <div class="col-6 col-md-3">
                 <div class="card">
                     <div class="card-body px-3 py-3">
