@@ -131,7 +131,8 @@
                                                 <i class="bi bi-eye-fill"></i>
                                             </button>
 
-                                            <a href="/penilaian/{{ $item->id }}/edit" class="btn btn-warning btn-sm">
+                                            <a href="/penilaian/{{ $item->id }}/edit?periode_id={{ request('periode_id') }}"
+                                                class="btn btn-warning btn-sm">
                                                 <i class="bi bi-pencil-square"></i>
                                             </a>
 

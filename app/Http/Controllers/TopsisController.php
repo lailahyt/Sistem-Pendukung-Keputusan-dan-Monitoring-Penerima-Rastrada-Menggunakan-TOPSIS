@@ -21,55 +21,55 @@ class TopsisController extends Controller
 
         $kriteria = Kriteria::all();
 
-        // Ambil data penduduk + penilaian sesuai periode
-        $residents = Resident::with(['penilaian' => function ($q) use ($periode_id) {
-            $q->where('periode_id', $periode_id);
-        }, 'penilaian.penilaianDetail'])->get();
+        // ✅ ambil dari PENILAIAN langsung
+        $penilaianList = \App\Models\Penilaian::with([
+            'resident',
+            'penilaianDetail'
+        ])
+            ->where('periode_id', $periode_id)
+            ->where('status', 'selesai')
+            ->get();
 
-        //  Bentuk matriks keputusan
+        // 🔥 bentuk matriks keputusan
         $matriks = [];
 
-        foreach ($residents as $r) {
+        foreach ($penilaianList as $p) {
+
             $row = [];
 
             foreach ($kriteria as $k) {
-                $nilai = 0;
 
-                if ($r->penilaian->first()) {
-                    $detail = $r->penilaian->first()
-                        ->penilaianDetail
-                        ->where('kriteria_id', $k->id)
-                        ->first();
+                $detail = $p->penilaianDetail
+                    ->where('kriteria_id', $k->id)
+                    ->first();
 
-                    $nilai = $detail->nilai ?? 0;
-                }
-
-                $row[$k->id] = $nilai;
+                $row[$k->id] = $detail->nilai ?? 0;
             }
 
             $matriks[] = [
-                'nama' => $r->nama,
+                'nama' => $p->resident->nama,
                 'data' => $row
             ];
         }
 
-        // Normalisasi matriks
+        // 🔥 NORMALISASI
         $normalisasi = [];
-
-        // hitung penyebut per kriteria
         $pembagi = [];
+
         foreach ($kriteria as $k) {
             $sum = 0;
+
             foreach ($matriks as $row) {
                 $sum += pow($row['data'][$k->id], 2);
             }
+
             $pembagi[$k->id] = sqrt($sum);
         }
 
-        // hitung normalisasi
         foreach ($matriks as $i => $row) {
             foreach ($kriteria as $k) {
                 $nilai = $row['data'][$k->id];
+
                 $normalisasi[$i][$k->id] = $pembagi[$k->id] == 0
                     ? 0
                     : $nilai / $pembagi[$k->id];

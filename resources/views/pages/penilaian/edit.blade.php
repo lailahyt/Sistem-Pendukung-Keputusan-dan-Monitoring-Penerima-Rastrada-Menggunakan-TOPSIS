@@ -25,7 +25,6 @@
 
                         <hr>
 
-                        {{-- Loop Kriteria --}}
                         @foreach ($kriteria as $k)
                             <div class="row mb-4 p-3 border rounded">
 
@@ -36,11 +35,11 @@
                                 {{-- Subkriteria --}}
                                 <div class="col-md-4 mb-2">
                                     <label>Sub Kriteria</label>
-                                    <select name="subkriteria[{{ $k->id }}]" class="form-control">
+                                    <select name="subkriteria[{{ $k->id }}]" class="form-select">
                                         <option value="">-- Pilih --</option>
                                         @foreach ($k->subkriteria as $sub)
                                             <option value="{{ $sub->id }}"
-                                                {{ isset($penilaian[$k->id]) && $penilaian[$k->id]->subkriteria_id == $sub->id ? 'selected' : '' }}>
+                                                {{ ($detail[$k->id]['subkriteria_id'] ?? '') == $sub->id ? 'selected' : '' }}>
                                                 {{ $sub->label_subkriteria }}
                                             </option>
                                         @endforeach
@@ -57,8 +56,8 @@
                                 <div class="col-md-4 mb-2">
                                     <label>Bukti Lama</label><br>
 
-                                    @if (isset($penilaian[$k->id]) && $penilaian[$k->id]->bukti_file)
-                                        <a href="{{ asset('storage/' . $penilaian[$k->id]->bukti_file) }}" target="_blank"
+                                    @if (!empty($detail[$k->id]['bukti_file']))
+                                        <a href="{{ asset('storage/' . $detail[$k->id]['bukti_file']) }}" target="_blank"
                                             class="btn btn-sm btn-info">
                                             Lihat
                                         </a>
@@ -70,7 +69,7 @@
                                 {{-- Catatan --}}
                                 <div class="col-md-12 mt-2">
                                     <label>Catatan</label>
-                                    <textarea name="catatan[{{ $k->id }}]" class="form-control" rows="2">{{ $penilaian[$k->id]->catatan ?? '' }}</textarea>
+                                    <textarea name="catatan[{{ $k->id }}]" class="form-control" rows="2">{{ $detail[$k->id]['catatan'] ?? '' }}</textarea>
                                 </div>
 
                             </div>

@@ -53,20 +53,23 @@
                     let id = this.dataset.id;
                     let nama = this.dataset.nama;
 
-                    let periode = document.getElementById('periode').value;
+                    let periode_id = document.getElementById('periode').value;
 
                     document.getElementById('namaPenduduk').innerText = nama;
 
                     let tbody = document.getElementById('detailBody');
                     tbody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
 
-                    fetch(`/penilaian/detail-json/${id}?periode=${periode}`)
-                        .then(res => res.json())
+                    fetch(`/penilaian/detail-json/${id}?periode_id=${periode_id}`)
+                        .then(res => {
+                            if (!res.ok) throw new Error('Gagal mengambil data');
+                            return res.json();
+                        })
                         .then(data => {
 
                             let html = '';
 
-                            if (data.length === 0) {
+                            if (!data || data.length === 0) {
                                 html = '<tr><td colspan="5">Tidak ada data</td></tr>';
                             } else {
                                 data.forEach(item => {
@@ -88,14 +91,22 @@
                             }
 
                             tbody.innerHTML = html;
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            tbody.innerHTML = '<tr><td colspan="5">Terjadi error</td></tr>';
                         });
+
+                    let modalEl = document.getElementById('modalDetail');
+                    let modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                    modal.show();
                 });
             });
 
         });
     </script>
 
-    {{-- 🔥 TARUH MODAL DI SINI --}}
+    {{--  TARUH MODAL DI SINI --}}
     <div class="modal fade" id="logoutModal" tabindex="-1">
         <div class="modal-dialog">
             <form action="/logout" method="POST">

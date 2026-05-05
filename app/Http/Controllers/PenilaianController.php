@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Resident;
 use App\Models\Kriteria;
-use App\Models\Subkriteria;
+use App\Models\Periode;
 use App\Models\Penilaian;
 use App\Models\PenilaianDetail;
-use App\Models\Periode;
+use App\Models\Subkriteria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -36,45 +36,58 @@ class PenilaianController extends Controller
         ])->get();
 
         foreach ($residents as $p) {
-            $penilaian = $p->penilaian->first();
-            $detail = $penilaian ? $penilaian->penilaianDetail : collect();
+
+            $penilaian = optional($p->penilaian)->first();
+
+            $detail = $penilaian
+                ? $penilaian->penilaianDetail->filter(function ($d) {
+                    return !is_null($d->nilai);
+                })
+                : collect();
 
             // rata-rata
             $p->rata_rata = $detail->count() > 0
                 ? round($detail->avg('nilai'), 2)
                 : null;
 
-            // hitung kelengkapan
+            // kelengkapan
             $validCount = $detail
-                ->filter(function ($d) {
-                    return !is_null($d->kriteria_id)
-                        && !is_null($d->subkriteria_id)
-                        && !is_null($d->nilai);
-                })
                 ->pluck('kriteria_id')
                 ->unique()
                 ->count();
 
-            $p->kelengkapan = $validCount . '/' . $totalKriteria;
+            $p->kelengkapan = $validCount . '/' . $kriteria->count();
 
-            $terisi = $validCount;
-            $total = $totalKriteria;
+            // 🔥 hitung status real
+            if ($penilaian) {
+                if ($validCount == 0) {
+                    $status = 'belum';
+                } elseif ($validCount < $kriteria->count()) {
+                    $status = 'proses';
+                } else {
+                    $status = 'selesai';
+                }
 
-            if ($terisi == 0) {
-                $p->status = 'belum';
-                $p->status_label = 'Belum';
-                $p->badge = 'secondary';
-            } elseif ($terisi < $total) {
-                $p->status = 'proses';
-                $p->status_label = 'Proses';
-                $p->badge = 'warning';
-            } else {
-                $p->status = 'selesai';
-                $p->status_label = 'Selesai';
-                $p->badge = 'success';
+                // sync ke DB
+                if ($penilaian->status !== $status) {
+                    $penilaian->update(['status' => $status]);
+                }
             }
+
+            // tampilkan status dari DB
+            $status = $penilaian->status ?? 'belum';
+
+            $p->status = $status;
+            $p->status_label = ucfirst($status);
+
+            $p->badge = match ($status) {
+                'selesai' => 'success',
+                'proses' => 'warning',
+                default => 'secondary'
+            };
         }
 
+        // filter status
         if ($statusFilter) {
             $residents = $residents->filter(function ($p) use ($statusFilter) {
                 return $p->status === $statusFilter;
@@ -111,7 +124,7 @@ class PenilaianController extends Controller
             'catatan.*' => 'nullable|string'
         ]);
 
-        $periode_id = $request->periode_id ?? null;
+        $periode_id = $request->periode_id ?? Periode::first()->id;
 
         $penilaian = Penilaian::firstOrCreate([
             'penduduk_id' => $request->penduduk_id,
@@ -125,8 +138,8 @@ class PenilaianController extends Controller
             $filePath = null;
 
             if ($request->hasFile("bukti.$kriteria_id")) {
-                $file = $request->file("bukti.$kriteria_id");
-                $filePath = $file->store('bukti_penilaian', 'public');
+                $filePath = $request->file("bukti.$kriteria_id")
+                    ->store('bukti_penilaian', 'public');
             }
 
             $sub = Subkriteria::find($sub_id);
@@ -151,7 +164,23 @@ class PenilaianController extends Controller
             );
         }
 
-        return redirect('/penilaian')->with('success', 'Penilaian berhasil disimpan');
+        // ✅ FIX STATUS BERDASARKAN DATA DB
+        $jumlahTerisi = PenilaianDetail::where('penilaian_id', $penilaian->id)
+            ->whereNotNull('subkriteria_id')
+            ->count();
+
+        $totalKriteria = Kriteria::count();
+
+        if ($jumlahTerisi == 0) {
+            $penilaian->update(['status' => 'belum']);
+        } elseif ($jumlahTerisi < $totalKriteria) {
+            $penilaian->update(['status' => 'proses']);
+        } else {
+            $penilaian->update(['status' => 'selesai']);
+        }
+
+        return redirect('/penilaian?periode_id=' . $periode_id)
+            ->with('success', 'Penilaian berhasil disimpan');
     }
 
     public function edit($id)
@@ -161,20 +190,32 @@ class PenilaianController extends Controller
 
         $periode_id = request('periode_id');
 
+        if (!$periode_id) {
+            return redirect('/penilaian')->with('error', 'Periode tidak dipilih');
+        }
+
         $penilaian = Penilaian::where('penduduk_id', $id)
             ->where('periode_id', $periode_id)
             ->first();
 
-        $detail = $penilaian
-            ? PenilaianDetail::where('penilaian_id', $penilaian->id)->get()->keyBy('kriteria_id')
-            : collect();
+        $detail = [];
 
-        return view('pages.penilaian.edit', [
-            'penduduk' => $penduduk,
-            'kriteria' => $kriteria,
-            'penilaian' => $detail,
-            'periode_id' => $periode_id
-        ]);
+        if ($penilaian) {
+            foreach ($penilaian->penilaianDetail as $d) {
+                $detail[$d->kriteria_id] = [
+                    'subkriteria_id' => $d->subkriteria_id,
+                    'catatan' => $d->catatan,
+                    'bukti_file' => $d->bukti_file
+                ];
+            }
+        }
+
+        return view('pages.penilaian.edit', compact(
+            'penduduk',
+            'kriteria',
+            'detail',
+            'periode_id'
+        ));
     }
 
     public function update(Request $request, $id)
@@ -191,7 +232,7 @@ class PenilaianController extends Controller
             ->where('periode_id', $periode_id)
             ->firstOrFail();
 
-        foreach ($request->subkriteria as $kriteria_id => $sub_id) {
+        foreach ($request->subkriteria ?? [] as $kriteria_id => $sub_id) {
 
             if (!$sub_id) continue;
 
@@ -203,8 +244,8 @@ class PenilaianController extends Controller
             $filePath = $detail->bukti_file ?? null;
 
             if ($request->hasFile("bukti.$kriteria_id")) {
-                $file = $request->file("bukti.$kriteria_id");
-                $filePath = $file->store('bukti_penilaian', 'public');
+                $filePath = $request->file("bukti.$kriteria_id")
+                    ->store('bukti_penilaian', 'public');
             }
 
             $sub = Subkriteria::findOrFail($sub_id);
@@ -223,12 +264,28 @@ class PenilaianController extends Controller
             );
         }
 
-        return redirect('/penilaian')->with('success', 'Data berhasil diupdate');
+        // ✅ update status konsisten
+        $jumlahTerisi = PenilaianDetail::where('penilaian_id', $penilaian->id)
+            ->whereNotNull('subkriteria_id')
+            ->count();
+
+        $totalKriteria = Kriteria::count();
+
+        if ($jumlahTerisi == 0) {
+            $penilaian->update(['status' => 'belum']);
+        } elseif ($jumlahTerisi < $totalKriteria) {
+            $penilaian->update(['status' => 'proses']);
+        } else {
+            $penilaian->update(['status' => 'selesai']);
+        }
+
+        return redirect('/penilaian?periode_id=' . $periode_id)
+            ->with('success', 'Data berhasil diupdate');
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $periode_id = request('periode_id');
+        $periode_id = $request->periode_id;
 
         $penilaian = Penilaian::where('penduduk_id', $id)
             ->where('periode_id', $periode_id)
@@ -245,7 +302,8 @@ class PenilaianController extends Controller
         PenilaianDetail::where('penilaian_id', $penilaian->id)->delete();
         $penilaian->delete();
 
-        return redirect('/penilaian')->with('success', 'Data berhasil dihapus');
+        return redirect('/penilaian?periode_id=' . $periode_id)
+            ->with('success', 'Data berhasil dihapus');
     }
 
     public function detailJson($id)
