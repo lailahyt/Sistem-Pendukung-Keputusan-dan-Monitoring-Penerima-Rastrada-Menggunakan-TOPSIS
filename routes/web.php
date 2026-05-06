@@ -9,6 +9,7 @@ use App\Http\Controllers\SubkriteriaController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\TopsisController;
+use App\Http\Controllers\HasilController;
 use App\Models\Penilaian;
 use Illuminate\Support\Facades\Route;
 
@@ -61,6 +62,8 @@ Route::resource('periode', PeriodeController::class)->middleware(['role:Admin'])
 
 Route::get('/topsis', [TopsisController::class, 'index'])->middleware(['role:Admin,Petugas']);
 
+Route::get('/hasil', [HasilController::class, 'index'])->middleware(['role:Admin,Petugas']);
+
 Route::get('/account-list', [UserController::class, 'account_list_view'])->middleware(['role:Admin']);
 
 Route::get('/account-request', [UserController::class, 'account_request_view'])->middleware(['role:Admin']);
@@ -70,9 +73,9 @@ Route::post('/account-request/approval/{id}', [UserController::class, 'account_a
 //     return view('pages.perhitungan.index');
 // });
 
-Route::get('/hasil', function () {
-    return view('pages.hasil.index');
-});
+// Route::get('/hasil', function () {
+//     return view('pages.hasil.index');
+// });
 
 Route::get('/monitoring', function () {
     return view('pages.monitoring.index');

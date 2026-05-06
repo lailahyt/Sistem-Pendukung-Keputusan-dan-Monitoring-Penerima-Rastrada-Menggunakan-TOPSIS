@@ -354,7 +354,7 @@
                                         <td>{{ $row['nama'] }}</td>
 
                                         <td>
-                                            {{ number_format($preferensi[$i], 4) }}
+                                            {{ number_format($hasil[$i]['nilai'], 4) }}
                                         </td>
 
                                     </tr>
@@ -397,10 +397,10 @@
 
                             <tbody>
 
-                                @foreach ($ranking as $row)
+                                @foreach ($hasil as $row)
                                     <tr>
 
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $row['rank'] }}</td>
 
                                         <td>{{ $row['nama'] }}</td>
 
