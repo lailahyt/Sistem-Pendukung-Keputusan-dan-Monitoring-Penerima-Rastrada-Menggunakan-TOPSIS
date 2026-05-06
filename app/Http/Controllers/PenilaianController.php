@@ -279,8 +279,8 @@ class PenilaianController extends Controller
             $penilaian->update(['status' => 'selesai']);
         }
 
-        return redirect('/penilaian?periode_id=' . $periode_id)
-            ->with('success', 'Data berhasil diupdate');
+        return redirect('/penilaian?periode_id=' . $request->periode_id)
+            ->with('success', 'Data penilaian berhasil diperbarui');
     }
 
     public function destroy(Request $request, $id)

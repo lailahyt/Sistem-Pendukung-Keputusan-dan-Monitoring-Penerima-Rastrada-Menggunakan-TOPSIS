@@ -15,6 +15,8 @@
                         @csrf
                         @method('PUT')
 
+                        <input type="hidden" name="periode_id" value="{{ $periode_id }}">
+
                         {{-- Informasi Penduduk --}}
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -78,7 +80,9 @@
                         {{-- Tombol --}}
                         <div class="mt-3">
                             <button type="submit" class="btn btn-primary">Simpan</button>
-                            <a href="/penilaian" class="btn btn-secondary">Kembali</a>
+                            <a href="/penilaian?periode_id={{ $periode_id }}" class="btn btn-secondary">
+                                Kembali
+                            </a>
                         </div>
 
                     </form>
