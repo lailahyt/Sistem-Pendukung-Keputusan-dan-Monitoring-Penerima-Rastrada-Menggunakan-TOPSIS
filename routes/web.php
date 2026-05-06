@@ -10,6 +10,7 @@ use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\TopsisController;
 use App\Http\Controllers\HasilController;
+use App\Http\Controllers\MonitoringController;
 use App\Models\Penilaian;
 use Illuminate\Support\Facades\Route;
 
@@ -64,6 +65,11 @@ Route::get('/topsis', [TopsisController::class, 'index'])->middleware(['role:Adm
 
 Route::get('/hasil', [HasilController::class, 'index'])->middleware(['role:Admin,Petugas']);
 
+Route::get('/monitoring', [MonitoringController::class, 'index'])->middleware(['role:Admin,Petugas']);
+Route::get('/monitoring/{id}/edit', [MonitoringController::class, 'edit'])->middleware(['role:Admin,Petugas']);
+Route::put('/monitoring/{id}', [MonitoringController::class, 'update'])->middleware(['role:Admin,Petugas']);
+Route::get('/monitoring/{id}', [MonitoringController::class, 'show'])->middleware(['role:Admin,Petugas']);
+
 Route::get('/account-list', [UserController::class, 'account_list_view'])->middleware(['role:Admin']);
 
 Route::get('/account-request', [UserController::class, 'account_request_view'])->middleware(['role:Admin']);
@@ -77,9 +83,9 @@ Route::post('/account-request/approval/{id}', [UserController::class, 'account_a
 //     return view('pages.hasil.index');
 // });
 
-Route::get('/monitoring', function () {
-    return view('pages.monitoring.index');
-});
+// Route::get('/monitoring', function () {
+//     return view('pages.monitoring.index');
+// });
 
 Route::get('/report', function () {
     return view('pages.report.index');
