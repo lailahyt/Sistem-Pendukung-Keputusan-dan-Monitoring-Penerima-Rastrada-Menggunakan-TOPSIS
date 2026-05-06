@@ -14,14 +14,15 @@ class TopsisController extends Controller
         $periode = Periode::first();
 
         if (!$periode) {
-            return redirect('/periode')->with('error', 'Tambahkan periode terlebih dahulu');
+            return redirect('/periode')
+                ->with('error', 'Tambahkan periode terlebih dahulu');
         }
 
         $periode_id = request('periode_id') ?? $periode->id;
 
         $kriteria = Kriteria::all();
 
-        // ✅ ambil dari PENILAIAN langsung
+        // Ambil data penilaian
         $penilaianList = \App\Models\Penilaian::with([
             'resident',
             'penilaianDetail'
@@ -30,7 +31,9 @@ class TopsisController extends Controller
             ->where('status', 'selesai')
             ->get();
 
-        // 🔥 bentuk matriks keputusan
+        // =========================
+        // MATRlKS KEPUTUSAN
+        // =========================
         $matriks = [];
 
         foreach ($penilaianList as $p) {
@@ -52,14 +55,18 @@ class TopsisController extends Controller
             ];
         }
 
-        // 🔥 NORMALISASI
+        // =========================
+        // NORMALISASI
+        // =========================
         $normalisasi = [];
         $pembagi = [];
 
         foreach ($kriteria as $k) {
+
             $sum = 0;
 
             foreach ($matriks as $row) {
+
                 $sum += pow($row['data'][$k->id], 2);
             }
 
@@ -67,14 +74,124 @@ class TopsisController extends Controller
         }
 
         foreach ($matriks as $i => $row) {
+
             foreach ($kriteria as $k) {
+
                 $nilai = $row['data'][$k->id];
 
-                $normalisasi[$i][$k->id] = $pembagi[$k->id] == 0
+                $normalisasi[$i][$k->id] =
+                    $pembagi[$k->id] == 0
                     ? 0
                     : $nilai / $pembagi[$k->id];
             }
         }
+
+        // =========================
+        // NORMALISASI TERBOBOT
+        // =========================
+        $terbobot = [];
+
+        foreach ($matriks as $i => $row) {
+
+            foreach ($kriteria as $k) {
+
+                $bobot = $k->bobot;
+
+                $terbobot[$i][$k->id] =
+                    $normalisasi[$i][$k->id] * $bobot;
+            }
+        }
+
+        // =========================
+        // SOLUSI IDEAL
+        // =========================
+        $idealPositif = [];
+        $idealNegatif = [];
+
+        foreach ($kriteria as $k) {
+
+            $column = [];
+
+            foreach ($terbobot as $row) {
+
+                $column[] = $row[$k->id];
+            }
+
+            // BENEFIT
+            if ($k->atribut == 'benefit') {
+
+                $idealPositif[$k->id] = max($column);
+                $idealNegatif[$k->id] = min($column);
+            }
+
+            // COST
+            else {
+
+                $idealPositif[$k->id] = min($column);
+                $idealNegatif[$k->id] = max($column);
+            }
+        }
+
+        // =========================
+        // JARAK SOLUSI
+        // =========================
+        $jarakPositif = [];
+        $jarakNegatif = [];
+
+        foreach ($terbobot as $i => $row) {
+
+            $sumPositif = 0;
+            $sumNegatif = 0;
+
+            foreach ($kriteria as $k) {
+
+                $sumPositif += pow(
+                    $row[$k->id] - $idealPositif[$k->id],
+                    2
+                );
+
+                $sumNegatif += pow(
+                    $row[$k->id] - $idealNegatif[$k->id],
+                    2
+                );
+            }
+
+            $jarakPositif[$i] = sqrt($sumPositif);
+            $jarakNegatif[$i] = sqrt($sumNegatif);
+        }
+
+        // =========================
+        // NILAI PREFERENSI
+        // =========================
+        $preferensi = [];
+
+        foreach ($matriks as $i => $row) {
+
+            $dPlus = $jarakPositif[$i];
+            $dMinus = $jarakNegatif[$i];
+
+            $preferensi[$i] =
+                ($dPlus + $dMinus) == 0
+                ? 0
+                : $dMinus / ($dPlus + $dMinus);
+        }
+
+        // =========================
+        // RANKING
+        // =========================
+        $ranking = [];
+
+        foreach ($matriks as $i => $row) {
+
+            $ranking[] = [
+                'nama' => $row['nama'],
+                'nilai' => $preferensi[$i]
+            ];
+        }
+
+        usort($ranking, function ($a, $b) {
+            return $b['nilai'] <=> $a['nilai'];
+        });
 
         $periodeList = Periode::all();
 
@@ -83,7 +200,14 @@ class TopsisController extends Controller
             'kriteria',
             'periode_id',
             'periodeList',
-            'normalisasi'
+            'normalisasi',
+            'terbobot',
+            'idealPositif',
+            'idealNegatif',
+            'jarakPositif',
+            'jarakNegatif',
+            'preferensi',
+            'ranking'
         ));
     }
 }
