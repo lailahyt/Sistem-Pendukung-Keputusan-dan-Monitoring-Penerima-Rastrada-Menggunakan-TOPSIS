@@ -64,16 +64,16 @@ Route::resource('periode', PeriodeController::class)->middleware(['role:Admin'])
 
 Route::get('/topsis', [TopsisController::class, 'index'])->middleware(['role:Admin,Petugas']);
 
-Route::get('/hasil', [HasilController::class, 'index'])->middleware(['role:Admin,Petugas']);
+Route::get('/hasil', [HasilController::class, 'index'])->middleware(['role:Admin,Petugas,Lurah']);
 
-Route::get('/monitoring', [MonitoringController::class, 'index'])->middleware(['role:Admin,Petugas']);
+Route::get('/monitoring', [MonitoringController::class, 'index'])->middleware(['role:Admin,Petugas,Lurah']);
 Route::get('/monitoring/{id}/edit', [MonitoringController::class, 'edit'])->middleware(['role:Admin,Petugas']);
 Route::put('/monitoring/{id}', [MonitoringController::class, 'update'])->middleware(['role:Admin,Petugas']);
-Route::get('/monitoring/{id}', [MonitoringController::class, 'show'])->middleware(['role:Admin,Petugas']);
+Route::get('/monitoring/{id}', [MonitoringController::class, 'show'])->middleware(['role:Admin,Petugas,Lurah']);
 
-Route::get('/report', [LaporanController::class, 'index'])->middleware(['role:Admin,Petugas']);
-Route::get('/report/export-pdf', [LaporanController::class, 'exportPdf'])->middleware(['role:Admin,Petugas']);
-Route::get('/report/export-excel', [LaporanController::class, 'exportExcel'])->middleware(['role:Admin,Petugas']);
+Route::get('/report', [LaporanController::class, 'index'])->middleware(['role:Admin,Petugas,Lurah']);
+Route::get('/report/export-pdf', [LaporanController::class, 'exportPdf'])->middleware(['role:Admin,Petugas,Lurah']);
+Route::get('/report/export-excel', [LaporanController::class, 'exportExcel'])->middleware(['role:Admin,Petugas,Lurah']);
 
 Route::get('/account-list', [UserController::class, 'account_list_view'])->middleware(['role:Admin']);
 

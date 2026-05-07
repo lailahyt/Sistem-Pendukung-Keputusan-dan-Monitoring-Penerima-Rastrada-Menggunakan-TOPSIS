@@ -403,21 +403,37 @@
                                         {{-- AKSI --}}
                                         <td>
 
-                                            @if ($item->status_pengambilan == 'sudah_ambil')
-                                                <a href="/monitoring/{{ $item->id }}"
-                                                    class="btn btn-sm btn-info text-white">
+                                            @php
+                                                $isLurah = auth()->user()?->role?->name === 'Lurah';
+                                            @endphp
+
+                                            {{-- ROLE LURAH --}}
+                                            @if ($isLurah)
+                                                <a href="/monitoring/{{ $item->id }}" class="btn btn-info btn-sm">
 
                                                     <i class="bi bi-eye"></i>
 
                                                 </a>
                                             @else
-                                                <a href="/monitoring/{{ $item->id }}/edit"
-                                                    class="btn btn-sm btn-primary">
+                                                {{-- SUDAH AMBIL --}}
+                                                @if ($item->status_pengambilan == 'sudah_ambil')
+                                                    <a href="/monitoring/{{ $item->id }}"
+                                                        class="btn btn-info btn-sm">
 
-                                                    <i class="bi bi-pencil-square"></i>
-                                                    Catat
+                                                        <i class="bi bi-eye"></i>
 
-                                                </a>
+                                                    </a>
+                                                @else
+                                                    {{-- ADMIN / PETUGAS --}}
+                                                    <a href="/monitoring/{{ $item->id }}/create"
+                                                        class="btn btn-primary btn-sm">
+
+                                                        <i class="bi bi-pencil-square"></i>
+
+                                                        Catat
+
+                                                    </a>
+                                                @endif
                                             @endif
 
                                         </td>
