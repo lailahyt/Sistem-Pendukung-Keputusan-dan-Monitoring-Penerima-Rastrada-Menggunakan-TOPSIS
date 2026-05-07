@@ -12,6 +12,7 @@ use App\Http\Controllers\TopsisController;
 use App\Http\Controllers\HasilController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\DashboardController;
 use App\Models\Penilaian;
 use Illuminate\Support\Facades\Route;
 
@@ -23,9 +24,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/register', [AuthController::class, 'registerView']);
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::get('/dashboard', function () {
-    return view('pages.dashboard');
-})->middleware('role:Admin,Petugas,Lurah');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('role:Admin,Petugas,Lurah');
 
 Route::get('/resident', [ResidentController::class, 'index'])->middleware(['role:Admin,Petugas,Lurah']);
 Route::get('/resident/create', [ResidentController::class, 'create'])->middleware(['role:Admin,Petugas,Lurah ']);
