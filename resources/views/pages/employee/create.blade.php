@@ -1,14 +1,12 @@
 @extends('layouts.app')
 @section('content')
     <div class="page-heading">
-        <h3>Tambah Data Pegawai</h3>
-
-        <section class="section">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title">Form Input Pegawai</h5>
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Tambah Data Pegawai</h3>
+                    <p></p>
                 </div>
-
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
@@ -16,6 +14,14 @@
                             <li class="breadcrumb-item active" aria-current="page">Tambah Pegawai</li>
                         </ol>
                     </nav>
+                </div>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Form Input Pegawai</h5>
                 </div>
 
                 <div class="card-body">

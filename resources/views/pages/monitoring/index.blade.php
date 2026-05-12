@@ -425,7 +425,7 @@
                                                     </a>
                                                 @else
                                                     {{-- ADMIN / PETUGAS --}}
-                                                    <a href="/monitoring/{{ $item->id }}/create"
+                                                    <a href="/monitoring/{{ $item->id }}/edit"
                                                         class="btn btn-primary btn-sm">
 
                                                         <i class="bi bi-pencil-square"></i>
