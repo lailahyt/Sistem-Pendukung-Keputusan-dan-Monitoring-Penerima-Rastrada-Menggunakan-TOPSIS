@@ -74,6 +74,13 @@
 
                                         <td>
                                             <div class="d-flex align-items-center" style="gap: 10px;">
+                                                @if (!is_null($item->user_id))
+                                                <button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal"
+                                                    data-bs-target="#detailAccount{{ $item->id }}">
+                                                    <i class="bi bi-eye-fill"></i>
+                                                </button>
+                                                @endif
+
                                                 <a href="/employee/{{ $item->id }}/edit" class="btn btn-warning btn-sm">
                                                     <i class="bi bi-pencil-fill text-white"></i>
                                                 </a>
@@ -82,10 +89,11 @@
                                                     data-bs-target="#deleteModal{{ $item->id }}">
                                                     <i class="bi bi-eraser-fill"></i>
                                                 </button>
+
                                             </div>
                                         </td>
                                     </tr>
-
+                                    @include('pages.employee.detail-account')
                                     <!-- MODAL HAPUS -->
                                     <div class="modal fade" id="deleteModal{{ $item->id }}" tabindex="-1">
                                         <div class="modal-dialog">

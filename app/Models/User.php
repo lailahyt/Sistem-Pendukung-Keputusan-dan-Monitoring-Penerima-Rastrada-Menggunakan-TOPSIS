@@ -30,8 +30,14 @@ class User extends Authenticatable
         ];
     }
 
+    public function pegawai()
+    {
+        return $this->hasOne(Pegawai::class);
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class);
     }
+
 }

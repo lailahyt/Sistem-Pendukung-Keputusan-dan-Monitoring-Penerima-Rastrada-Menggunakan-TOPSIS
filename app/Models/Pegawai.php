@@ -8,11 +8,11 @@ class Pegawai extends Model
 {
     protected $table = 'pegawai';
 
-    protected $fillable = [
-        'nama',
-        'nip',
-        'jabatan',
-        'no_hp',
-        'alamat'
-    ];
+    protected $guarded = [];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

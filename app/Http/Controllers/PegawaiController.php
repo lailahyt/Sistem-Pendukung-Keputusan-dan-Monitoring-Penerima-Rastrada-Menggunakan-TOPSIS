@@ -10,7 +10,7 @@ class PegawaiController extends Controller
     // 🔹 Menampilkan data
     public function index()
     {
-        $pegawai = Pegawai::all();
+        $pegawai = Pegawai::with('user')->get();
         return view('pages.employee.index', [
             'pegawai' => $pegawai,
         ]);
