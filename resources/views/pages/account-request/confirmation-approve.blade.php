@@ -15,7 +15,7 @@
             <input type="hidden" name="for" value="approve">
             Apakah anda yakin untuk setuju pada akun ini?
             <div class="form-group mt-3">
-                <label for="pegawai_id">Pilih Penduduk</label>
+                <label for="pegawai_id">Pilih Pegawai</label>
                 <select name="pegawai_id" id="pegawai_id" class="form-control">
                   <option value="">Tidak Ada</option>
                   @foreach($pegawai as $item)
