@@ -24,6 +24,23 @@ class TopsisService
             ->where('status', 'selesai')
             ->get();
 
+        // VALIDASI DATA KOSONG
+        if ($penilaianList->isEmpty()) {
+
+            return [
+                'kriteria' => $kriteria,
+                'matriks' => [],
+                'normalisasi' => [],
+                'terbobot' => [],
+                'idealPositif' => [],
+                'idealNegatif' => [],
+                'jarakPositif' => [],
+                'jarakNegatif' => [],
+                'hasil' => [],
+                'message' => 'Belum ada data penilaian pada periode ini.'
+            ];
+        }
+
         // =========================
         // MATRlKS KEPUTUSAN
         // =========================
