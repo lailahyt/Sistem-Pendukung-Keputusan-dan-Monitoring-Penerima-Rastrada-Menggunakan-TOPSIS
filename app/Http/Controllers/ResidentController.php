@@ -4,21 +4,52 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Resident;
+use App\Models\Wilayah;
 
 class ResidentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $residents = Resident::all();
+        $query = Resident::with('wilayah');
+
+        if ($request->rw) {
+
+            $query->whereHas('wilayah', function ($q) use ($request) {
+
+                $q->where('rw', $request->rw);
+
+            });
+
+        }
+
+        if ($request->rt) {
+
+            $query->whereHas('wilayah', function ($q) use ($request) {
+
+                $q->where('rt', $request->rt);
+
+            });
+
+        }
+
+        $residents = $query->get();
+
+        $wilayah = Wilayah::all();
+
         return view('pages.resident.index', [
             'residents' => $residents,
+            'wilayah' => $wilayah,
         ]);
     }
-
+    
     public function create()
     {
         // Logic to show the form for creating a new resident
-        return view('pages.resident.create');
+        $wilayah = Wilayah::all();
+
+        return view('pages.resident.create', [
+            'wilayah' => $wilayah
+        ]);
     }
 
     public function store(Request $request)
@@ -30,6 +61,7 @@ class ResidentController extends Controller
             'alamat' => 'required',
             'desa' => 'required',
             'kecamatan' => 'required',
+            'wilayah_id' => 'nullable|exists:wilayah,id',
             'desil' => 'nullable|integer',
             'status' => 'required',
         ]);
@@ -42,8 +74,11 @@ class ResidentController extends Controller
     {
         // Logic to show the form for editing an existing resident
         $resident = Resident::findOrFail($id);
+        $wilayah = Wilayah::all();
+
         return view('pages.resident.edit', [
             'resident' => $resident,
+            'wilayah' => $wilayah
         ]);
     }
 
@@ -56,6 +91,7 @@ class ResidentController extends Controller
             'alamat' => 'required',
             'desa' => 'required',
             'kecamatan' => 'required',
+            'wilayah_id' => 'nullable|exists:wilayah,id',
             'desil' => 'nullable|integer',
             'status' => 'required',
         ]);

@@ -84,6 +84,35 @@
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
+                                            <label>RW</label>
+
+                                            <select id="rw" class="form-control">
+                                                <option value="">Pilih RW</option>
+
+                                                @foreach ($wilayah->unique('rw') as $w)
+                                                    <option value="{{ $w->rw }}">
+                                                        RW {{ $w->rw }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label>RT</label>
+
+                                            <select id="rt"
+                                                name="wilayah_id"
+                                                class="form-control"
+                                                disabled>
+
+                                                <option value="">Pilih RT</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
                                             <label>Desil</label>
                                             <input type="number" name="desil" class="form-control @error('desil') is-invalid @enderror"
                                                 placeholder="Masukkan desil (1-10)"
@@ -121,4 +150,42 @@
     <!-- // Basic multiple Column Form section end -->
 </div>
 
+<script>
+
+    const wilayah = @json($wilayah);
+
+    const rwSelect = document.getElementById('rw');
+    const rtSelect = document.getElementById('rt');
+
+    rwSelect.addEventListener('change', function () {
+
+        const selectedRw = this.value;
+
+        rtSelect.innerHTML = '<option value="">Pilih RT</option>';
+
+        if (selectedRw) {
+
+            rtSelect.disabled = false;
+
+            wilayah.forEach(function(item) {
+
+                if (item.rw == selectedRw) {
+
+                    rtSelect.innerHTML += `
+                        <option value="${item.id}">
+                            RT ${item.rt}
+                        </option>
+                    `;
+                }
+
+            });
+
+        } else {
+
+            rtSelect.disabled = true;
+        }
+
+    });
+
+</script>
 @endsection

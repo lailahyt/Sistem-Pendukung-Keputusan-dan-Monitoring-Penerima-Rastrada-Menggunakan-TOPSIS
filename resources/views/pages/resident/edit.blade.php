@@ -85,6 +85,41 @@
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
+                                            <label>RW</label>
+
+                                            <select id="rw" class="form-control">
+
+                                                <option value="">Pilih RW</option>
+
+                                                @foreach ($wilayah->unique('rw') as $w)
+
+                                                    <option value="{{ $w->rw }}"
+                                                        {{ $resident->wilayah?->rw == $w->rw ? 'selected' : '' }}>
+
+                                                        RW {{ $w->rw }}
+
+                                                    </option>
+
+                                                @endforeach
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label>RT</label>
+
+                                            <select id="rt"
+                                                name="wilayah_id"
+                                                class="form-control">
+
+                                                <option value="">Pilih RT</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
                                             <label>Desil</label>
                                             <input type="number" name="desil" class="form-control @error('desil') is-invalid @enderror"
                                                 placeholder="Masukkan desil (1-10)"
@@ -122,4 +157,52 @@
     <!-- // Basic multiple Column Form section end -->
 </div>
 
+<script>
+
+    const wilayah = @json($wilayah);
+
+    const rwSelect = document.getElementById('rw');
+    const rtSelect = document.getElementById('rt');
+
+    const selectedWilayahId = "{{ $resident->wilayah_id }}";
+
+    function loadRT(selectedRw) {
+
+        rtSelect.innerHTML = '<option value="">Pilih RT</option>';
+
+        if (selectedRw) {
+
+            rtSelect.disabled = false;
+
+            wilayah.forEach(function(item) {
+
+                if (item.rw == selectedRw) {
+
+                    rtSelect.innerHTML += `
+                        <option value="${item.id}"
+                            ${item.id == selectedWilayahId ? 'selected' : ''}>
+
+                            RT ${item.rt}
+
+                        </option>
+                    `;
+                }
+
+            });
+
+        } else {
+
+            rtSelect.disabled = true;
+        }
+    }
+
+    loadRT(rwSelect.value);
+
+    rwSelect.addEventListener('change', function () {
+
+        loadRT(this.value);
+
+    });
+
+</script>
 @endsection

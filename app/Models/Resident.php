@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PenilaianDetail;
+use App\Models\Penilaian;
+use App\Models\Wilayah;
 
 class Resident extends Model
 {
@@ -18,5 +21,10 @@ class Resident extends Model
     public function penilaian()
     {
         return $this->hasMany(Penilaian::class, 'penduduk_id');
+    }
+
+    public function wilayah()
+    {
+        return $this->belongsTo(Wilayah::class);
     }
 }
