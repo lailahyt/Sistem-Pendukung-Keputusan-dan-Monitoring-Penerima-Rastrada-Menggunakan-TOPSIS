@@ -47,9 +47,11 @@ Route::put('/kriteria/{kode}', [KriteriaController::class, 'update'])->middlewar
 Route::post('/kriteria', [KriteriaController::class, 'store'])->middleware(['role:Admin,Petugas']);
 Route::delete('/kriteria/{kode}', [KriteriaController::class, 'destroy'])->middleware(['role:Admin,Petugas']);
 
-Route::get('/kriteria/{id}/subkriteria', [SubkriteriaController::class, 'index'])->middleware(['role:Admin,Petugas']);
-Route::get('/kriteria/{id}/subkriteria/create', [SubkriteriaController::class, 'create'])->middleware(['role:Admin,Petugas']);
+Route::get('/kriteria/{id}/subkriteria', [SubkriteriaController::class, 'index'])->middleware(['role:Admin']);
+Route::get('/kriteria/{id}/subkriteria/create', [SubkriteriaController::class, 'create'])->middleware(['role:Admin']);
 Route::post('/kriteria/{id}/subkriteria', [SubkriteriaController::class, 'store'])->middleware(['role:Admin,Petugas']);
+Route::put('/subkriteria/{id}',[SubkriteriaController::class, 'update'])->middleware(['role:Admin']);
+Route::delete('/subkriteria/{id}',[SubkriteriaController::class, 'destroy'])->middleware(['role:Admin']);
 
 Route::get('/penilaian', [PenilaianController::class, 'index'])->middleware(['role:Admin,Petugas']);
 Route::get('/penilaian/{id}', [PenilaianController::class, 'create'])->middleware(['role:Admin,Petugas']);

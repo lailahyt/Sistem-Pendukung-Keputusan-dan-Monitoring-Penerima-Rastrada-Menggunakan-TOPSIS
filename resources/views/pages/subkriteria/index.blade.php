@@ -69,13 +69,14 @@
                                 <th>Label Subkriteria</th>
                                 <th>Nilai</th>
                                 <th>Keterangan</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
 
                         @if (count($subkriteria) < 1)
                             <tbody>
                                 <tr>
-                                    <td colspan="4" class="text-center">
+                                    <td colspan="5" class="text-center">
                                         Belum ada subkriteria
                                     </td>
                                 </tr>
@@ -104,8 +105,145 @@
                                             </span>
                                         </td>
 
-                                        <td>{{ $item->keterangan }}</td>
+                                        <td>
+                                            {{ $item->keterangan }}
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center" style="gap: 10px;">
+
+                                                <button type="button" class="btn btn-warning btn-sm text-white"
+                                                    data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}">
+
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+
+                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $item->id }}">
+                                                    <i class="bi bi-eraser-fill"></i>
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
+
+
+                                    <!-- MODAL HAPUS -->
+                                    <div class="modal fade" id="deleteModal{{ $item->id }}" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Konfirmasi Hapus</h5>
+                                                    <button type="button" class="btn-close"
+                                                        data-bs-dismiss="modal"></button>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    Yakin ingin menghapus data
+                                                    <strong>{{ $item->label_subkriteria }}</strong>?
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">
+                                                        Batal
+                                                    </button>
+
+                                                    <form action="/subkriteria/{{ $item->id }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+
+                                                        <button type="submit" class="btn btn-danger">
+                                                            Hapus
+                                                        </button>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- MODAL EDIT -->
+                                    <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1">
+
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+
+                                                <form action="/subkriteria/{{ $item->id }}" method="POST">
+
+                                                    @csrf
+                                                    @method('PUT')
+
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">
+                                                            Edit Subkriteria
+                                                        </h5>
+
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="modal-body">
+
+                                                        <!-- Label -->
+                                                        <div class="mb-3">
+                                                            <label class="form-label">
+                                                                Label Subkriteria
+                                                            </label>
+
+                                                            <input type="text" name="label_subkriteria"
+                                                                class="form-control" value="{{ $item->label_subkriteria }}"
+                                                                required>
+                                                        </div>
+
+                                                        <!-- Nilai -->
+                                                        <div class="mb-3">
+                                                            <label class="form-label">
+                                                                Nilai
+                                                            </label>
+
+                                                            <select name="nilai" class="form-select" required>
+
+                                                                @for ($i = 1; $i <= 5; $i++)
+                                                                    <option value="{{ $i }}"
+                                                                        {{ $item->nilai == $i ? 'selected' : '' }}>
+                                                                        {{ $i }}
+                                                                    </option>
+                                                                @endfor
+
+                                                            </select>
+                                                        </div>
+
+                                                        <!-- Keterangan -->
+                                                        <div class="mb-3">
+                                                            <label class="form-label">
+                                                                Keterangan
+                                                            </label>
+
+                                                            <textarea name="keterangan" class="form-control" rows="3">{{ $item->keterangan }}</textarea>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="modal-footer">
+
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">
+
+                                                            Batal
+                                                        </button>
+
+                                                        <button type="submit" class="btn btn-warning text-white">
+
+                                                            Update
+                                                        </button>
+
+                                                    </div>
+
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
                             </tbody>
                         @endif
