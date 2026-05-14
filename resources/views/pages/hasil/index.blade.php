@@ -192,6 +192,7 @@
                                     <th>Nama</th>
                                     <th>NIK</th>
                                     <th>Nilai Preferensi (Vi)</th>
+                                    <th>Desil</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -276,12 +277,18 @@
 
                                         </td>
 
+                                        <td>
+                                            <span class="badge bg-info">
+                                                Desil {{ $row['desil'] }}
+                                            </span>
+                                        </td>
+
                                     </tr>
 
                                 @empty
 
                                     <tr>
-                                        <td colspan="5" class="text-center">
+                                        <td colspan="6" class="text-center">
                                             Tidak ada data hasil
                                         </td>
                                     </tr>
@@ -301,7 +308,7 @@
                                 ✓
                             </span>
 
-                            Direkomendasikan jika Vi ≥ 0.70
+                            Direkomendasikan untuk Desil 1 - 5
                         </span>
 
                         <span>
@@ -309,7 +316,7 @@
                                 ✗
                             </span>
 
-                            Tidak Direkomendasikan jika Vi &lt; 0.70
+                            Tidak Direkomendasikan untuk Desil 6 - 10
                         </span>
 
                     </div>

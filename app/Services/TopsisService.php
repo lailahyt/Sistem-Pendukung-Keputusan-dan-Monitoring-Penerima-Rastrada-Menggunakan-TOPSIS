@@ -63,6 +63,7 @@ class TopsisService
                 'id' => $p->resident->id,
                 'nama' => $p->resident->nama,
                 'nik' => $p->resident->nik,
+                'desil' => $p->resident->desil,
                 'data' => $row
             ];
         }
@@ -182,6 +183,7 @@ class TopsisService
                 'id' => $row['id'],
                 'nama' => $row['nama'],
                 'nik' => $row['nik'],
+                'desil' => $row['desil'],
                 'nilai' => $nilai
             ];
         }
@@ -201,7 +203,7 @@ class TopsisService
             $row['rank'] = $i + 1;
 
             $row['status'] =
-                $row['nilai'] >= 0.70
+                $row['desil'] <= 5
                 ? 'Direkomendasikan'
                 : 'Tidak Direkomendasikan';
         }

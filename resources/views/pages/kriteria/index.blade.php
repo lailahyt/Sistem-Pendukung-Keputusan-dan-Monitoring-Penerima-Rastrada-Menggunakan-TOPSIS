@@ -58,7 +58,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->kode }}</td>
                                         <td>{{ $item->nama_kriteria }}</td>
-                                        <td>{{ number_format($item->bobot, 2) }}</td>
+                                        <td>{{ number_format($item->bobot, 0) }}</td>
                                         <td>{{ $item->atribut }}</td>
                                         <td>
                                             <div class="d-flex align-items-center" style="gap: 10px;">
