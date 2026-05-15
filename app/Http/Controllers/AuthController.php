@@ -14,15 +14,18 @@ class AuthController extends Controller
     public function login()
     {
         if (Auth::check()) {
-            return back(); // Redirect to dashboard if already authenticated
+
+            return redirect('/dashboard');
         }
-        return view('pages.auth.login'); // Assuming you have a login view
+
+        return view('pages.auth.login');
     }
 
     public function authenticate(Request $request)
     {
         if (Auth::check()) {
-            return back(); // Redirect to dashboard if already authenticated
+
+            return redirect('/dashboard');
         }
 
         $credentials = $request->validate([
@@ -59,7 +62,7 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
-        public function registerView()
+    public function registerView()
     {
         // if (Auth::check()) {
         //     return back(); // Redirect to dashboard if already authenticated
@@ -67,7 +70,7 @@ class AuthController extends Controller
         return view('pages.auth.register'); // Assuming you have a register view
     }
 
-        public function register(Request $request)
+    public function register(Request $request)
     {
         // if (Auth::check()) {
         //     return back(); // Redirect to dashboard if already authenticated
@@ -107,5 +110,4 @@ class AuthController extends Controller
 
         return redirect('/');
     }
-
 }
