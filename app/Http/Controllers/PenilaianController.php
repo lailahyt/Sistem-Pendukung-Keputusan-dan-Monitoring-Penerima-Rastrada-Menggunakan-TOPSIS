@@ -15,7 +15,7 @@ class PenilaianController extends Controller
 {
     public function index()
     {
-        $kriteria = Kriteria::all();
+        $kriteria = Kriteria::where('is_active', true)->get();
         $totalKriteria = $kriteria->count();
 
         $statusFilter = request('status');
@@ -111,7 +111,9 @@ class PenilaianController extends Controller
     public function create($id)
     {
         $penduduk = Resident::findOrFail($id);
-        $kriteria = Kriteria::with('subkriteria')->get();
+        $kriteria = Kriteria::where('is_active', true)
+            ->with('subkriteria')
+            ->get();
 
         $periode_id = request('periode_id');
 
@@ -190,7 +192,9 @@ class PenilaianController extends Controller
     public function edit($id)
     {
         $penduduk = Resident::findOrFail($id);
-        $kriteria = Kriteria::with('subkriteria')->get();
+        $kriteria = Kriteria::where('is_active', true)
+            ->with('subkriteria')
+            ->get();
 
         $periode_id = request('periode_id');
 

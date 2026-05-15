@@ -14,7 +14,8 @@ class Kriteria extends Model
         'kode',
         'nama_kriteria',
         'bobot',
-        'atribut'
+        'atribut',
+        'is_active',
     ];
 
     public function subkriteria()

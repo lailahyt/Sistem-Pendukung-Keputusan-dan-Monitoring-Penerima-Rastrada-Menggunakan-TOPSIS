@@ -73,4 +73,16 @@ class KriteriaController extends Controller
 
         return redirect('/kriteria')->with('success', 'Data berhasil dihapus');
     }
+
+    public function toggle($id)
+    {
+        $kriteria = Kriteria::findOrFail($id);
+
+        $kriteria->update([
+            'is_active' => !$kriteria->is_active
+        ]);
+
+        return redirect()->back()
+            ->with('success', 'Status kriteria berhasil diubah');
+    }
 }

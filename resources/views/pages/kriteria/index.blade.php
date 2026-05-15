@@ -42,6 +42,7 @@
                                 <th>Nama Kriteria</th>
                                 <th>Bobot</th>
                                 <th>Atribut</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -61,21 +62,56 @@
                                         <td>{{ number_format($item->bobot, 0) }}</td>
                                         <td>{{ $item->atribut }}</td>
                                         <td>
+                                            @if ($item->is_active)
+                                                <span class="badge bg-success">
+                                                    Aktif
+                                                </span>
+                                            @else
+                                                <span class="badge bg-secondary">
+                                                    Nonaktif
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td>
                                             <div class="d-flex align-items-center" style="gap: 10px;">
 
+                                                <!-- SUBKRITERIA -->
                                                 <a href="/kriteria/{{ $item->id }}/subkriteria"
                                                     class="btn btn-sm btn-info text-white" title="Subkriteria">
+
                                                     <i class="bi bi-eye-fill"></i>
                                                 </a>
 
+                                                <!-- EDIT -->
                                                 <a href="/kriteria/{{ $item->kode }}" class="btn btn-warning btn-sm">
+
                                                     <i class="bi bi-pencil-fill text-white"></i>
                                                 </a>
 
+                                                <!-- HAPUS -->
                                                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#deleteModal{{ $item->kode }}">
+
                                                     <i class="bi bi-eraser-fill"></i>
                                                 </button>
+
+
+                                                <!-- TOGGLE ON/OFF -->
+                                                <form action="/kriteria/{{ $item->id }}/toggle" method="POST">
+
+                                                    @csrf
+                                                    @method('PUT')
+
+                                                    <button type="submit"
+                                                        class="btn btn-sm
+                                                        {{ $item->is_active ? 'btn-secondary' : 'btn-success' }}">
+
+                                                        {{ $item->is_active ? 'OFF' : 'ON' }}
+
+                                                    </button>
+
+                                                </form>
+
                                             </div>
                                         </td>
                                     </tr>

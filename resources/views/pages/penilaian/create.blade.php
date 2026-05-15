@@ -1,8 +1,55 @@
 @extends('layouts.app')
 @section('content')
     <div class="page-heading">
-        <h3>Penilaian</h3>
-        <p>{{ $penduduk->nama }}</p>
+
+        <!-- HEADING -->
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+                    <!-- KIRI -->
+                    <div>
+
+                        <h2 class="fw-bold mb-1 text-primary">
+                            Penilaian Alternatif
+                        </h2>
+
+                        <p class="text-muted mb-0">
+                            Form penilaian calon penerima bantuan RASTRADA
+                        </p>
+
+                    </div>
+
+                    <!-- KANAN -->
+                    <div class="text-md-end mt-3 mt-md-0">
+
+                        <span class="badge bg-primary fs-6 px-3 py-2">
+                            {{ $penduduk->nama }}
+                        </span>
+
+                        <div class="small text-muted mt-2">
+
+                            NIK :
+                            {{ $penduduk->nik }}
+
+                        </div>
+
+                        <div class="small text-muted">
+
+                            Periode :
+                            {{ date('F Y') }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
         <form action="/penilaian/store" method="POST" enctype="multipart/form-data">
             @csrf

@@ -11,7 +11,7 @@ class TopsisService
 {
     public function calculate($periode_id)
     {
-        $kriteria = Kriteria::all();
+        $kriteria = Kriteria::where('is_active', true)->get();
 
         // =========================
         // AMBIL DATA PENILAIAN
