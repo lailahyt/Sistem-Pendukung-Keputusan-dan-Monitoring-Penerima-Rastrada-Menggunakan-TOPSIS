@@ -17,9 +17,7 @@ class ResidentController extends Controller
             $query->whereHas('wilayah', function ($q) use ($request) {
 
                 $q->where('rw', $request->rw);
-
             });
-
         }
 
         if ($request->rt) {
@@ -27,9 +25,7 @@ class ResidentController extends Controller
             $query->whereHas('wilayah', function ($q) use ($request) {
 
                 $q->where('rt', $request->rt);
-
             });
-
         }
 
         $residents = $query->get();
@@ -41,7 +37,7 @@ class ResidentController extends Controller
             'wilayah' => $wilayah,
         ]);
     }
-    
+
     public function create()
     {
         // Logic to show the form for creating a new resident
@@ -58,12 +54,14 @@ class ResidentController extends Controller
         $validatedData = $request->validate([
             'nik' => 'required',
             'nama' => 'required',
+            'usia' => 'required|integer|min:0',
+            'jenis_kelamin' => 'required|in:L,P',
             'alamat' => 'required',
             'desa' => 'required',
             'kecamatan' => 'required',
             'wilayah_id' => 'nullable|exists:wilayah,id',
             'desil' => 'nullable|integer',
-            'status' => 'required',
+            'status' => 'required|in:active,moved,deceased',
         ]);
 
         Resident::create($validatedData);
@@ -86,14 +84,16 @@ class ResidentController extends Controller
     {
         // Logic to update an existing resident in the database
         $validatedData = $request->validate([
-            'nik' => 'required' ,
+            'nik' => 'required',
             'nama' => 'required',
+            'usia' => 'required|integer|min:0',
+            'jenis_kelamin' => 'required|in:L,P',
             'alamat' => 'required',
             'desa' => 'required',
             'kecamatan' => 'required',
             'wilayah_id' => 'nullable|exists:wilayah,id',
             'desil' => 'nullable|integer',
-            'status' => 'required',
+            'status' => 'required|in:active,moved,deceased',
         ]);
 
         Resident::findOrFail($id)->update($validatedData);
@@ -107,5 +107,4 @@ class ResidentController extends Controller
         $resident->delete();
         return redirect('/resident')->with('success', 'Data penduduk berhasil dihapus!');
     }
-
 }

@@ -28,12 +28,16 @@ class PenilaianController extends Controller
 
         $periode_id = request('periode_id') ?? $periode->id;
 
-        $residents = Resident::with([
-            'penilaian' => function ($q) use ($periode_id) {
-                $q->where('periode_id', $periode_id);
-            },
-            'penilaian.penilaianDetail'
-        ])->get();
+        $residents = Resident::where('status', 'active')
+            ->with([
+                'penilaian' => function ($q) use ($periode_id) {
+
+                    $q->where('periode_id', $periode_id);
+                },
+
+                'penilaian.penilaianDetail'
+
+            ])->get();
 
         foreach ($residents as $p) {
 

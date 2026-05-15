@@ -21,7 +21,7 @@ class TopsisService
             'penilaianDetail'
         ])
             ->where('periode_id', $periode_id)
-            ->where('status', 'selesai')
+            ->where('status', 'active')
             ->get();
 
         // VALIDASI DATA KOSONG

@@ -52,6 +52,32 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="age-column">Usia</label>
+                                            <input type="number" id="usia" name="usia" class="form-control @error('usia') is-invalid @enderror"
+                                            placeholder="Usia" value="{{ old('usia', $resident->usia) }}" required>
+                                            @error('usia')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="gender-column">Jenis Kelamin</label>
+                                            <select name="jenis_kelamin" id="jenis_kelamin" class="form-control @error('jenis_kelamin') is-invalid @enderror" required>
+                                                <option value="">Pilih Jenis Kelamin</option>
+                                                <option value="L" {{ old('jenis_kelamin', $resident->jenis_kelamin) == 'L' ? 'selected' : '' }}>Laki-laki</option>
+                                                <option value="P" {{ old('jenis_kelamin', $resident->jenis_kelamin) == 'P' ? 'selected' : '' }}>Perempuan</option>
+                                            </select>
+                                            @error('jenis_kelamin')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="city-column">Alamat</label>
@@ -63,6 +89,7 @@
                                             @enderror
                                         </div>
                                     </div>
+
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="country-floating">Desa</label>
@@ -73,6 +100,7 @@
                                             @enderror
                                         </div>
                                     </div>
+
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="company-column">Kecamatan</label>
@@ -83,6 +111,7 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label>RW</label>
