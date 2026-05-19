@@ -1,4 +1,3 @@
-<header>
     <nav class="navbar navbar-expand navbar-light navbar-top">
         <div class="container-fluid">
 
@@ -84,10 +83,16 @@
                             <li>
                                 <h6 class="dropdown-header">Hello, {{ auth()->user()->name }}!</h6>
                             </li>
-                            <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i> My
-                                    Profile</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-gear me-2"></i>
-                                    Settings</a></li>
+                            <li>
+                                <a class="dropdown-item" href="/profile">
+                                    <i class="icon-mid bi bi-person me-2"></i> My Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/profile/ubah-password">
+                                    <i class="icon-mid bi bi-gear me-2"></i> Ubah Password
+                                </a>
+                            </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -102,4 +107,3 @@
             </div>
         </div>
     </nav>
-</header>

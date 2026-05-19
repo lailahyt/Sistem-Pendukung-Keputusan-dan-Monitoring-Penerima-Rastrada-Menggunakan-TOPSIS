@@ -8,15 +8,14 @@
 <body>
     <script src="assets/static/js/initTheme.js"></script>
     <div id="app">
-        <div class="sidebar-wrapper active" id="sidebar">
             @include('layouts.partial.sidebar')
-        </div>
     </div>
     </div>
     <div id="main" class='layout-navbar navbar-fixed'>
+        <header>
 
         @include('layouts.partial.navbar')
-
+        </header>
         <div id="main-content">
             @yield('content')
         </div>
@@ -24,7 +23,7 @@
         @include('layouts.partial.footer')
     </div>
     </div>
-    <script src="{{ asset('assets/static/js/components/sidebar.js') }}"></script>
+    <script type="module" src="{{ asset('assets/static/js/components/sidebar.js') }}"></script>
     <script src="{{ asset('assets/static/js/components/dark.js') }}"></script>
     <script src="{{ asset('assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 

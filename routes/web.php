@@ -13,6 +13,7 @@ use App\Http\Controllers\HasilController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use App\Models\Penilaian;
 use Illuminate\Support\Facades\Route;
 
@@ -87,18 +88,7 @@ Route::get('/account-list', [UserController::class, 'account_list_view'])->middl
 Route::get('/account-request', [UserController::class, 'account_request_view'])->middleware(['role:Admin']);
 Route::post('/account-request/approval/{id}', [UserController::class, 'account_approval'])->middleware(['role:Admin']);
 
-// Route::get('/perhitungan', function () {
-//     return view('pages.perhitungan.index');
-// });
-
-// Route::get('/hasil', function () {
-//     return view('pages.hasil.index');
-// });
-
-// Route::get('/monitoring', function () {
-//     return view('pages.monitoring.index');
-// });
-
-// Route::get('/report', function () {
-//     return view('pages.report.index');
-// });
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+Route::put('/profile/update', [ProfileController::class, 'update']);
+Route::get('/profile/ubah-password', [ProfileController::class, 'ubahPassword']);
+Route::put('/profile/update-password', [ProfileController::class, 'updatePassword']);

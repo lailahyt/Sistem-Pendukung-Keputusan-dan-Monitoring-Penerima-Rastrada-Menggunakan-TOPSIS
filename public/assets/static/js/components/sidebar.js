@@ -1,9 +1,9 @@
-import isDesktop from '../helper/isDesktop'
+import isDesktop from '../helper/isDesktop.js'
 
 
 /**
  * Calculate nested children height in sidebar menu
-* @param {HTMLElement} el 
+* @param {HTMLElement} el
 */
 const calculateChildrenHeight = (el, deep = false) => {
   const children = el.children
@@ -47,10 +47,16 @@ class Sidebar {
     // add event listener to sidebar
     document
       .querySelectorAll(".burger-btn")
-      .forEach((el) => el.addEventListener("click", this.toggle.bind(this)))
+      .forEach((el) => el.addEventListener("click", (event) => {
+        event.preventDefault()
+        this.toggle()
+      }))
     document
       .querySelectorAll(".sidebar-hide")
-      .forEach((el) => el.addEventListener("click", this.toggle.bind(this)))
+      .forEach((el) => el.addEventListener("click", (event) => {
+        event.preventDefault()
+        this.toggle()
+      }))
     window.addEventListener("resize", this.onResize.bind(this))
 
 
