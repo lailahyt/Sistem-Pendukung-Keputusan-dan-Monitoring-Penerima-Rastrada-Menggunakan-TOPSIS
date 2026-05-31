@@ -55,7 +55,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        
+
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="age-column">Usia</label>
@@ -137,17 +137,6 @@
                                                     <option value="">Pilih RT</option>
 
                                                 </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label>Desil</label>
-                                                <input type="number" name="desil"
-                                                    class="form-control @error('desil') is-invalid @enderror"
-                                                    placeholder="Masukkan desil (1-10)" value="{{ old('desil') }}">
-                                                @error('desil')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
-                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12">
