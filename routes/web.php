@@ -46,7 +46,7 @@ Route::post('/employee', [PegawaiController::class, 'store'])->middleware(['role
 Route::put('/employee/{id}', [PegawaiController::class, 'update'])->middleware(['role:Admin']);
 Route::delete('/employee/{id}', [PegawaiController::class, 'destroy'])->middleware(['role:Admin']);
 
-Route::get('/kriteria', [KriteriaController::class, 'index'])->middleware(['role:Admin,Petugas']);
+Route::get('/kriteria', [KriteriaController::class, 'index'])->middleware(['role:Admin,Petugas,Lurah']);
 Route::get('/kriteria/create', [KriteriaController::class, 'create'])->middleware(['role:Admin,Petugas']);
 Route::get('/kriteria/{kode}', [KriteriaController::class, 'edit'])->middleware(['role:Admin,Petugas']);
 Route::put('/kriteria/{kode}', [KriteriaController::class, 'update'])->middleware(['role:Admin,Petugas']);
@@ -54,7 +54,7 @@ Route::post('/kriteria', [KriteriaController::class, 'store'])->middleware(['rol
 Route::delete('/kriteria/{kode}', [KriteriaController::class, 'destroy'])->middleware(['role:Admin,Petugas']);
 Route::put('/kriteria/{id}/toggle', [KriteriaController::class, 'toggle'])->middleware(['role:Admin']);
 
-Route::get('/kriteria/{id}/subkriteria', [SubkriteriaController::class, 'index'])->middleware(['role:Admin']);
+Route::get('/kriteria/{id}/subkriteria', [SubkriteriaController::class, 'index'])->middleware(['role:Admin,Petugas,Lurah']);
 Route::get('/kriteria/{id}/subkriteria/create', [SubkriteriaController::class, 'create'])->middleware(['role:Admin']);
 Route::post('/kriteria/{id}/subkriteria', [SubkriteriaController::class, 'store'])->middleware(['role:Admin,Petugas']);
 Route::put('/subkriteria/{id}', [SubkriteriaController::class, 'update'])->middleware(['role:Admin']);

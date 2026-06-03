@@ -16,22 +16,23 @@
                         </ol>
                     </nav>
 
-                    <!-- Tombol di bawah breadcrumb -->
-                    <div class="text-md-end mt-2 mb-3">
-                        <a href="/kriteria/create" class="btn btn-sm btn-primary shadow-sm">
-                            <i class="bi bi-plus"></i> Tambah Data
-                        </a>
-                    </div>
+                    <!-- Tombol Tambah: hanya Admin -->
+                    @if(auth()->user()->role_id == 1)
+                        <div class="text-md-end mt-2 mb-3">
+                            <a href="/kriteria/create" class="btn btn-sm btn-primary shadow-sm">
+                                <i class="bi bi-plus"></i> Tambah Data
+                            </a>
+                        </div>
+                    @endif
 
                 </div>
             </div>
         </div>
+
         <section class="section">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title">
-                        Data Kriteria
-                    </h5>
+                    <h5 class="card-title">Data Kriteria</h5>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped table-responsive" id="table1">
@@ -46,10 +47,11 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
+
                         @if (count($kriteria) < 1)
                             <tbody>
                                 <tr>
-                                    <td colspan="6" class="text-center">Tidak ada data kriteria</td>
+                                    <td colspan="7" class="text-center">Tidak ada data kriteria</td>
                                 </tr>
                             </tbody>
                         @else
@@ -63,101 +65,100 @@
                                         <td>{{ $item->atribut }}</td>
                                         <td>
                                             @if ($item->is_active)
-                                                <span class="badge bg-success">
-                                                    Aktif
-                                                </span>
+                                                <span class="badge bg-success">Aktif</span>
                                             @else
-                                                <span class="badge bg-secondary">
-                                                    Nonaktif
-                                                </span>
+                                                <span class="badge bg-secondary">Nonaktif</span>
                                             @endif
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center" style="gap: 10px;">
 
-                                                <!-- SUBKRITERIA -->
+                                                <!-- SUBKRITERIA: semua role boleh lihat -->
                                                 <a href="/kriteria/{{ $item->id }}/subkriteria"
-                                                    class="btn btn-sm btn-info text-white" title="Subkriteria">
-
+                                                    class="btn btn-sm btn-info text-white"
+                                                    title="Lihat Subkriteria">
                                                     <i class="bi bi-eye-fill"></i>
                                                 </a>
 
-                                                <!-- EDIT -->
-                                                <a href="/kriteria/{{ $item->kode }}" class="btn btn-warning btn-sm">
+                                                <!-- EDIT, HAPUS, TOGGLE: hanya Admin -->
+                                                @if(auth()->user()->role_id == 1)
 
-                                                    <i class="bi bi-pencil-fill text-white"></i>
-                                                </a>
+                                                    <!-- EDIT -->
+                                                    <a href="/kriteria/{{ $item->kode }}"
+                                                        class="btn btn-warning btn-sm"
+                                                        title="Edit">
+                                                        <i class="bi bi-pencil-fill text-white"></i>
+                                                    </a>
 
-                                                <!-- HAPUS -->
-                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal{{ $item->kode }}">
-
-                                                    <i class="bi bi-eraser-fill"></i>
-                                                </button>
-
-
-                                                <!-- TOGGLE ON/OFF -->
-                                                <form action="/kriteria/{{ $item->id }}/toggle" method="POST">
-
-                                                    @csrf
-                                                    @method('PUT')
-
-                                                    <button type="submit"
-                                                        class="btn btn-sm
-                                                        {{ $item->is_active ? 'btn-secondary' : 'btn-success' }}">
-
-                                                        {{ $item->is_active ? 'OFF' : 'ON' }}
-
+                                                    <!-- HAPUS -->
+                                                    <button type="button"
+                                                        class="btn btn-danger btn-sm"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal{{ $item->kode }}"
+                                                        title="Hapus">
+                                                        <i class="bi bi-eraser-fill"></i>
                                                     </button>
 
-                                                </form>
+                                                    <!-- TOGGLE ON/OFF -->
+                                                    <form action="/kriteria/{{ $item->id }}/toggle" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit"
+                                                            class="btn btn-sm {{ $item->is_active ? 'btn-secondary' : 'btn-success' }}"
+                                                            title="Toggle Status">
+                                                            {{ $item->is_active ? 'OFF' : 'ON' }}
+                                                        </button>
+                                                    </form>
+
+                                                @endif
+                                                {{-- Lurah & Petugas: hanya tombol lihat di atas --}}
 
                                             </div>
                                         </td>
                                     </tr>
 
-                                    <!-- MODAL HAPUS -->
-                                    <div class="modal fade" id="deleteModal{{ $item->kode }}" tabindex="-1">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
+                                    <!-- MODAL HAPUS: hanya di-render jika Admin -->
+                                    @if(auth()->user()->role_id == 1)
+                                        <div class="modal fade" id="deleteModal{{ $item->kode }}" tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
 
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Konfirmasi Hapus</h5>
-                                                    <button type="button" class="btn-close"
-                                                        data-bs-dismiss="modal"></button>
-                                                </div>
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Konfirmasi Hapus</h5>
+                                                        <button type="button" class="btn-close"
+                                                            data-bs-dismiss="modal"></button>
+                                                    </div>
 
-                                                <div class="modal-body">
-                                                    Yakin ingin menghapus data
-                                                    <strong>{{ $item->nama_kriteria }}</strong>?
-                                                </div>
+                                                    <div class="modal-body">
+                                                        Yakin ingin menghapus data
+                                                        <strong>{{ $item->nama_kriteria }}</strong>?
+                                                    </div>
 
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">
-                                                        Batal
-                                                    </button>
-
-                                                    <form action="/kriteria/{{ $item->kode }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-
-                                                        <button type="submit" class="btn btn-danger">
-                                                            Hapus
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">
+                                                            Batal
                                                         </button>
-                                                    </form>
-                                                </div>
+                                                        <form action="/kriteria/{{ $item->kode }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">
+                                                                Hapus
+                                                            </button>
+                                                        </form>
+                                                    </div>
 
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
+
                                 @endforeach
                             </tbody>
                         @endif
                     </table>
                 </div>
             </div>
-
         </section>
     </div>
 @endsection

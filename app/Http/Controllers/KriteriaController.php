@@ -7,6 +7,12 @@ use App\Models\Kriteria;
 
 class KriteriaController extends Controller
 {
+    // Helper: cek apakah user adalah Admin (role_id = 1)
+    private function isAdmin(): bool
+    {
+        return auth()->user()->role_id == 1;
+    }
+
     public function index()
     {
         $kriteria = Kriteria::all();
@@ -17,23 +23,26 @@ class KriteriaController extends Controller
 
     public function create()
     {
+        abort_if(!$this->isAdmin(), 403, 'Akses ditolak.');
         return view('pages.kriteria.create');
     }
 
     public function store(Request $request)
     {
+        abort_if(!$this->isAdmin(), 403, 'Akses ditolak.');
+
         $request->validate([
-            'kode' => 'required|unique:kriteria,kode',
+            'kode'          => 'required|unique:kriteria,kode',
             'nama_kriteria' => 'required',
-            'bobot' => 'required|numeric',
-            'atribut' => 'required|in:benefit,cost',
+            'bobot'         => 'required|numeric',
+            'atribut'       => 'required|in:benefit,cost',
         ]);
 
         Kriteria::create([
-            'kode' => $request->kode,
+            'kode'          => $request->kode,
             'nama_kriteria' => $request->nama_kriteria,
-            'bobot' => $request->bobot,
-            'atribut' => $request->atribut,
+            'bobot'         => $request->bobot,
+            'atribut'       => $request->atribut,
         ]);
 
         return redirect('/kriteria')->with('success', 'Data kriteria berhasil ditambahkan');
@@ -41,25 +50,27 @@ class KriteriaController extends Controller
 
     public function edit($kode)
     {
-        $kriteria = Kriteria::where('kode', $kode)->firstOrFail();
+        abort_if(!$this->isAdmin(), 403, 'Akses ditolak.');
 
+        $kriteria = Kriteria::where('kode', $kode)->firstOrFail();
         return view('pages.kriteria.edit', compact('kriteria'));
     }
 
     public function update(Request $request, $kode)
     {
+        abort_if(!$this->isAdmin(), 403, 'Akses ditolak.');
+
         $request->validate([
             'nama_kriteria' => 'required',
-            'bobot' => 'required|numeric',
-            'atribut' => 'required|in:benefit,cost',
+            'bobot'         => 'required|numeric',
+            'atribut'       => 'required|in:benefit,cost',
         ]);
 
         $kriteria = Kriteria::where('kode', $kode)->firstOrFail();
-
         $kriteria->update([
             'nama_kriteria' => $request->nama_kriteria,
-            'bobot' => $request->bobot,
-            'atribut' => $request->atribut,
+            'bobot'         => $request->bobot,
+            'atribut'       => $request->atribut,
         ]);
 
         return redirect('/kriteria')->with('success', 'Data berhasil diupdate');
@@ -67,8 +78,9 @@ class KriteriaController extends Controller
 
     public function destroy($kode)
     {
-        $kriteria = Kriteria::where('kode', $kode)->firstOrFail();
+        abort_if(!$this->isAdmin(), 403, 'Akses ditolak.');
 
+        $kriteria = Kriteria::where('kode', $kode)->firstOrFail();
         $kriteria->delete();
 
         return redirect('/kriteria')->with('success', 'Data berhasil dihapus');
@@ -76,13 +88,11 @@ class KriteriaController extends Controller
 
     public function toggle($id)
     {
+        abort_if(!$this->isAdmin(), 403, 'Akses ditolak.');
+
         $kriteria = Kriteria::findOrFail($id);
+        $kriteria->update(['is_active' => !$kriteria->is_active]);
 
-        $kriteria->update([
-            'is_active' => !$kriteria->is_active
-        ]);
-
-        return redirect()->back()
-            ->with('success', 'Status kriteria berhasil diubah');
+        return redirect()->back()->with('success', 'Status kriteria berhasil diubah');
     }
 }

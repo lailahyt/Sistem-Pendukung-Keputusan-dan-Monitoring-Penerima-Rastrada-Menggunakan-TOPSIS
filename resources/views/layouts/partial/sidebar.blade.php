@@ -1,165 +1,193 @@
 @php
     $menus = [
+        // ============================================================
+        // 1 = Admin (akses penuh: CRUD semua menu)
+        // ============================================================
         1 => [
             (object) [
-                'type' => 'title',
+                'type'  => 'title',
                 'title' => 'Menu',
             ],
             (object) [
                 'title' => 'Dashboard',
-                'path' => 'dashboard',
-                'icon' => 'bi bi-grid',
+                'path'  => 'dashboard',
+                'icon'  => 'bi bi-grid',
             ],
             (object) [
                 'title' => 'Data Penduduk',
-                'path' => 'resident',
-                'icon' => 'bi bi-people',
+                'path'  => 'resident',
+                'icon'  => 'bi bi-people',
             ],
             (object) [
                 'title' => 'Data Pegawai',
-                'path' => 'employee',
-                'icon' => 'bi bi-people-fill',
+                'path'  => 'employee',
+                'icon'  => 'bi bi-people-fill',
             ],
             (object) [
                 'title' => 'Kriteria',
-                'path' => 'kriteria',
-                'icon' => 'bi bi-filter-square',
+                'path'  => 'kriteria',
+                'icon'  => 'bi bi-filter-square',
             ],
             (object) [
-                'type' => 'dropdown',
-                'title' => 'Proses',
-                'icon' => 'bi bi-gear-wide',
+                'type'     => 'dropdown',
+                'title'    => 'Proses',
+                'icon'     => 'bi bi-gear-wide',
                 'children' => [
                     (object) [
                         'title' => 'Penilaian',
-                        'path' => 'penilaian',
-                        'icon' => 'bi bi-pencil-square',
+                        'path'  => 'penilaian',
+                        'icon'  => 'bi bi-pencil-square',
                     ],
                     (object) [
                         'title' => 'TOPSIS',
-                        'path' => 'topsis',
-                        'icon' => 'bi bi-calculator',
+                        'path'  => 'topsis',
+                        'icon'  => 'bi bi-calculator',
                     ],
                 ],
             ],
             (object) [
-                'type' => 'dropdown',
-                'title' => 'Hasil',
-                'icon' => 'bi bi-graph-up-arrow',
+                'type'     => 'dropdown',
+                'title'    => 'Hasil',
+                'icon'     => 'bi bi-graph-up-arrow',
                 'children' => [
                     (object) [
                         'title' => 'Hasil Rekomendasi',
-                        'path' => 'hasil',
-                        'icon' => 'bi bi-clipboard2-check',
+                        'path'  => 'hasil',
+                        'icon'  => 'bi bi-clipboard2-check',
                     ],
                     (object) [
                         'title' => 'Monitoring',
-                        'path' => 'monitoring',
-                        'icon' => 'bi bi-activity',
+                        'path'  => 'monitoring',
+                        'icon'  => 'bi bi-activity',
                     ],
                 ],
             ],
             (object) [
-                'type' => 'title',
+                'type'  => 'title',
                 'title' => 'Sistem',
             ],
             (object) [
                 'title' => 'Laporan',
-                'path' => 'report',
-                'icon' => 'bi bi-file-earmark-text',
+                'path'  => 'report',
+                'icon'  => 'bi bi-file-earmark-text',
             ],
             (object) [
                 'title' => 'Periode',
-                'path' => 'periode',
-                'icon' => 'bi bi-calendar-event',
+                'path'  => 'periode',
+                'icon'  => 'bi bi-calendar-event',
             ],
             (object) [
-                'type' => 'dropdown',
-                'title' => 'User Management',
-                'icon' => 'bi bi-person-badge',
+                'type'     => 'dropdown',
+                'title'    => 'User Management',
+                'icon'     => 'bi bi-person-badge',
                 'children' => [
                     (object) [
                         'title' => 'Daftar Akun',
-                        'path' => 'account-list',
-                        'icon' => 'bi bi-person-lines-fill',
+                        'path'  => 'account-list',
+                        'icon'  => 'bi bi-person-lines-fill',
                     ],
                     (object) [
                         'title' => 'Permintaan Akun',
-                        'path' => 'account-request',
-                        'icon' => 'bi bi-person-plus',
+                        'path'  => 'account-request',
+                        'icon'  => 'bi bi-person-plus',
                     ],
                 ],
             ],
         ],
 
+        // ============================================================
+        // 2 = Petugas (operasional harian: no Kriteria, no TOPSIS,
+        //              no Periode, no User Management kelola)
+        // ============================================================
         2 => [
-            // Petugas
             (object) [
-                'title' => 'Dashboard',
-                'path' => 'dashboard',
-                'icon' => 'bi bi-grid',
-            ],
-            (object) [
-                'title' => 'Data Penduduk',
-                'path' => 'resident',
-                'icon' => 'bi bi-people',
-            ],
-            (object) [
-                'title' => 'Penilaian',
-                'path' => 'penilaian',
-                'icon' => 'bi bi-pencil-square',
-            ],
-            (object) [
-                'type' => 'dropdown',
-                'title' => 'Hasil',
-                'icon' => 'bi bi-graph-up-arrow',
-                'children' => [
-                    (object) [
-                        'title' => 'Hasil Rekomendasi',
-                        'path' => 'hasil',
-                        'icon' => 'bi bi-clipboard2-check',
-                    ],
-                    (object) [
-                        'title' => 'Monitoring',
-                        'path' => 'monitoring',
-                        'icon' => 'bi bi-activity',
-                    ],
-                ],
-            ],
-        ],
-
-        3 => [
-            // Lurah
-            (object) [
-                'type' => 'title',
+                'type'  => 'title',
                 'title' => 'Menu',
             ],
             (object) [
                 'title' => 'Dashboard',
-                'path' => 'dashboard',
-                'icon' => 'bi bi-grid',
+                'path'  => 'dashboard',
+                'icon'  => 'bi bi-grid',
             ],
             (object) [
-                'type' => 'title',
-                'title' => 'Hasil',
-                // 'icon'  => 'bi bi-graph-up-arrow',
-                // 'children' => [
-                // ]
+                'title' => 'Data Penduduk',
+                'path'  => 'resident',
+                'icon'  => 'bi bi-people',
             ],
             (object) [
-                'title' => 'Hasil Rekomendasi',
-                'path' => 'hasil',
-                'icon' => 'bi bi-clipboard2-check',
+                'title' => 'Penilaian',
+                'path'  => 'penilaian',
+                'icon'  => 'bi bi-pencil-square',
             ],
             (object) [
-                'title' => 'Monitoring',
-                'path' => 'monitoring',
-                'icon' => 'bi bi-activity',
+                'type'     => 'dropdown',
+                'title'    => 'Hasil',
+                'icon'     => 'bi bi-graph-up-arrow',
+                'children' => [
+                    (object) [
+                        'title' => 'Hasil Rekomendasi',
+                        'path'  => 'hasil',
+                        'icon'  => 'bi bi-clipboard2-check',
+                    ],
+                    (object) [
+                        'title' => 'Monitoring',
+                        'path'  => 'monitoring',
+                        'icon'  => 'bi bi-activity',
+                    ],
+                ],
+            ],
+            (object) [
+                'type'  => 'title',
+                'title' => 'Sistem',
             ],
             (object) [
                 'title' => 'Laporan',
-                'path' => 'report',
-                'icon' => 'bi bi-file-earmark-text',
+                'path'  => 'report',
+                'icon'  => 'bi bi-file-earmark-text',
+            ],
+        ],
+
+        // ============================================================
+        // 3 = Lurah (read-only: lihat hasil, monitoring, laporan,
+        //            dan kriteria sebagai referensi dasar penilaian)
+        // ============================================================
+        3 => [
+            (object) [
+                'type'  => 'title',
+                'title' => 'Menu',
+            ],
+            (object) [
+                'title' => 'Dashboard',
+                'path'  => 'dashboard',
+                'icon'  => 'bi bi-grid',
+            ],
+            (object) [
+                'title' => 'Kriteria',
+                'path'  => 'kriteria',
+                'icon'  => 'bi bi-filter-square',
+            ],
+            (object) [
+                'type'  => 'title',
+                'title' => 'Hasil',
+            ],
+            (object) [
+                'title' => 'Hasil Rekomendasi',
+                'path'  => 'hasil',
+                'icon'  => 'bi bi-clipboard2-check',
+            ],
+            (object) [
+                'title' => 'Monitoring',
+                'path'  => 'monitoring',
+                'icon'  => 'bi bi-activity',
+            ],
+            (object) [
+                'type'  => 'title',
+                'title' => 'Sistem',
+            ],
+            (object) [
+                'title' => 'Laporan',
+                'path'  => 'report',
+                'icon'  => 'bi bi-file-earmark-text',
             ],
         ],
     ];
