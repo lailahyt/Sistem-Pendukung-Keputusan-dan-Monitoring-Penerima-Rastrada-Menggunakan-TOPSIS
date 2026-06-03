@@ -55,8 +55,7 @@
             @csrf
 
             <input type="hidden" name="penduduk_id" value="{{ $penduduk->id }}">
-            <input type="hidden" name="periode" value="{{ date('Y') }}">
-            @foreach ($kriteria as $k)
+            <input type="hidden" name="periode_id" value="{{ $periode_id }}">            @foreach ($kriteria as $k)
                 <div class="card mb-3">
                     <div class="card-body">
                         <label><strong>{{ $k->nama_kriteria }}</strong></label>
