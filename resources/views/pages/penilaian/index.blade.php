@@ -170,6 +170,9 @@
                                                         @csrf
                                                         @method('DELETE')
 
+                                                        <input type="hidden" name="periode_id"
+                                                            value="{{ $periode_id }}">
+
                                                         <button type="submit" class="btn btn-danger">
                                                             Hapus
                                                         </button>
