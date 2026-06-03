@@ -192,7 +192,6 @@
                                     <th>Nama</th>
                                     <th>NIK</th>
                                     <th>Nilai Preferensi (Vi)</th>
-                                    <th>Desil</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -246,7 +245,7 @@
                                                 <div class="progress w-100" style="height:6px">
 
                                                     <div class="progress-bar
-                                                    {{ $row['nilai'] >= 0.7 ? 'bg-success' : 'bg-danger' }}"
+                                                    {{ $row['nilai'] >= 0.5 ? 'bg-success' : 'bg-danger' }}"
                                                         style="width: {{ $row['nilai'] * 100 }}%">
                                                     </div>
 
@@ -277,12 +276,6 @@
 
                                         </td>
 
-                                        <td>
-                                            <span class="badge bg-info">
-                                                Desil {{ $row['desil'] }}
-                                            </span>
-                                        </td>
-
                                     </tr>
 
                                 @empty
@@ -308,7 +301,7 @@
                                 ✓
                             </span>
 
-                            Direkomendasikan untuk Desil 1 - 5
+                            Direkomendasikan (Nilai TOPSIS ≥ 0,50)
                         </span>
 
                         <span>
@@ -316,7 +309,7 @@
                                 ✗
                             </span>
 
-                            Tidak Direkomendasikan untuk Desil 6 - 10
+                            Tidak Direkomendasikan (Nilai TOPSIS < 0,50)
                         </span>
 
                     </div>

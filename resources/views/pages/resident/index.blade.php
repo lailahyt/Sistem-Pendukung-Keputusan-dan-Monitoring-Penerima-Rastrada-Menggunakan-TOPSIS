@@ -80,7 +80,6 @@
                                 <th>Desa</th>
                                 <th>Kecamatan</th>
                                 <th>RW/RT</th>
-                                <th>Desil</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -100,7 +99,6 @@
                                         RW {{ $item->wilayah->rw ?? '-' }} /
                                         RT {{ $item->wilayah->rt ?? '-' }}
                                     </td>
-                                    <td>{{ $item->desil ?? '-' }}</td>
                                     <td>
 
                                         @if ($item->status == 'active')

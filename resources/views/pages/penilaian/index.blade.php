@@ -121,8 +121,9 @@
 
                                         <!-- Aksi -->
                                         <td>
-                                            <a href="/penilaian/{{ $item->id }}" class="btn btn-primary btn-sm">
-                                                <i class="bi bi-plus-circle"></i>
+                                            <a href="/penilaian/{{ $item->id }}?periode_id={{ $periode_id }}"
+                                            class="btn btn-primary btn-sm">
+                                             <i class="bi bi-plus-circle"></i>
                                             </a>
 
                                             <button class="btn btn-sm btn-info text-white btn-detail"
