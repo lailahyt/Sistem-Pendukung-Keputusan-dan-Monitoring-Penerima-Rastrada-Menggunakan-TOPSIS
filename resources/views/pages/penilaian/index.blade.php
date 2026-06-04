@@ -76,7 +76,6 @@
                                 <th>No</th>
                                 <th>Nama Calon Penerima</th>
                                 <th>Kelengkapan</th>
-                                <th>Nilai Rata-rata</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -85,7 +84,7 @@
                         @if (count($penduduk) < 1)
                             <tbody>
                                 <tr>
-                                    <td colspan="6" class="text-center">
+                                    <td colspan="5" class="text-center">
                                         Tidak ada data penilaian
                                     </td>
                                 </tr>
@@ -99,17 +98,12 @@
                                         <!-- Nama -->
                                         <td>
                                             <strong>{{ $item->nama }}</strong><br>
-                                            <small>Desa: {{ $item->desa }}</small>
+                                            <small>Umur: {{ $item->usia }} tahun</small>
                                         </td>
 
                                         <!-- Kelengkapan -->
                                         <td>
                                             {{ $item->kelengkapan }}
-                                        </td>
-
-                                        <!-- Nilai rata-rata -->
-                                        <td>
-                                            {{ $item->rata_rata ?? '-' }}
                                         </td>
 
                                         <!-- Status -->
