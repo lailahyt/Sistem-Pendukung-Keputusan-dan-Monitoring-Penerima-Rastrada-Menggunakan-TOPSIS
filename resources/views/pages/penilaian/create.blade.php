@@ -75,7 +75,9 @@
                                 <label>Bukti (foto/file)</label>
                                 <input type="file"
                                     name="bukti[{{ $k->id }}]"
-                                    class="form-control">
+                                    class="form-control"
+                                    accept="image/*,.pdf"
+                                    capture="environment">
                             </div>
                         @endif
 

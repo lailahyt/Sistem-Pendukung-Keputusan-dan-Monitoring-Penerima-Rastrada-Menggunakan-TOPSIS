@@ -53,7 +53,11 @@
                                     {{-- Upload Bukti --}}
                                     <div class="col-md-4 mb-2">
                                         <label>Upload Bukti</label>
-                                        <input type="file" name="bukti[{{ $k->id }}]" class="form-control">
+                                        <input type="file"
+                                            name="bukti[{{ $k->id }}]"
+                                            class="form-control"
+                                            accept="image/*,.pdf"
+                                            capture="environment">
                                     </div>
 
                                     {{-- Bukti Lama --}}
