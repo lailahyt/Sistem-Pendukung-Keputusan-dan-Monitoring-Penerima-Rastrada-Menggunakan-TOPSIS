@@ -55,7 +55,8 @@
             @csrf
 
             <input type="hidden" name="penduduk_id" value="{{ $penduduk->id }}">
-            <input type="hidden" name="periode_id" value="{{ $periode_id }}">            @foreach ($kriteria as $k)
+            <input type="hidden" name="periode_id" value="{{ $periode_id }}">
+                @foreach ($kriteria as $k)
                 <div class="card mb-3">
                     <div class="card-body">
                         <label><strong>{{ $k->nama_kriteria }}</strong></label>
@@ -69,10 +70,15 @@
                             @endforeach
                         </select>
 
-                        <div class="mt-2">
-                            <label>Bukti (foto/file)</label>
-                            <input type="file" name="bukti[{{ $k->id }}]" class="form-control">
-                        </div>
+                        @if($k->butuh_bukti)
+                            <div class="mt-2">
+                                <label>Bukti (foto/file)</label>
+                                <input type="file"
+                                    name="bukti[{{ $k->id }}]"
+                                    class="form-control">
+                            </div>
+                        @endif
+
                         <div class="mt-2">
                             <label>Catatan</label>
                             <textarea name="catatan[{{ $k->id }}]" class="form-control" rows="3"></textarea>

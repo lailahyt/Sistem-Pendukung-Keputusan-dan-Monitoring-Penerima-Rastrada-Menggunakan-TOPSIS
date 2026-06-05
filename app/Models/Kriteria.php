@@ -15,6 +15,7 @@ class Kriteria extends Model
         'nama_kriteria',
         'bobot',
         'atribut',
+        'butuh_bukti',
         'is_active',
     ];
 

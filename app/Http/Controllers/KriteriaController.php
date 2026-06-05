@@ -36,6 +36,7 @@ class KriteriaController extends Controller
             'nama_kriteria' => 'required',
             'bobot'         => 'required|numeric',
             'atribut'       => 'required|in:benefit,cost',
+            'butuh_bukti'   => 'required|boolean',
         ]);
 
         Kriteria::create([
@@ -43,6 +44,7 @@ class KriteriaController extends Controller
             'nama_kriteria' => $request->nama_kriteria,
             'bobot'         => $request->bobot,
             'atribut'       => $request->atribut,
+            'butuh_bukti'   => $request->butuh_bukti,
         ]);
 
         return redirect('/kriteria')->with('success', 'Data kriteria berhasil ditambahkan');
@@ -64,6 +66,7 @@ class KriteriaController extends Controller
             'nama_kriteria' => 'required',
             'bobot'         => 'required|numeric',
             'atribut'       => 'required|in:benefit,cost',
+            'butuh_bukti'   => 'required|boolean',
         ]);
 
         $kriteria = Kriteria::where('kode', $kode)->firstOrFail();
@@ -71,6 +74,7 @@ class KriteriaController extends Controller
             'nama_kriteria' => $request->nama_kriteria,
             'bobot'         => $request->bobot,
             'atribut'       => $request->atribut,
+            'butuh_bukti'   => $request->butuh_bukti,
         ]);
 
         return redirect('/kriteria')->with('success', 'Data berhasil diupdate');

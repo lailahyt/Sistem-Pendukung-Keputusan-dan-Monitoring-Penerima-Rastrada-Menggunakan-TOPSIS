@@ -48,25 +48,30 @@
                                     </select>
                                 </div>
 
-                                {{-- Upload Bukti --}}
-                                <div class="col-md-4 mb-2">
-                                    <label>Upload Bukti</label>
-                                    <input type="file" name="bukti[{{ $k->id }}]" class="form-control">
-                                </div>
+                                @if($k->butuh_bukti)
 
-                                {{-- Bukti Lama --}}
-                                <div class="col-md-4 mb-2">
-                                    <label>Bukti Lama</label><br>
+                                    {{-- Upload Bukti --}}
+                                    <div class="col-md-4 mb-2">
+                                        <label>Upload Bukti</label>
+                                        <input type="file" name="bukti[{{ $k->id }}]" class="form-control">
+                                    </div>
 
-                                    @if (!empty($detail[$k->id]['bukti_file']))
-                                        <a href="{{ asset('storage/' . $detail[$k->id]['bukti_file']) }}" target="_blank"
+                                    {{-- Bukti Lama --}}
+                                    <div class="col-md-4 mb-2">
+                                        <label>Bukti Lama</label><br>
+
+                                        @if (!empty($detail[$k->id]['bukti_file']))
+                                            <a href="{{ asset('storage/' . $detail[$k->id]['bukti_file']) }}"
+                                            target="_blank"
                                             class="btn btn-sm btn-info">
-                                            Lihat
-                                        </a>
-                                    @else
-                                        <span class="text-muted">Tidak ada</span>
-                                    @endif
-                                </div>
+                                                Lihat
+                                            </a>
+                                        @else
+                                            <span class="text-muted">Tidak ada</span>
+                                        @endif
+                                    </div>
+
+                                @endif
 
                                 {{-- Catatan --}}
                                 <div class="col-md-12 mt-2">

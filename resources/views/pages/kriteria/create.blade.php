@@ -8,7 +8,7 @@
                 <div class="card-header">
                     <h5 class="card-title">Form Input Kriteria</h5>
                 </div>
-                
+
                 <div class="card-body">
                     <form action="/kriteria" method="POST">
                         @csrf
@@ -37,6 +37,15 @@
                                     <option value="">-- Pilih --</option>
                                     <option value="benefit">Benefit</option>
                                     <option value="cost">Cost</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Perlu Bukti Pendukung?</label>
+
+                                <select name="butuh_bukti" class="form-control" required>
+                                    <option value="1">Ya</option>
+                                    <option value="0">Tidak</option>
                                 </select>
                             </div>
 

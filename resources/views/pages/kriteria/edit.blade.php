@@ -47,6 +47,19 @@
                                 </select>
                             </div>
 
+                            <div class="col-md-6 mb-3">
+                                <label>Perlu Bukti</label>
+                                <select name="butuh_bukti" class="form-control" required>
+                                    <option value="1" {{ $kriteria->butuh_bukti ? 'selected' : '' }}>
+                                        Ya
+                                    </option>
+
+                                    <option value="0" {{ !$kriteria->butuh_bukti ? 'selected' : '' }}>
+                                        Tidak
+                                    </option>
+                                </select>
+                            </div>
+
                         </div>
 
                         <div class="mt-3">
