@@ -82,23 +82,121 @@
 
                             <div class="col-12 col-md-3"></div>
 
-                            <div class="col-12 col-md-4 d-flex gap-2 justify-content-md-end">
+                            @if (auth()->user()->role->name == 'Lurah')
+                                <div class="col-12 col-md-4 d-flex gap-2 justify-content-md-end">
 
-                                <a href="/report/export-pdf?periode_id={{ $periode_id }}" class="btn btn-danger">
-                                    Export PDF
-                                </a>
+                                    <a href="/report/export-pdf?periode_id={{ $periode_id }}" class="btn btn-danger">
 
-                                <a href="/report/export-excel?periode_id={{ $periode_id }}" class="btn btn-success">
-                                    Export Excel
-                                </a>
+                                        <i class="bi bi-file-earmark-pdf"></i>
+                                        Export PDF
 
-                            </div>
+                                    </a>
+
+                                    <a href="/report/export-excel?periode_id={{ $periode_id }}" class="btn btn-success">
+
+                                        <i class="bi bi-file-earmark-excel"></i>
+                                        Export Excel
+
+                                    </a>
+
+                                </div>
+                            @endif
 
                         </div>
 
                     </form>
 
                 </div>
+
+            </div>
+
+            <div class="row mb-4">
+
+                <div class="col-md-4">
+
+                    <div class="card">
+
+                        <div class="card-body">
+
+                            <small class="text-muted">
+                                Total Penerima
+                            </small>
+
+                            <h4 class="fw-bold">
+                                {{ $totalPenerima }}
+                            </h4>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card">
+
+                        <div class="card-body">
+
+                            <small class="text-muted">
+                                Sudah Ambil
+                            </small>
+
+                            <h4 class="fw-bold text-success">
+                                {{ $sudahAmbil }}
+                            </h4>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card">
+
+                        <div class="card-body">
+
+                            <small class="text-muted">
+                                Belum Ambil
+                            </small>
+
+                            <h4 class="fw-bold text-warning">
+                                {{ $belumAmbil }}
+                            </h4>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                @if (auth()->user()->role->name == 'Lurah')
+                    <div class="card mb-4">
+
+                        <div class="card-body">
+
+                            <label class="fw-bold mb-2">
+
+                                Realisasi Distribusi Bantuan
+
+                            </label>
+
+                            <div class="progress" style="height:25px">
+
+                                <div class="progress-bar bg-success" style="width: {{ $realisasi }}%">
+
+                                    {{ number_format($realisasi, 0) }}%
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                @endif
 
             </div>
 

@@ -48,7 +48,7 @@ class LaporanController extends Controller
         // STATISTIK
         // =========================
 
-        $total = $laporan->count();
+        $totalPenerima = $laporan->count();
 
         $sudahAmbil = $laporan
             ->where('status_pengambilan', 'sudah_ambil')
@@ -58,14 +58,19 @@ class LaporanController extends Controller
             ->where('status_pengambilan', 'belum_ambil')
             ->count();
 
+        $realisasi = $totalPenerima > 0
+            ? ($sudahAmbil / $totalPenerima) * 100
+            : 0;
+
         return view('pages.report.index', compact(
             'laporan',
             'periode',
             'periode_id',
             'periodeList',
-            'total',
+            'totalPenerima',
             'sudahAmbil',
-            'belumAmbil'
+            'belumAmbil',
+            'realisasi'
         ));
     }
 

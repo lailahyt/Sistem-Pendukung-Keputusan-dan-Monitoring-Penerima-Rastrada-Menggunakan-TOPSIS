@@ -51,7 +51,7 @@
                 'icon'     => 'bi bi-graph-up-arrow',
                 'children' => [
                     (object) [
-                        'title' => 'Hasil Rekomendasi',
+                        'title' => 'Hasil Rangking',
                         'path'  => 'hasil',
                         'icon'  => 'bi bi-clipboard2-check',
                     ],
@@ -125,7 +125,7 @@
                 'icon'     => 'bi bi-graph-up-arrow',
                 'children' => [
                     (object) [
-                        'title' => 'Hasil Rekomendasi',
+                        'title' => 'Hasil Rangking',
                         'path'  => 'hasil',
                         'icon'  => 'bi bi-clipboard2-check',
                     ],
@@ -162,16 +162,11 @@
                 'icon'  => 'bi bi-grid',
             ],
             (object) [
-                'title' => 'Kriteria',
-                'path'  => 'kriteria',
-                'icon'  => 'bi bi-filter-square',
-            ],
-            (object) [
                 'type'  => 'title',
                 'title' => 'Hasil',
             ],
             (object) [
-                'title' => 'Hasil Rekomendasi',
+                'title' => 'Hasil Rangking',
                 'path'  => 'hasil',
                 'icon'  => 'bi bi-clipboard2-check',
             ],

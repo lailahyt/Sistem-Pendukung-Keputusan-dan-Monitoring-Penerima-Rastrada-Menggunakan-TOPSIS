@@ -192,7 +192,9 @@
                                     <th>Nama</th>
                                     <th>NIK</th>
                                     <th>Nilai Preferensi (Vi)</th>
-                                    <th>Aksi</th>
+                                    @if (auth()->user()->role->name != 'Lurah')
+                                        <th>Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
 
@@ -250,7 +252,7 @@
 
                                                 </div>
 
-                                                <small class="text-muted" style="min-width:50px">
+                                                <small class="text-bold" style="min-width:50px">
 
                                                     {{ number_format($row['nilai'], 3) }}
 
@@ -262,47 +264,50 @@
 
                                         <!-- TETAPKAN -->
                                         <td>
+                                            @if (auth()->user()->role->name != 'Lurah')
+                                                @if (in_array($row['id'], $ditetapkan))
+                                                    <button class="btn btn-secondary btn-sm" disabled>
 
-                                            @if (in_array($row['id'], $ditetapkan))
-                                                <button class="btn btn-secondary btn-sm" disabled>
-
-                                                    <i class="bi bi-check2-all"></i>
-                                                    Sudah Ditetapkan
-
-                                                </button>
-                                            @else
-                                                <form action="{{ route('monitoring.tetapkan') }}" method="POST">
-
-                                                    @csrf
-
-                                                    <input type="hidden" name="penduduk_id" value="{{ $row['id'] }}">
-
-                                                    <input type="hidden" name="periode_id" value="{{ $periode_id }}">
-
-                                                    <input type="hidden" name="rank" value="{{ $row['rank'] }}">
-
-                                                    <input type="hidden" name="nilai" value="{{ $row['nilai'] }}">
-
-                                                    <button type="submit" class="btn btn-success btn-sm">
-
-                                                        <i class="bi bi-check-circle"></i>
-                                                        Tetapkan
+                                                        <i class="bi bi-check2-all"></i>
+                                                        Sudah Ditetapkan
 
                                                     </button>
+                                                @else
+                                                    <form action="{{ route('monitoring.tetapkan') }}" method="POST">
 
-                                                </form>
-                                            @endif
+                                                        @csrf
+
+                                                        <input type="hidden" name="penduduk_id"
+                                                            value="{{ $row['id'] }}">
+
+                                                        <input type="hidden" name="periode_id"
+                                                            value="{{ $periode_id }}">
+
+                                                        <input type="hidden" name="rank" value="{{ $row['rank'] }}">
+
+                                                        <input type="hidden" name="nilai" value="{{ $row['nilai'] }}">
+
+                                                        <button type="submit" class="btn btn-success btn-sm">
+
+                                                            <i class="bi bi-check-circle"></i>
+                                                            Tetapkan
+
+                                                        </button>
+
+                                                    </form>
+                                                @endif
                                         </td>
+                                @endif
 
-                                    </tr>
+                                </tr>
 
-                                @empty
+                            @empty
 
-                                    <tr>
-                                        <td colspan="6" class="text-center">
-                                            Tidak ada data hasil
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td colspan="6" class="text-center">
+                                        Tidak ada data hasil
+                                    </td>
+                                </tr>
                                 @endforelse
 
                             </tbody>
