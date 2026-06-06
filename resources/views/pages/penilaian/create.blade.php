@@ -89,10 +89,10 @@
                 </div>
             @endforeach
 
-            <div class="mt-3">
-                <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="/penilaian" class="btn btn-secondary">Kembali</a>
-            </div>
+                                        <div class="col-12 d-flex justify-content-end">
+                                            <a href="/penilaian" class="btn btn-outline-secondary me-1 mb-1">Kembali</a>
+                                            <button type="submit" class="btn btn-primary me-1 mb-1">Simpan</button>
+                                        </div>
         </form>
     </div>
 @endsection

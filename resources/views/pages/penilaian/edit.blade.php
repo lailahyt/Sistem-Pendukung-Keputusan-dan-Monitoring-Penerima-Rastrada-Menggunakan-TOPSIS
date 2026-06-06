@@ -87,13 +87,15 @@
                         @endforeach
 
                         {{-- Tombol --}}
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                            <a href="/penilaian?periode_id={{ $periode_id }}" class="btn btn-secondary">
+                        <div class="mt-3 d-flex justify-content-end gap-2">
+                            <a href="/penilaian?periode_id={{ $periode_id }}" class="btn btn-outline-secondary me-1 mb-1">
                                 Kembali
                             </a>
-                        </div>
 
+                            <button type="submit" class="btn btn-primary">
+                                Simpan
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
