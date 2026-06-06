@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Periode;
+use App\Models\MonitoringDistribusi;
 use App\Services\TopsisService;
 use Illuminate\Http\Request;
 
@@ -28,25 +29,31 @@ class HasilController extends Controller
 
         $hasil = $data['hasil'];
 
-        // Statistik Dashboard
-        $totalPenduduk = count($hasil);
+        $totalAlternatif = count($hasil);
 
-        $direkomendasikan = collect($hasil)
-            ->where('status', 'Direkomendasikan')
-            ->count();
+        $totalDitetapkan = MonitoringDistribusi::where(
+            'periode_id',
+            $periode_id
+        )->count();
 
-        $tidakDirekomendasikan = collect($hasil)
-            ->where('status', 'Tidak Direkomendasikan')
-            ->count();
+        $belumDitetapkan =
+            $totalAlternatif - $totalDitetapkan;
+
+        $ditetapkan = MonitoringDistribusi::where(
+            'periode_id',
+            $periode_id
+        )->pluck('penduduk_id')
+            ->toArray();
 
         return view('pages.hasil.index', compact(
             'hasil',
-            'totalPenduduk',
-            'direkomendasikan',
-            'tidakDirekomendasikan',
+            'totalAlternatif',
+            'totalDitetapkan',
+            'belumDitetapkan',
             'periode',
             'periode_id',
-            'periodeList'
+            'periodeList',
+            'ditetapkan'
         ));
     }
 }

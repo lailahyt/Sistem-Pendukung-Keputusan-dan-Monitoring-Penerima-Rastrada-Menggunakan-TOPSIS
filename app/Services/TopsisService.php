@@ -194,16 +194,11 @@ class TopsisService
         });
 
         // =========================
-        // STATUS & RANK
+        // HASIL RANKING
         // =========================
         foreach ($hasil as $i => &$row) {
 
             $row['rank'] = $i + 1;
-
-            $row['status'] =
-                $row['nilai'] >= 0.5
-                ? 'Direkomendasikan'
-                : 'Tidak Direkomendasikan';
         }
 
         return [

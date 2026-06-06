@@ -37,28 +37,6 @@ class MonitoringController extends Controller
         $hasil = $data['hasil'];
 
         // =========================
-        // SINKRON MONITORING
-        // =========================
-        foreach ($hasil as $row) {
-
-            // hanya yang direkomendasikan
-            if ($row['status'] != 'Direkomendasikan') {
-                continue;
-            }
-
-            MonitoringDistribusi::firstOrCreate(
-                [
-                    'penduduk_id' => $row['id'],
-                    'periode_id' => $periode_id
-                ],
-                [
-                    'rank' => $row['rank'],
-                    'nilai_preferensi' => $row['nilai']
-                ]
-            );
-        }
-
-        // =========================
         // FILTER STATUS
         // =========================
         $status = request('status');
@@ -169,5 +147,47 @@ class MonitoringController extends Controller
         return view('pages.monitoring.show', compact(
             'monitoring'
         ));
+    }
+
+    public function tetapkan(Request $request)
+    {
+        $request->validate([
+            'penduduk_id' => 'required',
+            'periode_id' => 'required',
+            'rank' => 'required',
+            'nilai' => 'required'
+        ]);
+
+        $cek = MonitoringDistribusi::where(
+            'penduduk_id',
+            $request->penduduk_id
+        )
+            ->where(
+                'periode_id',
+                $request->periode_id
+            )
+            ->exists();
+
+        if ($cek) {
+            return redirect()->back()
+                ->with(
+                    'error',
+                    'Calon penerima sudah ditetapkan pada periode ini.'
+                );
+        }
+
+        MonitoringDistribusi::create([
+            'penduduk_id' => $request->penduduk_id,
+            'periode_id' => $request->periode_id,
+            'rank' => $request->rank,
+            'nilai_preferensi' => $request->nilai,
+            'status_pengambilan' => 'belum_ambil',
+        ]);
+
+        return redirect()->back()
+            ->with(
+                'success',
+                'Calon penerima berhasil ditetapkan.'
+            );
     }
 }
