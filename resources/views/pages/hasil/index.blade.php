@@ -7,7 +7,7 @@
             <div class="row">
 
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Hasil Rekomendasi</h3>
+                    <h3>Hasil Rangking</h3>
                 </div>
 
                 <div class="col-12 col-md-6 order-md-2 order-first">
@@ -18,7 +18,7 @@
                             </li>
 
                             <li class="breadcrumb-item active">
-                                Hasil Rekomendasi
+                                Hasil Rangking
                             </li>
                         </ol>
                     </nav>
@@ -46,11 +46,11 @@
 
                                 <div>
                                     <p class="mb-0 text-muted" style="font-size:12px">
-                                        Total Penduduk
+                                        Total Alternatif
                                     </p>
 
                                     <h5 class="mb-0 fw-bold">
-                                        {{ $totalPenduduk }}
+                                        {{ $totalAlternatif }}
                                     </h5>
                                 </div>
 
@@ -75,11 +75,11 @@
 
                                 <div>
                                     <p class="mb-0 text-muted" style="font-size:12px">
-                                        Direkomendasikan
+                                        Total Ditetapkan
                                     </p>
 
                                     <h5 class="mb-0 fw-bold text-success">
-                                        {{ $direkomendasikan }}
+                                        {{ $totalDitetapkan }}
                                     </h5>
                                 </div>
 
@@ -104,11 +104,11 @@
 
                                 <div>
                                     <p class="mb-0 text-muted" style="font-size:12px">
-                                        Tidak Direkomendasikan
+                                        Belum Ditetapkan
                                     </p>
 
                                     <h5 class="mb-0 fw-bold text-danger">
-                                        {{ $tidakDirekomendasikan }}
+                                        {{ $belumDitetapkan }}
                                     </h5>
                                 </div>
 
@@ -192,7 +192,7 @@
                                     <th>Nama</th>
                                     <th>NIK</th>
                                     <th>Nilai Preferensi (Vi)</th>
-                                    <th>Status</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
 
@@ -244,8 +244,7 @@
 
                                                 <div class="progress w-100" style="height:6px">
 
-                                                    <div class="progress-bar
-                                                    {{ $row['nilai'] >= 0.5 ? 'bg-success' : 'bg-danger' }}"
+                                                    <div class="progress-bar bg-primary"
                                                         style="width: {{ $row['nilai'] * 100 }}%">
                                                     </div>
 
@@ -261,19 +260,38 @@
 
                                         </td>
 
-                                        <!-- STATUS -->
+                                        <!-- TETAPKAN -->
                                         <td>
 
-                                            @if ($row['status'] == 'Direkomendasikan')
-                                                <span class="badge bg-success">
-                                                    {{ $row['status'] }}
-                                                </span>
-                                            @else
-                                                <span class="badge bg-danger">
-                                                    {{ $row['status'] }}
-                                                </span>
-                                            @endif
+                                            @if (in_array($row['id'], $ditetapkan))
+                                                <button class="btn btn-secondary btn-sm" disabled>
 
+                                                    <i class="bi bi-check2-all"></i>
+                                                    Sudah Ditetapkan
+
+                                                </button>
+                                            @else
+                                                <form action="{{ route('monitoring.tetapkan') }}" method="POST">
+
+                                                    @csrf
+
+                                                    <input type="hidden" name="penduduk_id" value="{{ $row['id'] }}">
+
+                                                    <input type="hidden" name="periode_id" value="{{ $periode_id }}">
+
+                                                    <input type="hidden" name="rank" value="{{ $row['rank'] }}">
+
+                                                    <input type="hidden" name="nilai" value="{{ $row['nilai'] }}">
+
+                                                    <button type="submit" class="btn btn-success btn-sm">
+
+                                                        <i class="bi bi-check-circle"></i>
+                                                        Tetapkan
+
+                                                    </button>
+
+                                                </form>
+                                            @endif
                                         </td>
 
                                     </tr>
@@ -290,27 +308,6 @@
                             </tbody>
 
                         </table>
-
-                    </div>
-
-                    <!-- KETERANGAN -->
-                    <div class="d-flex gap-3 mt-3" style="font-size:12px">
-
-                        <span>
-                            <span class="badge bg-success me-1">
-                                ✓
-                            </span>
-
-                            Direkomendasikan (Nilai TOPSIS ≥ 0,50)
-                        </span>
-
-                        <span>
-                            <span class="badge bg-danger me-1">
-                                ✗
-                            </span>
-
-                            Tidak Direkomendasikan (Nilai TOPSIS < 0,50)
-                        </span>
 
                     </div>
 
