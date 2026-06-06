@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PegawaiController extends Controller
@@ -56,8 +57,20 @@ class PegawaiController extends Controller
     // 🔹 Hapus data
     public function destroy($id)
     {
-        Pegawai::destroy($id);
+        $pegawai = Pegawai::findOrFail($id);
 
-        return redirect('/employee')->with('success', 'Data berhasil dihapus');
+        if ($pegawai->user_id) {
+
+            $user = User::find($pegawai->user_id);
+
+            if ($user) {
+                $user->delete();
+            }
+        }
+
+        $pegawai->delete();
+
+        return redirect('/employee')
+            ->with('success', 'Data pegawai dan akun berhasil dihapus');
     }
 }
