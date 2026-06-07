@@ -202,12 +202,15 @@
 
                     {{-- BUTTON --}}
                     <div class="mt-4">
+                        <div class="col-12 d-flex justify-content-end">
 
                         <a href="/monitoring" class="btn btn-secondary">
 
                             Kembali
 
                         </a>
+
+                        </div>
 
                     </div>
 

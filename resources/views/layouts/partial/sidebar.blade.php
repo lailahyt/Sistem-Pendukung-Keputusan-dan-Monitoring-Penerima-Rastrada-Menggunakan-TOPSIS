@@ -29,21 +29,9 @@
                 'icon'  => 'bi bi-filter-square',
             ],
             (object) [
-                'type'     => 'dropdown',
-                'title'    => 'Proses',
-                'icon'     => 'bi bi-gear-wide',
-                'children' => [
-                    (object) [
-                        'title' => 'Penilaian',
-                        'path'  => 'penilaian',
-                        'icon'  => 'bi bi-pencil-square',
-                    ],
-                    (object) [
-                        'title' => 'TOPSIS',
-                        'path'  => 'topsis',
-                        'icon'  => 'bi bi-calculator',
-                    ],
-                ],
+                'title' => 'TOPSIS',
+                'path'  => 'topsis',
+                'icon'  => 'bi bi-calculator',
             ],
             (object) [
                 'type'     => 'dropdown',

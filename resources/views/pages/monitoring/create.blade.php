@@ -107,13 +107,15 @@
                                     <textarea name="catatan" class="form-control" rows="3">{{ old('catatan') }}</textarea>
                                 </div>
 
-                                <div class="d-flex gap-2 mt-4">
+                                <div class="col-12 d-flex justify-content-end gap-2">
+                                    <a href="/monitoring" class="btn btn-secondary">
+                                        Kembali
+                                    </a>
+
                                     <button type="submit" class="btn btn-primary">
                                         <i class="bi bi-check-lg"></i> Konfirmasi Sudah Ambil
                                     </button>
-                                    <a href="/monitoring" class="btn btn-secondary">Kembali</a>
                                 </div>
-
                             </form>
                         </div>
                     </div>

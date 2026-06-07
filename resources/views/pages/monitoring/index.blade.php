@@ -375,7 +375,7 @@
 
                                                 <small class="text-muted">
 
-                                                    {{ \Carbon\Carbon::parse($item->tanggal_ambil)->format('H:i') }} WIB
+                                                    {{ \Carbon\Carbon::parse($item->tanggal_ambil)->format('H:i') }} WITA
 
                                                 </small>
                                             @else
@@ -404,38 +404,43 @@
                                         <td>
 
                                             @php
-                                                $isLurah = auth()->user()?->role?->name === 'Lurah';
+                                                $role = auth()->user()?->role?->name;
                                             @endphp
 
-                                            {{-- ROLE LURAH --}}
-                                            @if ($isLurah)
-                                                <a href="/monitoring/{{ $item->id }}" class="btn btn-info btn-sm">
+                                            @if ($role === 'Lurah')
 
+                                                <a href="/monitoring/{{ $item->id }}"
+                                                class="btn btn-info btn-sm">
                                                     <i class="bi bi-eye"></i>
-
                                                 </a>
+
+                                            @elseif ($role === 'Admin')
+
+                                                <a href="/monitoring/{{ $item->id }}"
+                                                class="btn btn-info btn-sm">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+
                                             @else
-                                                {{-- SUDAH AMBIL --}}
+
                                                 @if ($item->status_pengambilan == 'sudah_ambil')
+
                                                     <a href="/monitoring/{{ $item->id }}"
-                                                        class="btn btn-info btn-sm">
-
+                                                    class="btn btn-info btn-sm">
                                                         <i class="bi bi-eye"></i>
-
                                                     </a>
+
                                                 @else
-                                                    {{-- ADMIN / PETUGAS --}}
+
                                                     <a href="/monitoring/{{ $item->id }}/edit"
-                                                        class="btn btn-primary btn-sm">
-
+                                                    class="btn btn-primary btn-sm">
                                                         <i class="bi bi-pencil-square"></i>
-
                                                         Catat
-
                                                     </a>
-                                                @endif
-                                            @endif
 
+                                                @endif
+
+                                            @endif
                                         </td>
 
                                     </tr>

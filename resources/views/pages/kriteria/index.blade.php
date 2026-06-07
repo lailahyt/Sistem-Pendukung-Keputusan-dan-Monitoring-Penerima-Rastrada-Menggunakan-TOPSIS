@@ -62,7 +62,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->kode }}</td>
                                         <td>{{ $item->nama_kriteria }}</td>
-                                        <td>{{ number_format($item->bobot, 0) }}</td>
+                                        <td>{{ $item->bobot }}</td>
                                         <td>{{ $item->atribut }}</td>
                                         <td>
                                             @if ($item->is_active)
