@@ -13,6 +13,11 @@
                             <li class="breadcrumb-item active" aria-current="page">Data Penduduk</li>
                         </ol>
                     </nav>
+                    <div class="text-md-end mt-2 mb-3">
+                        <a href="/resident/create" class="btn btn-sm btn-primary shadow-sm">
+                            <i class="bi bi-plus"></i> Tambah Data
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -24,9 +29,6 @@
                         <h5 class="card-title mb-0">Data Penduduk</h5>
                         <small class="text-muted">Total {{ $residents->count() }} penduduk terdaftar</small>
                     </div>
-                    <a href="/resident/create" class="btn btn-sm btn-primary">
-                        <i class="bi bi-plus"></i> Tambah Data
-                    </a>
                 </div>
                 <div class="card-body">
 

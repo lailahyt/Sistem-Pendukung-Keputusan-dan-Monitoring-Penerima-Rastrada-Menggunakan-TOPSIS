@@ -37,6 +37,7 @@
 
                 <div class="card-header">
                     <h5 class="card-title">Data Periode Seleksi</h5>
+                        <small class="text-muted">Total {{ $periode->count() }} periode terdaftar</small>
                 </div>
 
                 <div class="card-body">

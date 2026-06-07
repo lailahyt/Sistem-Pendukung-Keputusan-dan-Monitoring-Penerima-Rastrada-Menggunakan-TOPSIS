@@ -33,6 +33,7 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">Data Kriteria</h5>
+                        <small class="text-muted">Total {{ $kriteria->count() }} kriteria terdaftar</small>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped table-responsive" id="table1">

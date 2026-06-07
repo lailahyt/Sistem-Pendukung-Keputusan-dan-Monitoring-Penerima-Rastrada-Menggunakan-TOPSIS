@@ -31,6 +31,7 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">Data Pegawai</h5>
+                        <small class="text-muted">Total {{ $pegawai->count() }} pegawai terdaftar</small>
                 </div>
 
                 <div class="card-body">
