@@ -110,15 +110,23 @@
     <div class="kop">
 
         <h2>
-            PEMERINTAH KOTA BANJARMASIN
+            PEMERINTAH KABUPATEN HULU SUNGAI SELATAN
         </h2>
+
+        <h3>
+            KECAMATAN KANDANGAN
+        </h3>
 
         <h3>
             KELURAHAN KANDANGAN BARAT
         </h3>
 
         <p>
-            Sistem Pendukung Keputusan Distribusi Rastrada
+            Jalan Singakarsa RT.004 RW.002 Kelurahan Kandangan Barat
+        </p>
+
+        <p>
+            KANDANGAN - 71213
         </p>
 
     </div>
@@ -133,8 +141,11 @@
         </h3>
 
         <p>
-            Periode :
-            {{ $periode->nama_periode }}
+            Sistem Pendukung Keputusan Distribusi Bantuan Rastrada
+        </p>
+
+        <p>
+            Periode : {{ $periode->nama_periode }}
         </p>
 
     </div>
@@ -182,9 +193,9 @@
 
                 <th>NIK</th>
 
-                <th>Rank</th>
+                <th>Peringkat</th>
 
-                <th>Nilai Vi</th>
+                <th>Nilai Preferensi</th>
 
                 <th>Status</th>
 
@@ -240,8 +251,7 @@
                     <td class="text-center">
 
                         @if ($item->tanggal_ambil)
-                            {{ \Carbon\Carbon::parse($item->tanggal_ambil)->format('d M Y H:i') }}
-                        @else
+                            {{ \Carbon\Carbon::parse($item->tanggal_ambil)->translatedFormat('d F Y') }}                        @else
                             -
                         @endif
 
@@ -278,24 +288,27 @@
         <div class="ttd">
 
             <p>
-                Banjarmasin,
+                Kandangan,
                 {{ now()->format('d F Y') }}
             </p>
 
             <p>
-                Petugas Distribusi
+                Lurah Kandangan Barat
             </p>
 
             <div class="ttd-space"></div>
 
             <p>
-                ______________________
+                <strong>FITRIA MAWARNI, A.Md.Kep</strong>
+            </p>
+
+            <p>
+                NIP. 19850521 200904 2 004
             </p>
 
         </div>
 
     </div>
-
 </body>
 
 </html>
