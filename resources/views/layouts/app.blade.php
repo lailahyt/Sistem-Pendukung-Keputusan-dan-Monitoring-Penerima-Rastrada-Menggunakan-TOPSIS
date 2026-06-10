@@ -8,17 +8,17 @@
 <body>
     <script src="assets/static/js/initTheme.js"></script>
     <div id="app">
-            @include('layouts.partial.sidebar')
+        @include('layouts.partial.sidebar')
         <div id="main" class="layout-navbar">
             <header>
 
-        @include('layouts.partial.navbar')
-        </header>
-        <div id="main-content">
-            @yield('content')
-        </div>
+                @include('layouts.partial.navbar')
+            </header>
+            <div id="main-content">
+                @yield('content')
+            </div>
 
-        @include('layouts.partial.footer')
+            @include('layouts.partial.footer')
         </div>
     </div>
     {{-- <script type="module" src="{{ asset('assets/static/js/components/sidebar.js') }}"></script> --}}
@@ -132,6 +132,9 @@
             </form>
         </div>
     </div>
+
+    {{-- Script khusus tiap halaman --}}
+    @stack('scripts')
 
 </body>
 
