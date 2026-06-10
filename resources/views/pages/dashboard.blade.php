@@ -136,7 +136,7 @@
 
                     {{-- PROGRESS DISTRIBUSI --}}
                     <div class="card shadow-sm border-0 mt-3">
-                        <div class="card-header bg-white border-0 pb-0">
+                        <div class="card-header  border-0 pb-0">
                             <h5 class="mb-0">Progress Distribusi Bantuan</h5>
                             <small class="text-muted">
                                 {{ $sudahAmbil }} dari {{ $totalPenerima }} penerima sudah mengambil bantuan
@@ -175,7 +175,7 @@
 
                     {{-- TOP RANKING --}}
                     <div class="card shadow-sm border-0 mt-3">
-                        <div class="card-header bg-white border-0 d-flex align-items-center justify-content-between">
+                        <div class="card-header border-0 d-flex align-items-center justify-content-between">
                             <div>
                                 <h5 class="mb-0">
                                     @if($isAdmin) Top Ranking TOPSIS
@@ -299,7 +299,7 @@
 
                     {{-- PROGRESS --}}
                     <div class="card shadow-sm border-0 mt-3">
-                        <div class="card-header bg-white border-0 pb-0">
+                        <div class="card-header border-0 pb-0">
                             <h5 class="mb-0">Monitoring Distribusi Bantuan</h5>
                             <small class="text-muted">
                                 {{ $sudahAmbil }} dari {{ $totalPenerima }} penerima sudah mengambil bantuan
@@ -337,7 +337,7 @@
 
                     {{-- TOP RANKING untuk Lurah --}}
                     <div class="card shadow-sm border-0 mt-3">
-                        <div class="card-header bg-white border-0 d-flex align-items-center justify-content-between">
+                        <div class="card-header  border-0 d-flex align-items-center justify-content-between">
                             <div>
                                 <h5 class="mb-0">Daftar Penerima Prioritas</h5>
                                 <small class="text-muted">5 penerima teratas berdasarkan perhitungan TOPSIS</small>
@@ -448,7 +448,7 @@
 
                 {{-- STATUS DISTRIBUSI --}}
                 <div class="card shadow-sm border-0 mb-3">
-                    <div class="card-header bg-white border-0">
+                    <div class="card-header border-0">
                         <h6 class="mb-0"><i class="bi bi-bar-chart-fill me-1 text-success"></i> Status Distribusi</h6>
                     </div>
                     <div class="card-body pt-0">
@@ -473,7 +473,7 @@
 
                 {{-- SHORTCUT AKSI — sesuai role --}}
                 <div class="card shadow-sm border-0">
-                    <div class="card-header bg-white border-0">
+                    <div class="card-header border-0">
                         <h6 class="mb-0"><i class="bi bi-lightning-fill me-1 text-warning"></i> Aksi Cepat</h6>
                     </div>
                     <div class="card-body pt-0 d-grid gap-2">
