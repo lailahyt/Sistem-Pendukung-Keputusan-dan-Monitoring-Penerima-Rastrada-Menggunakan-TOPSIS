@@ -133,9 +133,6 @@
         </div>
     </div>
 
-    {{-- Script khusus tiap halaman --}}
-    @stack('scripts')
-
 </body>
 
 </html>

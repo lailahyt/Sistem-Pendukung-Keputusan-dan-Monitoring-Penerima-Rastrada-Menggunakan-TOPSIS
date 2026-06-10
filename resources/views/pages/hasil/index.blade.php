@@ -179,15 +179,30 @@
                     </h5>
 
                     @if (auth()->user()->role->name != 'Lurah')
-                        <div class="d-flex align-items-center gap-2">
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="form-check mb-0">
+
+                                <input class="form-check-input" type="checkbox" id="checkAll">
+
+                                <label class="form-check-label" for="checkAll">
+
+                                    Pilih Semua
+
+                                </label>
+
+                            </div>
 
                             <span class="badge bg-primary px-3 py-2">
+
                                 Dipilih :
                                 <span id="selectedCount">0</span>
                                 data
+
                             </span>
 
                             <button type="submit" form="bulkForm" class="btn btn-success" id="btnBulk" disabled>
+
                                 <i class="bi bi-check2-square"></i>
                                 Tetapkan Terpilih
 
@@ -216,11 +231,7 @@
 
                             <thead>
                                 <tr>
-                                    @if (auth()->user()->role->name != 'Lurah')
-                                        <th width="50">
-                                            <input type="checkbox" id="checkAll">
-                                        </th>
-                                    @endif
+                                    <th width="50">Pilih</th>
                                     <th>Rank</th>
                                     <th>Nama</th>
                                     <th>NIK</th>
@@ -315,60 +326,37 @@
 
     </div>
 
-    @push('scripts')
-        <script>
-            document.addEventListener('change', function(e) {
+    <script>
+        function updateSelectedCount() {
 
-                if (e.target.classList.contains('item-check')) {
+            const total =
+                document.querySelectorAll('.item-check:checked').length;
 
-                    updateSelectedCount();
+            document.getElementById('selectedCount').textContent = total;
 
-                }
+            document.getElementById('btnBulk').disabled = total === 0;
+        }
 
-                if (e.target.id === 'checkAll') {
+        document.addEventListener('change', function(e) {
 
-                    document.querySelectorAll('.item-check')
-                        .forEach(cb => {
+            if (e.target.id === 'checkAll') {
 
-                            cb.checked = e.target.checked;
+                document.querySelectorAll('.item-check')
+                    .forEach(cb => {
 
-                        });
+                        cb.checked = e.target.checked;
 
-                    updateSelectedCount();
-
-                }
-
-            });
-
-            function updateSelectedCount() {
-
-                const total =
-                    document.querySelectorAll('.item-check:checked').length;
-
-                const selectedCount =
-                    document.getElementById('selectedCount');
-
-                const btnBulk =
-                    document.getElementById('btnBulk');
-
-                if (selectedCount) {
-
-                    selectedCount.textContent = total;
-
-                }
-
-                if (btnBulk) {
-
-                    btnBulk.disabled = total === 0;
-
-                }
-            }
-
-            window.addEventListener('load', function() {
+                    });
 
                 updateSelectedCount();
+            }
 
-            });
-        </script>
-    @endpush
+            if (e.target.classList.contains('item-check')) {
+
+                updateSelectedCount();
+            }
+
+        });
+    </script>
+
 @endsection
