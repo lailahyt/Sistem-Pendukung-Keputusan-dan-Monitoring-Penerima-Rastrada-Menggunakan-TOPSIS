@@ -182,12 +182,34 @@
 
                 <div class="card-body">
 
+                    @if (auth()->user()->role->name != 'Lurah')
+                        <form id="bulkForm" action="{{ route('monitoring.tetapkan.bulk') }}" method="POST">
+
+                            @csrf
+
+                            <input type="hidden" name="periode_id" value="{{ $periode_id }}">
+
+                            <button type="submit" class="btn btn-success mb-3">
+
+                                <i class="bi bi-check2-square"></i>
+                                Tetapkan Terpilih
+
+                            </button>
+
+                        </form>
+                    @endif
+
                     <div class="table-responsive">
 
                         <table class="table table-striped" id="table1">
 
                             <thead>
                                 <tr>
+                                    @if (auth()->user()->role->name != 'Lurah')
+                                        <th width="50">
+                                            <input type="checkbox" id="checkAll">
+                                        </th>
+                                    @endif
                                     <th>Rank</th>
                                     <th>Nama</th>
                                     <th>NIK</th>
@@ -202,118 +224,74 @@
 
                                 @forelse ($hasil as $row)
                                     <tr>
-
-                                        <!-- RANK -->
+                                        @if (auth()->user()->role->name != 'Lurah')
+                                            <td>
+                                                @if (!in_array($row['id'], $ditetapkan))
+                                                    <input type="checkbox" class="item-check" form="bulkForm"
+                                                        name="selected[]" value="{{ $row['id'] }}">
+                                                    <input type="hidden" form="bulkForm" name="ranks[{{ $row['id'] }}]"
+                                                        value="{{ $row['rank'] }}">
+                                                    <input type="hidden" form="bulkForm" name="nilai[{{ $row['id'] }}]"
+                                                        value="{{ $row['nilai'] }}">
+                                                @endif
+                                            </td>
+                                        @endif <!-- RANK -->
                                         <td>
-
                                             @if ($row['rank'] == 1)
-                                                <span class="badge bg-warning text-dark">
-                                                    <i class="bi bi-trophy-fill"></i>
-                                                    {{ $row['rank'] }}
-                                                </span>
+                                                <span class="badge bg-warning text-dark"> <i class="bi bi-trophy-fill"></i>
+                                                    {{ $row['rank'] }} </span>
                                             @elseif ($row['rank'] == 2)
-                                                <span class="badge bg-secondary">
-                                                    <i class="bi bi-award-fill"></i>
-                                                    {{ $row['rank'] }}
-                                                </span>
+                                                <span class="badge bg-secondary"> <i class="bi bi-award-fill"></i>
+                                                    {{ $row['rank'] }} </span>
                                             @elseif ($row['rank'] == 3)
-                                                <span class="badge" style="background:#cd7f32">
-                                                    <i class="bi bi-award-fill"></i>
-                                                    {{ $row['rank'] }}
-                                                </span>
+                                                <span class="badge" style="background:#cd7f32"> <i
+                                                        class="bi bi-award-fill"></i> {{ $row['rank'] }} </span>
                                             @else
-                                                <span class="badge bg-light text-dark border">
-                                                    {{ $row['rank'] }}
+                                                <span class="badge bg-light text-dark border"> {{ $row['rank'] }}
                                                 </span>
                                             @endif
-
-                                        </td>
-
-                                        <!-- NAMA -->
-                                        <td class="fw-bold">
-                                            {{ $row['nama'] }}
-                                        </td>
-
-                                        <!-- NIK -->
+                                        </td> <!-- NAMA -->
+                                        <td class="fw-bold"> {{ $row['nama'] }} </td> <!-- NIK -->
+                                        <td> {{ $row['nik'] }} </td> <!-- NILAI -->
                                         <td>
-                                            {{ $row['nik'] }}
-                                        </td>
-
-                                        <!-- NILAI -->
-                                        <td>
-
                                             <div class="d-flex align-items-center gap-2">
-
                                                 <div class="progress w-100" style="height:6px">
-
                                                     <div class="progress-bar bg-primary"
-                                                        style="width: {{ $row['nilai'] * 100 }}%">
-                                                    </div>
-
-                                                </div>
-
-                                                <small class="text-bold" style="min-width:50px">
-
-                                                    {{ number_format($row['nilai'], 3) }}
-
-                                                </small>
-
+                                                        style="width: {{ $row['nilai'] * 100 }}%"> </div>
+                                                </div> <small class="text-bold" style="min-width:50px">
+                                                    {{ number_format($row['nilai'], 3) }} </small>
                                             </div>
-
-                                        </td>
-
-                                        <!-- TETAPKAN -->
-                                        <td>
-                                            @if (auth()->user()->role->name != 'Lurah')
+                                        </td> <!-- AKSI -->
+                                        @if (auth()->user()->role->name != 'Lurah')
+                                            <td>
                                                 @if (in_array($row['id'], $ditetapkan))
-                                                    <button class="btn btn-secondary btn-sm" disabled>
-
-                                                        <i class="bi bi-check2-all"></i>
-                                                        Sudah Ditetapkan
-
-                                                    </button>
+                                                    <button class="btn btn-secondary btn-sm" disabled> <i
+                                                            class="bi bi-check2-all"></i> Sudah Ditetapkan </button>
                                                 @else
                                                     <form action="{{ route('monitoring.tetapkan') }}" method="POST">
-
-                                                        @csrf
-
-                                                        <input type="hidden" name="penduduk_id"
-                                                            value="{{ $row['id'] }}">
-
-                                                        <input type="hidden" name="periode_id"
-                                                            value="{{ $periode_id }}">
-
-                                                        <input type="hidden" name="rank" value="{{ $row['rank'] }}">
-
-                                                        <input type="hidden" name="nilai" value="{{ $row['nilai'] }}">
-
-                                                        <button type="submit" class="btn btn-success btn-sm">
-
-                                                            <i class="bi bi-check-circle"></i>
-                                                            Tetapkan
-
-                                                        </button>
-
+                                                        @csrf <input type="hidden" name="penduduk_id"
+                                                            value="{{ $row['id'] }}"> <input type="hidden"
+                                                            name="periode_id" value="{{ $periode_id }}"> <input
+                                                            type="hidden" name="rank" value="{{ $row['rank'] }}">
+                                                        <input type="hidden" name="nilai"
+                                                            value="{{ $row['nilai'] }}"> <button type="submit"
+                                                            class="btn btn-success btn-sm"> <i
+                                                                class="bi bi-check-circle"></i> Tetapkan </button>
                                                     </form>
                                                 @endif
-                                        </td>
-                                @endif
-
-                                </tr>
-
-                            @empty
-
-                                <tr>
-                                    <td colspan="6" class="text-center">
-                                        Tidak ada data hasil
-                                    </td>
-                                </tr>
+                                            </td>
+                                        @endif
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="{{ auth()->user()->role->name != 'Lurah' ? 6 : 4 }}"
+                                            class="text-center">
+                                    </tr>
                                 @endforelse
 
                             </tbody>
 
                         </table>
-
                     </div>
 
                 </div>
@@ -323,4 +301,15 @@
         </section>
 
     </div>
+
+    @push('scripts')
+        <script>
+            document.getElementById('checkAll')?.addEventListener('change', function() {
+
+                document.querySelectorAll('.item-check')
+                    .forEach(cb => cb.checked = this.checked);
+
+            });
+        </script>
+    @endpush
 @endsection

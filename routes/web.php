@@ -78,7 +78,8 @@ Route::get('/monitoring', [MonitoringController::class, 'index'])->middleware(['
 Route::get('/monitoring/{id}/edit', [MonitoringController::class, 'edit'])->middleware(['role:Admin,Petugas']);
 Route::put('/monitoring/{id}', [MonitoringController::class, 'update'])->middleware(['role:Admin,Petugas']);
 Route::get('/monitoring/{id}', [MonitoringController::class, 'show'])->middleware(['role:Admin,Petugas,Lurah']);
-Route::post('/monitoring/tetapkan',[MonitoringController::class, 'tetapkan'])->middleware(['role:Admin,Petugas'])->name('monitoring.tetapkan');
+Route::post('/monitoring/tetapkan', [MonitoringController::class, 'tetapkan'])->middleware(['role:Petugas'])->name('monitoring.tetapkan');
+Route::post('/monitoring/tetapkan-bulk', [MonitoringController::class, 'tetapkanBulk'])->middleware(['role:Petugas'])->name('monitoring.tetapkan.bulk');
 
 Route::get('/report', [LaporanController::class, 'index'])->middleware(['role:Admin,Petugas,Lurah']);
 Route::get('/report/export-pdf', [LaporanController::class, 'exportPdf'])->middleware(['role:Admin,Petugas,Lurah']);

@@ -190,4 +190,53 @@ class MonitoringController extends Controller
                 'Calon penerima berhasil ditetapkan.'
             );
     }
+
+    public function tetapkanBulk(Request $request)
+    {
+        $request->validate([
+            'periode_id' => 'required',
+            'selected' => 'required|array|min:1'
+        ], [
+            'selected.required' => 'Pilih minimal satu calon penerima.'
+        ]);
+
+        $berhasil = 0;
+
+        foreach ($request->selected as $pendudukId) {
+
+            $cek = MonitoringDistribusi::where(
+                'penduduk_id',
+                $pendudukId
+            )
+                ->where(
+                    'periode_id',
+                    $request->periode_id
+                )
+                ->exists();
+
+            if (!$cek) {
+
+                MonitoringDistribusi::create([
+
+                    'penduduk_id' => $pendudukId,
+
+                    'periode_id' => $request->periode_id,
+
+                    'rank' => $request->ranks[$pendudukId],
+
+                    'nilai_preferensi' => $request->nilai[$pendudukId],
+
+                    'status_pengambilan' => 'belum_ambil',
+
+                ]);
+
+                $berhasil++;
+            }
+        }
+
+        return back()->with(
+            'success',
+            $berhasil . ' calon penerima berhasil ditetapkan.'
+        );
+    }
 }
