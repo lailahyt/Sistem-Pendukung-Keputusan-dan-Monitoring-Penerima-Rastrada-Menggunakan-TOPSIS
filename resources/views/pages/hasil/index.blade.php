@@ -297,6 +297,8 @@
                                     <tr>
                                         <td colspan="{{ auth()->user()->role->name != 'Lurah' ? 6 : 4 }}"
                                             class="text-center">
+                                            Tidak ada data
+                                        </td>
                                     </tr>
                                 @endforelse
 
@@ -315,44 +317,58 @@
 
     @push('scripts')
         <script>
-            const checkAll = document.getElementById('checkAll');
-            const checkboxes = document.querySelectorAll('.item-check');
-            const selectedCount = document.getElementById('selectedCount');
-            const btnBulk = document.getElementById('btnBulk');
+            document.addEventListener('change', function(e) {
+
+                if (e.target.classList.contains('item-check')) {
+
+                    updateSelectedCount();
+
+                }
+
+                if (e.target.id === 'checkAll') {
+
+                    document.querySelectorAll('.item-check')
+                        .forEach(cb => {
+
+                            cb.checked = e.target.checked;
+
+                        });
+
+                    updateSelectedCount();
+
+                }
+
+            });
 
             function updateSelectedCount() {
 
                 const total =
                     document.querySelectorAll('.item-check:checked').length;
 
-                selectedCount.textContent = total;
+                const selectedCount =
+                    document.getElementById('selectedCount');
 
-                btnBulk.disabled = total === 0;
+                const btnBulk =
+                    document.getElementById('btnBulk');
+
+                if (selectedCount) {
+
+                    selectedCount.textContent = total;
+
+                }
+
+                if (btnBulk) {
+
+                    btnBulk.disabled = total === 0;
+
+                }
             }
 
-            checkAll?.addEventListener('change', function() {
-
-                checkboxes.forEach(cb => {
-                    cb.checked = this.checked;
-                });
+            window.addEventListener('load', function() {
 
                 updateSelectedCount();
 
             });
-
-            checkboxes.forEach(cb => {
-
-                cb.addEventListener('change', function() {
-
-                    updateSelectedCount();
-
-                    checkAll.checked = [...checkboxes].every(item => item.checked);
-
-                });
-
-            });
-
-            updateSelectedCount();
         </script>
     @endpush
 @endsection
