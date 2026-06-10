@@ -178,6 +178,24 @@
                         Ranking Hasil TOPSIS
                     </h5>
 
+                    @if (auth()->user()->role->name != 'Lurah')
+                        <div class="d-flex align-items-center gap-2">
+
+                            <span class="badge bg-primary px-3 py-2">
+                                Dipilih :
+                                <span id="selectedCount">0</span>
+                                data
+                            </span>
+
+                            <button type="submit" form="bulkForm" class="btn btn-success" id="btnBulk" disabled>
+                                <i class="bi bi-check2-square"></i>
+                                Tetapkan Terpilih
+
+                            </button>
+
+                        </div>
+                    @endif
+
                 </div>
 
                 <div class="card-body">
@@ -188,13 +206,6 @@
                             @csrf
 
                             <input type="hidden" name="periode_id" value="{{ $periode_id }}">
-
-                            <button type="submit" class="btn btn-success mb-3">
-
-                                <i class="bi bi-check2-square"></i>
-                                Tetapkan Terpilih
-
-                            </button>
 
                         </form>
                     @endif
@@ -304,12 +315,44 @@
 
     @push('scripts')
         <script>
-            document.getElementById('checkAll')?.addEventListener('change', function() {
+            const checkAll = document.getElementById('checkAll');
+            const checkboxes = document.querySelectorAll('.item-check');
+            const selectedCount = document.getElementById('selectedCount');
+            const btnBulk = document.getElementById('btnBulk');
 
-                document.querySelectorAll('.item-check')
-                    .forEach(cb => cb.checked = this.checked);
+            function updateSelectedCount() {
+
+                const total =
+                    document.querySelectorAll('.item-check:checked').length;
+
+                selectedCount.textContent = total;
+
+                btnBulk.disabled = total === 0;
+            }
+
+            checkAll?.addEventListener('change', function() {
+
+                checkboxes.forEach(cb => {
+                    cb.checked = this.checked;
+                });
+
+                updateSelectedCount();
 
             });
+
+            checkboxes.forEach(cb => {
+
+                cb.addEventListener('change', function() {
+
+                    updateSelectedCount();
+
+                    checkAll.checked = [...checkboxes].every(item => item.checked);
+
+                });
+
+            });
+
+            updateSelectedCount();
         </script>
     @endpush
 @endsection
