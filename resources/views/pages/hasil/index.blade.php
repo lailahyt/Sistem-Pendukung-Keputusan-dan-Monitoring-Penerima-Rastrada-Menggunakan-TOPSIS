@@ -61,7 +61,6 @@
                     </div>
                 </div>
 
-                <!-- Direkomendasikan -->
                 <div class="col-6 col-md-3">
                     <div class="card">
 
@@ -90,7 +89,6 @@
                     </div>
                 </div>
 
-                <!-- Tidak Direkomendasikan -->
                 <div class="col-6 col-md-3">
                     <div class="card">
 
@@ -231,14 +229,11 @@
 
                             <thead>
                                 <tr>
-                                    <th width="50">Pilih</th>
                                     <th>Rank</th>
                                     <th>Nama</th>
                                     <th>NIK</th>
                                     <th>Nilai Preferensi (Vi)</th>
-                                    @if (auth()->user()->role->name != 'Lurah')
-                                        <th>Aksi</th>
-                                    @endif
+                                    <th width="150">Aksi</th>
                                 </tr>
                             </thead>
 
@@ -246,18 +241,7 @@
 
                                 @forelse ($hasil as $row)
                                     <tr>
-                                        @if (auth()->user()->role->name != 'Lurah')
-                                            <td>
-                                                @if (!in_array($row['id'], $ditetapkan))
-                                                    <input type="checkbox" class="item-check" form="bulkForm"
-                                                        name="selected[]" value="{{ $row['id'] }}">
-                                                    <input type="hidden" form="bulkForm" name="ranks[{{ $row['id'] }}]"
-                                                        value="{{ $row['rank'] }}">
-                                                    <input type="hidden" form="bulkForm" name="nilai[{{ $row['id'] }}]"
-                                                        value="{{ $row['nilai'] }}">
-                                                @endif
-                                            </td>
-                                        @endif <!-- RANK -->
+                                        <!-- RANK -->
                                         <td>
                                             @if ($row['rank'] == 1)
                                                 <span class="badge bg-warning text-dark"> <i class="bi bi-trophy-fill"></i>
@@ -283,30 +267,33 @@
                                                 </div> <small class="text-bold" style="min-width:50px">
                                                     {{ number_format($row['nilai'], 3) }} </small>
                                             </div>
-                                        </td> <!-- AKSI -->
+                                        </td>
+                                        <!-- AKSI -->
                                         @if (auth()->user()->role->name != 'Lurah')
-                                            <td>
+                                            <td class="text-center">
+
                                                 @if (in_array($row['id'], $ditetapkan))
-                                                    <button class="btn btn-secondary btn-sm" disabled> <i
-                                                            class="bi bi-check2-all"></i> Sudah Ditetapkan </button>
+                                                    <span class="badge bg-success">
+                                                        <i class="bi bi-check-circle-fill"></i>
+                                                        Ditetapkan
+                                                    </span>
                                                 @else
-                                                    <form action="{{ route('monitoring.tetapkan') }}" method="POST">
-                                                        @csrf <input type="hidden" name="penduduk_id"
-                                                            value="{{ $row['id'] }}"> <input type="hidden"
-                                                            name="periode_id" value="{{ $periode_id }}"> <input
-                                                            type="hidden" name="rank" value="{{ $row['rank'] }}">
-                                                        <input type="hidden" name="nilai"
-                                                            value="{{ $row['nilai'] }}"> <button type="submit"
-                                                            class="btn btn-success btn-sm"> <i
-                                                                class="bi bi-check-circle"></i> Tetapkan </button>
-                                                    </form>
+                                                    <input type="checkbox" class="item-check" form="bulkForm"
+                                                        name="selected[]" value="{{ $row['id'] }}">
+
+                                                    <input type="hidden" form="bulkForm"
+                                                        name="ranks[{{ $row['id'] }}]" value="{{ $row['rank'] }}">
+
+                                                    <input type="hidden" form="bulkForm"
+                                                        name="nilai[{{ $row['id'] }}]" value="{{ $row['nilai'] }}">
                                                 @endif
+
                                             </td>
                                         @endif
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="{{ auth()->user()->role->name != 'Lurah' ? 6 : 4 }}"
+                                        <td colspan="{{ auth()->user()->role->name != 'Lurah' ? 5 : 4 }}"
                                             class="text-center">
                                             Tidak ada data
                                         </td>
@@ -358,5 +345,4 @@
 
         });
     </script>
-
 @endsection
