@@ -149,50 +149,9 @@ class MonitoringController extends Controller
         ));
     }
 
-    public function tetapkan(Request $request)
-    {
-        $request->validate([
-            'penduduk_id' => 'required',
-            'periode_id' => 'required',
-            'rank' => 'required',
-            'nilai' => 'required'
-        ]);
-
-        $cek = MonitoringDistribusi::where(
-            'penduduk_id',
-            $request->penduduk_id
-        )
-            ->where(
-                'periode_id',
-                $request->periode_id
-            )
-            ->exists();
-
-        if ($cek) {
-            return redirect()->back()
-                ->with(
-                    'error',
-                    'Calon penerima sudah ditetapkan pada periode ini.'
-                );
-        }
-
-        MonitoringDistribusi::create([
-            'penduduk_id' => $request->penduduk_id,
-            'periode_id' => $request->periode_id,
-            'rank' => $request->rank,
-            'nilai_preferensi' => $request->nilai,
-            'status_pengambilan' => 'belum_ambil',
-        ]);
-
-        return redirect()->back()
-            ->with(
-                'success',
-                'Calon penerima berhasil ditetapkan.'
-            );
-    }
-
     public function tetapkanBulk(Request $request)
     {
+
         $request->validate([
             'periode_id' => 'required',
             'selected' => 'required|array|min:1'
@@ -238,5 +197,32 @@ class MonitoringController extends Controller
             'success',
             $berhasil . ' calon penerima berhasil ditetapkan.'
         );
+    }
+
+    public function batalkan($id)
+    {
+        // Hanya Admin
+        if (Auth::user()->role->name !== 'Admin') {
+            abort(403);
+        }
+
+        $monitoring = MonitoringDistribusi::findOrFail($id);
+
+        // Jangan izinkan jika sudah diambil
+        if ($monitoring->status_pengambilan == 'sudah_ambil') {
+
+            return back()->with(
+                'error',
+                'Data yang sudah didistribusikan tidak dapat dibatalkan.'
+            );
+        }
+
+        $monitoring->delete();
+
+        return redirect('/monitoring')
+            ->with(
+                'success',
+                'Penetapan berhasil dibatalkan.'
+            );
     }
 }

@@ -176,7 +176,7 @@
                         Ranking Hasil TOPSIS
                     </h5>
 
-                    @if (auth()->user()->role->name != 'Lurah')
+                    @if (auth()->user()->role->name == 'Petugas')
                         <div class="d-flex align-items-center gap-3">
 
                             <div class="form-check mb-0">
@@ -199,8 +199,8 @@
 
                             </span>
 
-                            <button type="submit" form="bulkForm" class="btn btn-success" id="btnBulk" disabled>
-
+                            <button type="button" class="btn btn-success" id="btnBulk"
+                                onclick="document.getElementById('bulkForm').submit()">
                                 <i class="bi bi-check2-square"></i>
                                 Tetapkan Terpilih
 
@@ -233,7 +233,11 @@
                                     <th>Nama</th>
                                     <th>NIK</th>
                                     <th>Nilai Preferensi (Vi)</th>
-                                    <th width="150">Aksi</th>
+                                    @if (auth()->user()->role->name == 'Petugas')
+                                        <th width="150">Aksi</th>
+                                    @else
+                                        <th width="150">Status</th>
+                                    @endif
                                 </tr>
                             </thead>
 
@@ -256,9 +260,15 @@
                                                 <span class="badge bg-light text-dark border"> {{ $row['rank'] }}
                                                 </span>
                                             @endif
-                                        </td> <!-- NAMA -->
-                                        <td class="fw-bold"> {{ $row['nama'] }} </td> <!-- NIK -->
-                                        <td> {{ $row['nik'] }} </td> <!-- NILAI -->
+                                        </td>
+
+                                        <!-- NAMA -->
+                                        <td class="fw-bold"> {{ $row['nama'] }} </td>
+
+                                        <!-- NIK -->
+                                        <td> {{ $row['nik'] }} </td>
+
+                                        <!-- NILAI -->
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
                                                 <div class="progress w-100" style="height:6px">
@@ -269,9 +279,9 @@
                                             </div>
                                         </td>
                                         <!-- AKSI -->
-                                        @if (auth()->user()->role->name != 'Lurah')
-                                            <td class="text-center">
+                                        <td class="text-center">
 
+                                            @if (auth()->user()->role->name == 'Petugas')
                                                 @if (in_array($row['id'], $ditetapkan))
                                                     <span class="badge bg-success">
                                                         <i class="bi bi-check-circle-fill"></i>
@@ -287,14 +297,24 @@
                                                     <input type="hidden" form="bulkForm"
                                                         name="nilai[{{ $row['id'] }}]" value="{{ $row['nilai'] }}">
                                                 @endif
+                                            @else
+                                                @if (in_array($row['id'], $ditetapkan))
+                                                    <span class="badge bg-success">
+                                                        <i class="bi bi-check-circle-fill"></i>
+                                                        Ditetapkan
+                                                    </span>
+                                                @else
+                                                    <span class="badge bg-secondary">
+                                                        Belum Ditetapkan
+                                                    </span>
+                                                @endif
+                                            @endif
 
-                                            </td>
-                                        @endif
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="{{ auth()->user()->role->name != 'Lurah' ? 5 : 4 }}"
-                                            class="text-center">
+                                        <td colspan="{{ auth()->user()->role->name == 'Petugas' ? 5 : 4 }}">
                                             Tidak ada data
                                         </td>
                                     </tr>

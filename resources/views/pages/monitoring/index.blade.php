@@ -407,40 +407,54 @@
                                                 $role = auth()->user()?->role?->name;
                                             @endphp
 
+                                            {{-- LURAH --}}
                                             @if ($role === 'Lurah')
-
-                                                <a href="/monitoring/{{ $item->id }}"
-                                                class="btn btn-info btn-sm">
+                                                <a href="/monitoring/{{ $item->id }}" class="btn btn-info btn-sm">
                                                     <i class="bi bi-eye"></i>
                                                 </a>
 
+                                                {{-- ADMIN --}}
                                             @elseif ($role === 'Admin')
-
-                                                <a href="/monitoring/{{ $item->id }}"
-                                                class="btn btn-info btn-sm">
-                                                    <i class="bi bi-eye"></i>
-                                                </a>
-
-                                            @else
-
-                                                @if ($item->status_pengambilan == 'sudah_ambil')
+                                                <div class="d-flex gap-1">
 
                                                     <a href="/monitoring/{{ $item->id }}"
-                                                    class="btn btn-info btn-sm">
+                                                        class="btn btn-info btn-sm">
                                                         <i class="bi bi-eye"></i>
                                                     </a>
 
-                                                @else
+                                                    @if ($item->status_pengambilan != 'sudah_ambil')
+                                                        <form action="{{ route('monitoring.batalkan', $item->id) }}"
+                                                            method="POST" class="d-inline"
+                                                            onsubmit="return confirm('Yakin ingin membatalkan penetapan penerima ini?')">
 
+                                                            @csrf
+                                                            @method('DELETE')
+
+                                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                                <i class="bi bi-arrow-counterclockwise"></i>
+                                                            </button>
+
+                                                        </form>
+                                                    @endif
+
+                                                </div>
+
+                                                {{-- PETUGAS --}}
+                                            @else
+                                                @if ($item->status_pengambilan == 'sudah_ambil')
+                                                    <a href="/monitoring/{{ $item->id }}"
+                                                        class="btn btn-info btn-sm">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                @else
                                                     <a href="/monitoring/{{ $item->id }}/edit"
-                                                    class="btn btn-primary btn-sm">
+                                                        class="btn btn-primary btn-sm">
                                                         <i class="bi bi-pencil-square"></i>
                                                         Catat
                                                     </a>
-
                                                 @endif
-
                                             @endif
+
                                         </td>
 
                                     </tr>
