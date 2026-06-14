@@ -97,9 +97,15 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">Foto Bukti / KTP <span
-                                            class="text-muted">(opsional)</span></label>
-                                    <input type="file" name="foto_bukti" class="form-control" accept="image/*">
+                                    <label class="form-label">
+                                        Foto Bukti / KTP <span class="text-danger">*</span>
+                                    </label>
+
+                                    <input type="file"
+                                        name="foto_bukti"
+                                        class="form-control"
+                                        accept="image/*"
+                                        required>
                                 </div>
 
                                 <div class="mb-3">

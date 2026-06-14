@@ -98,7 +98,7 @@ class MonitoringController extends Controller
         $request->validate([
             'diambil_oleh' => 'required',
             'nama_wakil' => 'nullable|string|max:255',
-            'foto_bukti' => 'nullable|image|max:2048',
+            'foto_bukti' => 'required|image|max:2048',
             'catatan' => 'nullable|string'
         ]);
 

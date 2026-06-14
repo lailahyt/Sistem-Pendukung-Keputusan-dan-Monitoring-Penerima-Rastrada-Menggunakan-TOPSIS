@@ -124,9 +124,9 @@ class PenilaianController extends Controller
     {
         $request->validate([
             'penduduk_id' => 'required|exists:residents,id',
-            'subkriteria' => 'nullable|array',
-            'subkriteria.*' => 'nullable|exists:subkriteria,id',
-            'bukti.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120',
+            'subkriteria' => 'required|array',
+            'subkriteria.*' => 'required|exists:subkriteria,id',
+            'bukti.*' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
             'catatan.*' => 'nullable|string'
         ]);
 
@@ -229,7 +229,8 @@ class PenilaianController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'subkriteria' => 'nullable|array',
+            'subkriteria' => 'required|array',
+            'subkriteria.*' => 'required|exists:subkriteria,id',
             'bukti.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120',
             'catatan.*' => 'nullable|string'
         ]);

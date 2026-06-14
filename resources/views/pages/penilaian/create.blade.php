@@ -61,8 +61,10 @@
                     <div class="card-body">
                         <label><strong>{{ $k->nama_kriteria }}</strong></label>
 
-                        <select name="subkriteria[{{ $k->id }}]" class="form-control">
-                            <option value="">-- Pilih --</option>
+                        <select name="subkriteria[{{ $k->id }}]"
+                                class="form-control"
+                                required>
+                                <option value="">-- Pilih --</option>
                             @foreach ($k->subkriteria as $sub)
                                 <option value="{{ $sub->id }}">
                                     {{ $sub->label_subkriteria }} ({{ $sub->nilai }})
@@ -77,7 +79,8 @@
                                     name="bukti[{{ $k->id }}]"
                                     class="form-control"
                                     accept="image/*,.pdf"
-                                    capture="environment">
+                                    capture="environment"
+                                    {{ $k->butuh_bukti ? 'required' : '' }}>
                             </div>
                         @endif
 

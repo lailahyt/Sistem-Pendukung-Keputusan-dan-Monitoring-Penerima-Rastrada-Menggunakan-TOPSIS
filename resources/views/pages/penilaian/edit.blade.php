@@ -37,8 +37,10 @@
                                 {{-- Subkriteria --}}
                                 <div class="col-md-4 mb-2">
                                     <label>Sub Kriteria</label>
-                                    <select name="subkriteria[{{ $k->id }}]" class="form-select">
-                                        <option value="">-- Pilih --</option>
+                                    <select name="subkriteria[{{ $k->id }}]"
+                                            class="form-select"
+                                            required>
+                                                <option value="">-- Pilih --</option>
                                         @foreach ($k->subkriteria as $sub)
                                             <option value="{{ $sub->id }}"
                                                 {{ ($detail[$k->id]['subkriteria_id'] ?? '') == $sub->id ? 'selected' : '' }}>
