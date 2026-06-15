@@ -28,4 +28,9 @@ class Penilaian extends Model
     {
         return $this->belongsTo(Periode::class);
     }
+
+    public function isLocked()
+{
+    return $this->status === 'selesai';
+}
 }

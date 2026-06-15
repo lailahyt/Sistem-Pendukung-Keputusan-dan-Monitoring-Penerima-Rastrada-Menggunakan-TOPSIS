@@ -115,10 +115,13 @@
 
                                         <!-- Aksi -->
                                         <td>
-                                            <a href="/penilaian/{{ $item->id }}?periode_id={{ $periode_id }}"
-                                            class="btn btn-primary btn-sm">
-                                             <i class="bi bi-plus-circle"></i>
-                                            </a>
+
+                                            @if ($item->status !== 'selesai')
+                                                <a href="/penilaian/{{ $item->id }}?periode_id={{ $periode_id }}"
+                                                    class="btn btn-primary btn-sm">
+                                                    <i class="bi bi-plus-circle"></i>
+                                                </a>
+                                            @endif
 
                                             <button class="btn btn-sm btn-info text-white btn-detail"
                                                 data-id="{{ $item->id }}" data-nama="{{ $item->nama }}"
@@ -126,16 +129,18 @@
                                                 <i class="bi bi-eye-fill"></i>
                                             </button>
 
+                                            @if ($item->status !== 'selesai')
+                                                <a href="/penilaian/{{ $item->id }}/edit?periode_id={{ request('periode_id') ?? $periode_id }}"
+                                                    class="btn btn-warning btn-sm text-white">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
 
-                                            <a href="/penilaian/{{ $item->id }}/edit?periode_id={{ request('periode_id') ?? $periode_id }}"
-                                                class="btn btn-warning btn-sm text-white">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </a>
+                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $item->id }}">
+                                                    <i class="bi bi-eraser-fill"></i>
+                                                </button>
+                                            @endif
 
-                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal{{ $item->id }}">
-                                                <i class="bi bi-eraser-fill"></i>
-                                            </button>
                                         </td>
                                     </tr>
 

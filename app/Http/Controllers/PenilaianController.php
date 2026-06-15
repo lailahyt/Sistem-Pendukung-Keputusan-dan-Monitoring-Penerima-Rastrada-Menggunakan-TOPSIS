@@ -110,14 +110,28 @@ class PenilaianController extends Controller
 
     public function create($id)
     {
+        $periode_id = request('periode_id');
+
+        $penilaian = Penilaian::where('penduduk_id', $id)
+            ->where('periode_id', $periode_id)
+            ->first();
+
+        if ($penilaian && $penilaian->isLocked()) {
+            return redirect('/penilaian?periode_id=' . $periode_id)
+                ->with('error', 'Penilaian yang telah selesai tidak dapat diubah.');
+        }
+
         $penduduk = Resident::findOrFail($id);
+
         $kriteria = Kriteria::where('is_active', true)
             ->with('subkriteria')
             ->get();
 
-        $periode_id = request('periode_id');
-
-        return view('pages.penilaian.create', compact('penduduk', 'kriteria', 'periode_id'));
+        return view('pages.penilaian.create', compact(
+            'penduduk',
+            'kriteria',
+            'periode_id'
+        ));
     }
 
     public function store(Request $request)
@@ -136,6 +150,11 @@ class PenilaianController extends Controller
             'penduduk_id' => $request->penduduk_id,
             'periode_id' => $periode_id
         ]);
+
+        if ($penilaian->isLocked()) {
+            return redirect('/penilaian?periode_id=' . $periode_id)
+                ->with('error', 'Penilaian yang telah selesai tidak dapat diubah.');
+        }
 
         foreach ($request->subkriteria ?? [] as $kriteria_id => $sub_id) {
 
@@ -170,12 +189,12 @@ class PenilaianController extends Controller
             );
         }
 
-        // ✅ FIX STATUS BERDASARKAN DATA DB
+        //  FIX STATUS BERDASARKAN DATA DB
         $jumlahTerisi = PenilaianDetail::where('penilaian_id', $penilaian->id)
             ->whereNotNull('subkriteria_id')
             ->count();
 
-        $totalKriteria = Kriteria::count();
+        $totalKriteria = Kriteria::where('is_active', true)->count();
 
         if ($jumlahTerisi == 0) {
             $penilaian->update(['status' => 'belum']);
@@ -205,6 +224,11 @@ class PenilaianController extends Controller
         $penilaian = Penilaian::where('penduduk_id', $id)
             ->where('periode_id', $periode_id)
             ->first();
+
+        if ($penilaian && $penilaian->isLocked()) {
+            return redirect('/penilaian?periode_id=' . $periode_id)
+                ->with('error', 'Penilaian yang telah selesai tidak dapat diubah.');
+        }
 
         $detail = [];
 
@@ -241,6 +265,11 @@ class PenilaianController extends Controller
             ->where('periode_id', $periode_id)
             ->firstOrFail();
 
+        if ($penilaian->isLocked()) {
+            return redirect('/penilaian?periode_id=' . $periode_id)
+                ->with('error', 'Penilaian yang telah selesai tidak dapat diubah.');
+        }
+
         foreach ($request->subkriteria ?? [] as $kriteria_id => $sub_id) {
 
             if (!$sub_id) continue;
@@ -273,12 +302,12 @@ class PenilaianController extends Controller
             );
         }
 
-        // ✅ update status konsisten
+        // update status konsisten
         $jumlahTerisi = PenilaianDetail::where('penilaian_id', $penilaian->id)
             ->whereNotNull('subkriteria_id')
             ->count();
 
-        $totalKriteria = Kriteria::count();
+        $totalKriteria = Kriteria::where('is_active', true)->count();
 
         if ($jumlahTerisi == 0) {
             $penilaian->update(['status' => 'belum']);
@@ -299,6 +328,11 @@ class PenilaianController extends Controller
         $penilaian = Penilaian::where('penduduk_id', $id)
             ->where('periode_id', $periode_id)
             ->firstOrFail();
+
+        if ($penilaian->isLocked()) {
+            return redirect('/penilaian?periode_id=' . $periode_id)
+                ->with('error', 'Penilaian yang telah selesai tidak dapat dihapus.');
+        }
 
         $detail = PenilaianDetail::where('penilaian_id', $penilaian->id)->get();
 
