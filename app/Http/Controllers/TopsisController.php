@@ -33,10 +33,50 @@ class TopsisController extends Controller
                 'matriks_page'
             );
 
-            $data['hasilPaginate'] = $this->paginateArray(
+            $data['normalisasiPaginate'] = $this->paginateArray(
+                collect($data['normalisasi'])->map(function ($row, $index) use ($data) {
+                    return [
+                        'nama' => $data['matriks'][$index]['nama'],
+                        'data' => $row,
+                    ];
+                })->toArray(),
+                5,
+                'normalisasi_page'
+            );
+
+            $data['terbobotPaginate'] = $this->paginateArray(
+                collect($data['terbobot'])->map(function ($row, $index) use ($data) {
+                    return [
+                        'nama' => $data['matriks'][$index]['nama'],
+                        'data' => $row,
+                    ];
+                })->toArray(),
+                5,
+                'terbobot_page'
+            );
+
+            $data['jarakPaginate'] = $this->paginateArray(
+                collect($data['matriks'])->map(function ($row, $index) use ($data) {
+                    return [
+                        'nama' => $row['nama'],
+                        'positif' => $data['jarakPositif'][$index],
+                        'negatif' => $data['jarakNegatif'][$index],
+                    ];
+                })->toArray(),
+                5,
+                'jarak_page'
+            );
+
+            $data['preferensiPaginate'] = $this->paginateArray(
                 $data['hasil'],
                 5,
-                'hasil_page'
+                'preferensi_page'
+            );
+
+            $data['rankingPaginate'] = $this->paginateArray(
+                $data['hasil'],
+                5,
+                'ranking_page'
             );
         }
 

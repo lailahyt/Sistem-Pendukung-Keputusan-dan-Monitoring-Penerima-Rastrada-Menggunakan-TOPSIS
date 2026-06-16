@@ -126,8 +126,8 @@
                                     @forelse ($normalisasiPaginate as $i => $row)
                                         <tr>
                                             <td>{{ $normalisasiPaginate->firstItem() + $loop->index }}</td>
-                                            <td>{{ $matriks[$i]['nama'] }}</td>
-                                            @foreach ($row as $nilai)
+                                            <td>{{ $row['nama'] }}</td>
+                                            @foreach ($row['data'] as $nilai)
                                                 <td>{{ number_format($nilai, 4) }}</td>
                                             @endforeach
                                         </tr>
@@ -174,8 +174,9 @@
                                     @forelse ($terbobotPaginate as $i => $row)
                                         <tr>
                                             <td>{{ $terbobotPaginate->firstItem() + $loop->index }}</td>
-                                            <td>{{ $matriks[$i]['nama'] }}</td>
-                                            @foreach ($row as $nilai)
+                                            <td>{{ $row['nama'] }}</td>
+
+                                            @foreach ($row['data'] as $nilai)
                                                 <td>{{ number_format($nilai, 4) }}</td>
                                             @endforeach
                                         </tr>
@@ -261,12 +262,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($matriksPaginate as $i => $row)
+                                    @forelse ($jarakPaginate as $row)
                                         <tr>
-                                            <td>{{ $matriksPaginate->firstItem() + $loop->index }}</td>
+                                            <td>{{ $jarakPaginate->firstItem() + $loop->index }}</td>
                                             <td>{{ $row['nama'] }}</td>
-                                            <td>{{ number_format($jarakPositif[$i], 4) }}</td>
-                                            <td>{{ number_format($jarakNegatif[$i], 4) }}</td>
+                                            <td>{{ number_format($row['positif'], 4) }}</td>
+                                            <td>{{ number_format($row['negatif'], 4) }}</td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -280,7 +281,7 @@
                             </table>
                         </div>
                         <div class="d-flex justify-content-end mt-3">
-                            {{ $matriksPaginate->links() }}
+                            {{ $jarakPaginate->links() }}
                         </div>
                     </div>
                 </div>
@@ -303,11 +304,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($matriksPaginate as $i => $row)
+                                    @forelse ($preferensiPaginate as $row)
                                         <tr>
-                                            <td>{{ $matriksPaginate->firstItem() + $loop->index }}</td>
+                                            <td>{{ $preferensiPaginate->firstItem() + $loop->index }}</td>
                                             <td>{{ $row['nama'] }}</td>
-                                            <td>{{ number_format($hasil[$i]['nilai'], 4) }}</td>
+                                            <td>{{ number_format($row['nilai'], 4) }}</td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -321,7 +322,7 @@
                             </table>
                         </div>
                         <div class="d-flex justify-content-end mt-3">
-                            {{ $matriksPaginate->links() }}
+                            {{ $preferensiPaginate->links() }}
                         </div>
                     </div>
                 </div>
@@ -348,7 +349,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($hasil as $row)
+                                    @forelse ($rankingPaginate as $row)
                                         <tr>
                                             <td>
                                                 @if ($row['rank'] == 1)
@@ -378,6 +379,9 @@
                                     @endforelse
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="d-flex justify-content-end mt-3">
+                            {{ $rankingPaginate->links() }}
                         </div>
                     </div>
                 </div>
