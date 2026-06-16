@@ -77,8 +77,9 @@
                                                 <!-- SUBKRITERIA: semua role boleh lihat -->
                                                 <a href="/kriteria/{{ $item->id }}/subkriteria"
                                                     class="btn btn-sm btn-info text-white"
-                                                    title="Lihat Subkriteria">
-                                                    <i class="bi bi-eye-fill"></i>
+                                                    title="Kelola Subkriteria">
+                                                    <i class="bi bi-list-ul"></i>
+                                                    <span class="d-none d-md-inline ms-1">Sub</span>
                                                 </a>
 
                                                 <!-- EDIT, HAPUS, TOGGLE: hanya Admin -->

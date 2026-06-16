@@ -63,7 +63,7 @@
                         </div>
 
                         <div class="mt-3 d-flex justify-content-end gap-2">
-                            <a href="/penilaian" class="btn btn-outline-secondary me-1 mb-1">
+                            <a href="/kriteria" class="btn btn-outline-secondary me-1 mb-1">
                                 Kembali
                             </a>
 
