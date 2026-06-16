@@ -75,9 +75,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($matriks as $row)
+                                    @forelse ($matriksPaginate as $row)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $matriksPaginate->firstItem() + $loop->index }}</td>
                                             <td>{{ $row['nama'] }}</td>
                                             @foreach ($row['data'] as $nilai)
                                                 <td>{{ $nilai == 0 ? '-' : $nilai }}</td>
@@ -93,6 +93,9 @@
                                     @endforelse
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="d-flex justify-content-end mt-3">
+                            {{ $matriksPaginate->links() }}
                         </div>
                     </div>
                 </div>
