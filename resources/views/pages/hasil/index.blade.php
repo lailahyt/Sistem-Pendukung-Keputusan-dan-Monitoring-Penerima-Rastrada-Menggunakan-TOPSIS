@@ -170,45 +170,44 @@
             <!-- TABEL -->
             <div class="card">
 
-                <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="card-header">
 
-                    <h5 class="card-title mb-0">
-                        Ranking Hasil TOPSIS
-                    </h5>
+                    <div
+                        class="ranking-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
 
-                    @if (auth()->user()->role->name == 'Petugas')
-                        <div class="d-flex align-items-center gap-3">
+                        <h5 class="card-title mb-0">
+                            Ranking Hasil TOPSIS
+                        </h5>
 
-                            <div class="form-check mb-0">
+                        @if (auth()->user()->role->name == 'Petugas')
+                            <div
+                                class="ranking-actions d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-2">
 
-                                <input class="form-check-input" type="checkbox" id="checkAll">
+                                <div class="form-check mb-0">
+                                    <input class="form-check-input" type="checkbox" id="checkAll">
 
-                                <label class="form-check-label" for="checkAll">
+                                    <label class="form-check-label" for="checkAll">
+                                        Pilih Semua
+                                    </label>
+                                </div>
 
-                                    Pilih Semua
+                                <span class="badge bg-secondary px-3 py-2">
+                                    Dipilih:
+                                    <span id="selectedCount">0</span>
+                                    data
+                                </span>
 
-                                </label>
+                                <button type="button" class="btn btn-success" id="btnBulk"
+                                    onclick="document.getElementById('bulkForm').submit()">
+
+                                    <i class="bi bi-check2-square"></i>
+                                    Tetapkan Terpilih
+                                </button>
 
                             </div>
+                        @endif
 
-                            <span class="badge bg-primary px-3 py-2">
-
-                                Dipilih :
-                                <span id="selectedCount">0</span>
-                                data
-
-                            </span>
-
-                            <button type="button" class="btn btn-success" id="btnBulk"
-                                onclick="document.getElementById('bulkForm').submit()">
-                                <i class="bi bi-check2-square"></i>
-                                Tetapkan Terpilih
-
-                            </button>
-
-                        </div>
-                    @endif
-
+                    </div>
                 </div>
 
                 <div class="card-body">
