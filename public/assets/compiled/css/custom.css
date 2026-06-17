@@ -1,14 +1,14 @@
 @media (max-width: 576px) {
 
-    #sidebar.active .sidebar-wrapper {
-        height: 100vh;
-        overflow-y: auto;
+    #sidebar .sidebar-wrapper {
+        height: 100vh !important;
+        overflow-y: auto !important;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
     }
 
-    #sidebar .submenu {
-        overflow: visible;
+    #sidebar .sidebar-menu {
+        padding-bottom: 120px;
     }
 
     .dashboard-stats .card-body {

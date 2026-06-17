@@ -52,6 +52,21 @@
 
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            if (window.innerWidth < 1200) {
+
+                const sidebarWrapper = document.querySelector('.sidebar-wrapper');
+
+                if (sidebarWrapper) {
+                    sidebarWrapper.style.overflowY = 'auto';
+                }
+
+            }
+
+        });
+    </script>
 
     <!-- Need: Apexcharts -->
     {{-- <script src="{{ asset('assets/extensions/apexcharts/apexcharts.min.js') }}"></script>
