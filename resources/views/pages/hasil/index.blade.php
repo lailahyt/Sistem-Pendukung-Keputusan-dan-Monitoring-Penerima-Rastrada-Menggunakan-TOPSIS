@@ -275,10 +275,10 @@
                                         <td class="fw-bold"> {{ $row['nama'] }} </td>
 
                                         <!-- NIK -->
-                                        <td> {{ $row['nik'] }} </td>
+                                        <td class="d-none d-md-table-cell"> {{ $row['nik'] }} </td>
 
                                         <!-- NILAI -->
-                                        <td>
+                                        <td class="d-none d-md-table-cell">
                                             <div class="d-flex align-items-center gap-2">
                                                 <div class="progress w-100" style="height:6px">
                                                     <div class="progress-bar bg-primary"

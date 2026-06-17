@@ -57,13 +57,13 @@
     }
 
 
-    .ranking-actions {
+    /* .ranking-actions {
         position: sticky;
         bottom: 0;
         background: #fff;
         padding-top: 1rem;
         z-index: 10;
-    }
+    } */
 
     .item-check {
         width: 1.5rem;
