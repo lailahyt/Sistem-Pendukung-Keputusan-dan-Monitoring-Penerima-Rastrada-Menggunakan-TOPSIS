@@ -61,7 +61,7 @@
                                         <i class="bi bi-people-fill text-primary fs-3"></i>
                                     </div>
                                     <div>
-                                        <div class="text-muted small text-nowrap">Total Penduduk</div>
+                                        <div class="text-muted small">Total Penduduk</div>
                                         <div class="fs-4 fw-bold">{{ $totalPenduduk }}</div>
                                     </div>
                                 </div>
@@ -76,7 +76,7 @@
                                         <i class="bi bi-person-check-fill text-info fs-3"></i>
                                     </div>
                                     <div>
-                                        <div class="text-muted small text-nowrap">Total Penerima</div>
+                                        <div class="text-muted small">Total Penerima</div>
                                         <div class="fs-4 fw-bold">{{ $totalPenerima }}</div>
                                     </div>
                                 </div>
@@ -91,7 +91,7 @@
                                         <i class="bi bi-check-circle-fill text-success fs-3"></i>
                                     </div>
                                     <div>
-                                        <div class="text-muted small text-nowrap">Sudah Ambil</div>
+                                        <div class="text-muted small">Sudah Ambil</div>
                                         <div class="fs-4 fw-bold text-success">{{ $sudahAmbil }}</div>
                                     </div>
                                 </div>
@@ -106,7 +106,7 @@
                                         <i class="bi bi-exclamation-triangle-fill text-danger fs-3"></i>
                                     </div>
                                     <div>
-                                        <div class="text-muted small text-nowrap">Belum Ambil</div>
+                                        <div class="text-muted small">Belum Ambil</div>
                                         <div class="fs-4 fw-bold text-danger">{{ $belumAmbil }}</div>
                                     </div>
                                 </div>
