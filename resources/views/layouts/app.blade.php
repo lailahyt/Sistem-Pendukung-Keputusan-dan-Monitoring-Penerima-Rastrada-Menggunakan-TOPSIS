@@ -27,6 +27,33 @@
 
 
     <script src="{{ asset('assets/compiled/js/app.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const sidebar = document.getElementById('sidebar');
+
+            // Pastikan sidebar tertutup saat halaman dimuat di mobile
+            if (window.innerWidth < 1200 && sidebar) {
+                sidebar.classList.remove('active');
+            }
+
+            // Tutup sidebar setelah menu dipilih
+            document.querySelectorAll(
+                '#sidebar .sidebar-link, #sidebar .submenu-link'
+            ).forEach(link => {
+
+                link.addEventListener('click', function() {
+
+                    if (window.innerWidth < 1200) {
+                        sidebar.classList.remove('active');
+                    }
+
+                });
+
+            });
+
+        });
+    </script>
 
     <!-- Need: Apexcharts -->
     {{-- <script src="{{ asset('assets/extensions/apexcharts/apexcharts.min.js') }}"></script>
