@@ -32,14 +32,12 @@
 
             const sidebar = document.getElementById('sidebar');
 
-            // Pastikan sidebar tertutup saat halaman dimuat di mobile
             if (window.innerWidth < 1200 && sidebar) {
                 sidebar.classList.remove('active');
             }
 
-            // Tutup sidebar setelah menu dipilih
             document.querySelectorAll(
-                '#sidebar .sidebar-link, #sidebar .submenu-link'
+                '#sidebar .submenu-link, #sidebar .sidebar-item:not(.has-sub) .sidebar-link'
             ).forEach(link => {
 
                 link.addEventListener('click', function() {
