@@ -230,12 +230,22 @@
                                 <tr>
                                     <th>Rank</th>
                                     <th>Nama</th>
-                                    <th>NIK</th>
-                                    <th>Nilai Preferensi (Vi)</th>
+                                    <th class="d-none d-md-table-cell">
+                                        NIK
+                                    </th>
+
+                                    <th class="d-none d-md-table-cell">
+                                        Nilai Preferensi (Vi)
+                                    </th>
+
                                     @if (auth()->user()->role->name == 'Petugas')
-                                        <th width="150">Aksi</th>
+                                        <th class="text-center" style="width: 90px;">
+                                            Aksi
+                                        </th>
                                     @else
-                                        <th width="150">Status</th>
+                                        <th class="text-center" style="width: 90px;">
+                                            Status
+                                        </th>
                                     @endif
                                 </tr>
                             </thead>
