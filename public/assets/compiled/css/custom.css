@@ -1,5 +1,26 @@
 @media (max-width: 576px) {
 
+    .dashboard-stats .card-body {
+        padding: 1rem;
+    }
+
+    .dashboard-stats .rounded-4 {
+        padding: .85rem !important;
+    }
+
+    .dashboard-stats .fs-3 {
+        font-size: 1.5rem !important;
+    }
+
+    .dashboard-stats .fs-4 {
+        font-size: 1.75rem !important;
+    }
+
+    .dashboard-stats .small {
+        font-size: .85rem;
+        line-height: 1.2;
+    }
+
     .ranking-actions {
         width: 100%;
     }
