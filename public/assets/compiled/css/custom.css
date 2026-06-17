@@ -31,7 +31,13 @@
     .dashboard-stats .small {
         font-size: 0.85rem;
         line-height: 1.3;
-        word-break: break-word;
+    }
+
+    .dashboard-stats .stat-label {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
     .ranking-actions {
