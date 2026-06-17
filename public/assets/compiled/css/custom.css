@@ -56,15 +56,6 @@
         width: 100%;
     }
 
-
-    /* .ranking-actions {
-        position: sticky;
-        bottom: 0;
-        background: #fff;
-        padding-top: 1rem;
-        z-index: 10;
-    } */
-
     .item-check {
         width: 1.5rem;
         height: 1.5rem;
@@ -72,5 +63,15 @@
 
     .badge {
         white-space: nowrap;
+    }
+
+    #modalDetail .table {
+        font-size: 0.9rem;
+    }
+
+    #modalDetail th,
+    #modalDetail td {
+        white-space: nowrap;
+        vertical-align: middle;
     }
 }
