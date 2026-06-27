@@ -528,13 +528,11 @@
                     <div class="strength-label" id="confirmLabel"></div>
                 </div>
 
-                <div class="terms-row">
-                    <input type="checkbox" id="terms" required>
-                    <label for="terms">
-                        Saya menyetujui <a href="#">Syarat & Ketentuan</a> serta
-                        <a href="#">Kebijakan Privasi</a> SPK Rastrada
-                    </label>
-                </div>
+{{-- Ganti terms-row jadi ini --}}
+<p style="font-size:12.5px; color:#6b7280; margin: 1rem 0 1.4rem; line-height:1.6;">
+    <i class="bi bi-info-circle me-2"></i>
+    Setelah registrasi berhasil, akun akan diverifikasi oleh Admin sebelum dapat digunakan untuk masuk ke sistem.
+</p>
 
                 <button type="submit" class="btn-register">Buat Akun</button>
             </form>
