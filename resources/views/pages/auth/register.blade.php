@@ -40,7 +40,6 @@
             box-shadow: 0 20px 60px rgba(45, 68, 160, 0.15);
         }
 
-        /* ── Left: Decoration ── */
         .reg-left {
             flex: 0 0 42%;
             background: #2D44A0;
@@ -103,7 +102,6 @@
             background: rgba(255,255,255,0.75);
         }
 
-        /* ── Right: Form ── */
         .reg-right {
             flex: 1;
             background: #ffffff;
@@ -155,14 +153,6 @@
             margin-bottom: 1.8rem;
         }
 
-        .field-row {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 0;
-        }
-
-        .field-row .field-group { flex: 1; }
-
         .field-group { margin-bottom: 1rem; }
 
         .field-label {
@@ -208,7 +198,6 @@
         }
 
         .field-wrap input::placeholder { color: #c0c4cf; }
-
         .field-wrap input.is-invalid { border-color: #ef4444; }
 
         .toggle-password {
@@ -249,6 +238,36 @@
             color: #9ca3af;
             margin-top: 4px;
         }
+
+        /* Hint requirements */
+        .password-hints {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .hint-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11.5px;
+            color: #9ca3af;
+            transition: color 0.2s;
+        }
+
+        .hint-item.met { color: #22c55e; }
+
+        .hint-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+
+        .hint-item.met .hint-dot { background: #22c55e; }
 
         .terms-row {
             display: flex;
@@ -321,7 +340,6 @@
             .reg-left { display: none; }
             .reg-right { flex: 0 0 100%; border-radius: 20px; }
             .register-wrapper { border-radius: 20px; }
-            .field-row { flex-direction: column; gap: 0; }
         }
     </style>
 </head>
@@ -345,7 +363,7 @@
 
     <div class="register-wrapper">
 
-        {{-- LEFT: Decoration --}}
+        {{-- LEFT --}}
         <div class="reg-left">
             <div class="bubble" style="width:220px;height:220px;top:-70px;left:-70px;"></div>
             <div class="bubble" style="width:160px;height:160px;bottom:-50px;right:-50px;"></div>
@@ -354,37 +372,27 @@
 
             <div class="left-illustration">
                 <svg width="210" height="195" viewBox="0 0 210 195" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Background card -->
                     <rect x="15" y="30" width="180" height="130" rx="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
-                    <!-- Top header strip -->
                     <rect x="15" y="30" width="180" height="30" rx="12" fill="rgba(255,255,255,0.13)"/>
                     <rect x="15" y="48" width="180" height="12" fill="rgba(255,255,255,0.13)"/>
-                    <!-- User avatar circle -->
                     <circle cx="105" cy="15" r="15" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
                     <circle cx="105" cy="11" r="5" fill="rgba(255,255,255,0.6)"/>
                     <path d="M95 24c0-5.523 4.477-8 10-8s10 2.477 10 8" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
-                    <!-- Header label -->
                     <rect x="88" y="44" width="34" height="6" rx="3" fill="rgba(255,255,255,0.4)"/>
-                    <!-- Form fields illustration -->
                     <rect x="28" y="72" width="74" height="14" rx="5" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
                     <rect x="108" y="72" width="74" height="14" rx="5" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
                     <rect x="28" y="94" width="154" height="14" rx="5" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
                     <rect x="28" y="116" width="154" height="14" rx="5" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
-                    <!-- Field icons -->
                     <circle cx="38" cy="79" r="3.5" fill="rgba(255,255,255,0.4)"/>
                     <circle cx="38" cy="101" r="3.5" fill="rgba(255,255,255,0.4)"/>
                     <circle cx="38" cy="123" r="3.5" fill="rgba(255,255,255,0.4)"/>
-                    <!-- Field fill bars -->
                     <rect x="47" y="77" width="40" height="4" rx="2" fill="rgba(255,255,255,0.35)"/>
                     <rect x="47" y="99" width="55" height="4" rx="2" fill="rgba(255,255,255,0.35)"/>
                     <rect x="47" y="121" width="30" height="4" rx="2" fill="rgba(255,255,255,0.2)"/>
-                    <!-- Submit button illustration -->
                     <rect x="55" y="140" width="100" height="14" rx="6" fill="rgba(255,255,255,0.3)"/>
                     <rect x="78" y="144" width="54" height="6" rx="3" fill="rgba(255,255,255,0.6)"/>
-                    <!-- Check badge -->
                     <circle cx="170" cy="72" r="12" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
                     <path d="M165 72l3 3 6-6" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- Progress dots -->
                     <circle cx="88" cy="170" r="3" fill="rgba(255,255,255,0.3)"/>
                     <rect x="93" y="167" width="24" height="6" rx="3" fill="rgba(255,255,255,0.65)"/>
                     <circle cx="122" cy="170" r="3" fill="rgba(255,255,255,0.3)"/>
@@ -401,9 +409,8 @@
             </div>
         </div>
 
-        {{-- RIGHT: Form --}}
+        {{-- RIGHT --}}
         <div class="reg-right">
-
             <div class="brand">
                 <div class="brand-icon">
                     <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -428,15 +435,9 @@
                             <circle cx="8" cy="5" r="3"/>
                             <path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5"/>
                         </svg>
-                        <input
-                            type="text"
-                            id="inputName"
-                            name="name"
+                        <input type="text" id="inputName" name="name"
                             placeholder="Nama lengkap Anda"
-                            value="{{ old('name') }}"
-                            required
-                            autofocus
-                        >
+                            value="{{ old('name') }}" required autofocus>
                     </div>
                 </div>
 
@@ -448,14 +449,9 @@
                             <rect x="2" y="4" width="12" height="9" rx="1.5"/>
                             <path d="M2 6l6 4 6-4"/>
                         </svg>
-                        <input
-                            type="email"
-                            id="inputEmail"
-                            name="email"
+                        <input type="email" id="inputEmail" name="email"
                             placeholder="email@contoh.com"
-                            value="{{ old('email') }}"
-                            required
-                        >
+                            value="{{ old('email') }}" required>
                     </div>
                 </div>
 
@@ -468,21 +464,20 @@
                             <path d="M5 7V5a3 3 0 016 0v2"/>
                             <circle cx="8" cy="10.5" r="1" fill="currentColor" stroke="none"/>
                         </svg>
-                        <input
-                            type="password"
-                            id="inputPassword"
-                            name="password"
-                            placeholder="Min. 8 karakter"
-                            required
-                            oninput="checkStrength(this.value)"
-                        >
-                        <button type="button" class="toggle-password" onclick="togglePassword('inputPassword', 'eye1')" title="Tampilkan password">
+                        <input type="password" id="inputPassword" name="password"
+                            placeholder="Min. 8 karakter" required
+                            oninput="checkStrength(this.value)">
+                        <button type="button" class="toggle-password"
+                            onclick="togglePassword('inputPassword', 'eye1')"
+                            title="Tampilkan password">
                             <svg id="eye1" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z"/>
                                 <circle cx="8" cy="8" r="2"/>
                             </svg>
                         </button>
                     </div>
+
+                    {{-- Strength bars --}}
                     <div class="password-strength" id="strengthBars">
                         <div class="strength-bar" id="bar1"></div>
                         <div class="strength-bar" id="bar2"></div>
@@ -490,6 +485,22 @@
                         <div class="strength-bar" id="bar4"></div>
                     </div>
                     <div class="strength-label" id="strengthLabel"></div>
+
+                    {{-- Requirement hints --}}
+                    <div class="password-hints" id="passwordHints" style="display:none;">
+                        <div class="hint-item" id="hint-length">
+                            <div class="hint-dot"></div> Minimal 8 karakter
+                        </div>
+                        <div class="hint-item" id="hint-upper">
+                            <div class="hint-dot"></div> Huruf kapital (A-Z)
+                        </div>
+                        <div class="hint-item" id="hint-number">
+                            <div class="hint-dot"></div> Angka (0-9)
+                        </div>
+                        <div class="hint-item" id="hint-symbol">
+                            <div class="hint-dot"></div> Simbol (!@#$...)
+                        </div>
+                    </div>
                 </div>
 
                 {{-- Confirm Password --}}
@@ -501,26 +512,27 @@
                             <path d="M5 6V4a3 3 0 016 0v2"/>
                             <circle cx="8" cy="10" r="1.2" fill="currentColor" stroke="none"/>
                         </svg>
-                        <input
-                            type="password"
-                            id="inputPasswordConfirm"
+                        <input type="password" id="inputPasswordConfirm"
                             name="password_confirmation"
-                            placeholder="Ulangi password"
-                            required
-                        >
-                        <button type="button" class="toggle-password" onclick="togglePassword('inputPasswordConfirm', 'eye2')" title="Tampilkan password">
+                            placeholder="Ulangi password" required
+                            oninput="checkConfirm(this.value)">
+                        <button type="button" class="toggle-password"
+                            onclick="togglePassword('inputPasswordConfirm', 'eye2')"
+                            title="Tampilkan password">
                             <svg id="eye2" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z"/>
                                 <circle cx="8" cy="8" r="2"/>
                             </svg>
                         </button>
                     </div>
+                    <div class="strength-label" id="confirmLabel"></div>
                 </div>
 
                 <div class="terms-row">
                     <input type="checkbox" id="terms" required>
                     <label for="terms">
-                        Saya menyetujui <a href="#">Syarat & Ketentuan</a> serta <a href="#">Kebijakan Privasi</a> SPK Rastrada
+                        Saya menyetujui <a href="#">Syarat & Ketentuan</a> serta
+                        <a href="#">Kebijakan Privasi</a> SPK Rastrada
                     </label>
                 </div>
 
@@ -530,7 +542,6 @@
             <div class="login-row">
                 Sudah punya akun? <a href="/">Masuk di sini</a>
             </div>
-
         </div>
     </div>
 
@@ -555,25 +566,101 @@
             }
         }
 
-        function checkStrength(val) {
-            const bars   = [document.getElementById('bar1'), document.getElementById('bar2'), document.getElementById('bar3'), document.getElementById('bar4')];
-            const label  = document.getElementById('strengthLabel');
-            const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e'];
-            const labels = ['Sangat lemah', 'Lemah', 'Cukup kuat', 'Kuat'];
-
+        function getScore(val) {
             let score = 0;
-            if (val.length >= 8)              score++;
-            if (/[A-Z]/.test(val))            score++;
-            if (/[0-9]/.test(val))            score++;
-            if (/[^A-Za-z0-9]/.test(val))     score++;
+            if (val.length >= 8)           score++;
+            if (/[A-Z]/.test(val))         score++;
+            if (/[0-9]/.test(val))         score++;
+            if (/[^A-Za-z0-9]/.test(val))  score++;
+            return score;
+        }
 
+        function checkStrength(val) {
+            const bars    = ['bar1','bar2','bar3','bar4'].map(id => document.getElementById(id));
+            const label   = document.getElementById('strengthLabel');
+            const input   = document.getElementById('inputPassword');
+            const hints   = document.getElementById('passwordHints');
+            const colors  = ['#ef4444', '#f97316', '#eab308', '#22c55e'];
+            const labels  = ['Sangat lemah', 'Lemah', 'Cukup kuat', 'Kuat'];
+
+            const score = getScore(val);
+
+            // Tampilkan/sembunyikan hints
+            hints.style.display = val.length ? 'flex' : 'none';
+
+            // Update hint items
+            document.getElementById('hint-length').className = 'hint-item' + (val.length >= 8 ? ' met' : '');
+            document.getElementById('hint-upper').className  = 'hint-item' + (/[A-Z]/.test(val) ? ' met' : '');
+            document.getElementById('hint-number').className = 'hint-item' + (/[0-9]/.test(val) ? ' met' : '');
+            document.getElementById('hint-symbol').className = 'hint-item' + (/[^A-Za-z0-9]/.test(val) ? ' met' : '');
+
+            // Update bars
             bars.forEach((b, i) => {
                 b.style.background = i < score ? colors[score - 1] : '#e5e7eb';
             });
 
-            label.textContent  = val.length ? labels[score - 1] || '' : '';
-            label.style.color  = val.length && score ? colors[score - 1] : '#9ca3af';
+            if (!val.length) {
+                label.textContent = '';
+                input.setCustomValidity('');
+                return;
+            }
+
+            label.textContent  = labels[score - 1] || 'Sangat lemah';
+            label.style.color  = colors[score - 1] || '#ef4444';
+
+            // Blokir submit jika score < 3 (minimal "Cukup kuat")
+            if (score < 3) {
+                input.setCustomValidity('Password terlalu lemah. Gunakan minimal huruf kapital + angka.');
+            } else {
+                input.setCustomValidity('');
+            }
+
+            // Re-check confirm jika sudah diisi
+            const confirm = document.getElementById('inputPasswordConfirm');
+            if (confirm.value) checkConfirm(confirm.value);
         }
+
+        function checkConfirm(val) {
+            const password = document.getElementById('inputPassword').value;
+            const input    = document.getElementById('inputPasswordConfirm');
+            const label    = document.getElementById('confirmLabel');
+
+            if (!val) {
+                label.textContent = '';
+                input.setCustomValidity('');
+                return;
+            }
+
+            if (val === password) {
+                label.textContent  = 'Password cocok ✓';
+                label.style.color  = '#22c55e';
+                input.setCustomValidity('');
+            } else {
+                label.textContent  = 'Password tidak cocok';
+                label.style.color  = '#ef4444';
+                input.setCustomValidity('Password tidak cocok.');
+            }
+        }
+
+        // Validasi saat submit (jaga-jaga)
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            const passInput    = document.getElementById('inputPassword');
+            const confirmInput = document.getElementById('inputPasswordConfirm');
+            const score        = getScore(passInput.value);
+
+            if (score < 3) {
+                e.preventDefault();
+                passInput.setCustomValidity('Password terlalu lemah.');
+                passInput.reportValidity();
+                return;
+            }
+
+            if (passInput.value !== confirmInput.value) {
+                e.preventDefault();
+                confirmInput.setCustomValidity('Password tidak cocok.');
+                confirmInput.reportValidity();
+            }
+        });
     </script>
 
 </body>
