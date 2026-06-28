@@ -48,14 +48,8 @@
                                 </div>
 
                                 <div>
-                                    <p class="mb-0 text-muted" style="font-size:12px">
-
-                                        Total Penerima
-                                    </p>
-
-                                    <h5 class="mb-0 fw-bold">
-                                        {{ $totalPenerima }}
-                                    </h5>
+                                    <p class="mb-0 text-muted" style="font-size:12px">Total Penerima</p>
+                                    <h5 class="mb-0 fw-bold">{{ $totalPenerima }}</h5>
                                 </div>
 
                             </div>
@@ -80,14 +74,8 @@
                                 </div>
 
                                 <div>
-                                    <p class="mb-0 text-muted" style="font-size:12px">
-
-                                        Sudah Ambil
-                                    </p>
-
-                                    <h5 class="mb-0 fw-bold text-success">
-                                        {{ $sudahAmbil }}
-                                    </h5>
+                                    <p class="mb-0 text-muted" style="font-size:12px">Sudah Ambil</p>
+                                    <h5 class="mb-0 fw-bold text-success">{{ $sudahAmbil }}</h5>
                                 </div>
 
                             </div>
@@ -112,14 +100,8 @@
                                 </div>
 
                                 <div>
-                                    <p class="mb-0 text-muted" style="font-size:12px">
-
-                                        Belum Ambil
-                                    </p>
-
-                                    <h5 class="mb-0 fw-bold text-warning">
-                                        {{ $belumAmbil }}
-                                    </h5>
+                                    <p class="mb-0 text-muted" style="font-size:12px">Belum Ambil</p>
+                                    <h5 class="mb-0 fw-bold text-warning">{{ $belumAmbil }}</h5>
                                 </div>
 
                             </div>
@@ -144,14 +126,8 @@
                                 </div>
 
                                 <div>
-                                    <p class="mb-0 text-muted" style="font-size:12px">
-
-                                        Realisasi
-                                    </p>
-
-                                    <h5 class="mb-0 fw-bold text-info">
-                                        {{ number_format($realisasi, 1) }}%
-                                    </h5>
+                                    <p class="mb-0 text-muted" style="font-size:12px">Realisasi</p>
+                                    <h5 class="mb-0 fw-bold text-info">{{ number_format($realisasi, 1) }}%</h5>
                                 </div>
 
                             </div>
@@ -170,27 +146,12 @@
                 <div class="card-body py-3">
 
                     <div class="d-flex justify-content-between mb-1">
-
-                        <small class="fw-bold">
-                            Progress Penyaluran
-                            {{ $periode->nama_periode }}
-                        </small>
-
-                        <small class="text-muted">
-                            {{ $sudahAmbil }}
-                            dari
-                            {{ $totalPenerima }}
-                            penerima
-                        </small>
-
+                        <small class="fw-bold">Progress Penyaluran {{ $periode->nama_periode }}</small>
+                        <small class="text-muted">{{ $sudahAmbil }} dari {{ $totalPenerima }} penerima</small>
                     </div>
 
                     <div class="progress" style="height:10px; border-radius:10px">
-
-                        <div class="progress-bar bg-success" style="width: {{ $realisasi }}%">
-
-                        </div>
-
+                        <div class="progress-bar bg-success" style="width: {{ $realisasi }}%"></div>
                     </div>
 
                 </div>
@@ -208,41 +169,18 @@
 
                             {{-- FILTER STATUS --}}
                             <div class="col-12 col-md-3">
-
-                                <label class="form-label mb-1" style="font-size:13px">
-
-                                    Filter Status
-                                </label>
-
+                                <label class="form-label mb-1" style="font-size:13px">Filter Status</label>
                                 <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
-
-                                    <option value="">
-                                        Semua Status
-                                    </option>
-
-                                    <option value="sudah_ambil" {{ $status == 'sudah_ambil' ? 'selected' : '' }}>
-
-                                        Sudah Ambil
-
-                                    </option>
-
-                                    <option value="belum_ambil" {{ $status == 'belum_ambil' ? 'selected' : '' }}>
-
-                                        Belum Ambil
-
-                                    </option>
-
+                                    <option value="">Semua Status</option>
+                                    <option value="sudah_ambil" {{ $status == 'sudah_ambil' ? 'selected' : '' }}>Sudah Ambil</option>
+                                    <option value="belum_ambil" {{ $status == 'belum_ambil' ? 'selected' : '' }}>Belum Ambil</option>
                                 </select>
 
                             </div>
 
                             {{-- FILTER PERIODE --}}
                             <div class="col-12 col-md-3">
-
-                                <label class="form-label mb-1" style="font-size:13px">
-
-                                    Periode
-                                </label>
+                                <label class="form-label mb-1" style="font-size:13px">Periode</label>
 
                                 <select name="periode_id" class="form-select form-select-sm" onchange="this.form.submit()">
 
@@ -270,11 +208,7 @@
             <div class="card">
 
                 <div class="card-header">
-
-                    <h5 class="card-title mb-0">
-                        Daftar Penerima
-                    </h5>
-
+                    <h5 class="card-title mb-0">Daftar Penerima</h5>
                 </div>
 
                 <div class="card-body">
@@ -303,41 +237,25 @@
                                     <tr>
 
                                         {{-- NO --}}
-                                        <td>
-                                            {{ $loop->iteration }}
-                                        </td>
+                                        <td>{{ $loop->iteration }}</td>
 
                                         {{-- NAMA --}}
-                                        <td class="fw-bold">
-                                            {{ $item->resident->nama }}
-                                        </td>
+                                        <td class="fw-bold">{{ $item->resident->nama }}</td>
 
                                         {{-- NIK --}}
-                                        <td>
-                                            {{ $item->resident->nik }}
-                                        </td>
+                                        <td>{{ $item->resident->nik }}</td>
 
                                         {{-- RANK --}}
                                         <td>
 
                                             @if ($item->rank == 1)
-                                                <span class="badge bg-warning text-dark">
-                                                    #1
-                                                </span>
+                                                <span class="badge bg-warning text-dark">#1</span>
                                             @elseif ($item->rank == 2)
-                                                <span class="badge bg-secondary">
-                                                    #2
-                                                </span>
+                                                <span class="badge bg-secondary">#2</span>
                                             @elseif ($item->rank == 3)
-                                                <span class="badge" style="background:#cd7f32">
-
-                                                    #3
-
-                                                </span>
+                                                <span class="badge" style="background:#cd7f32">#3</span>
                                             @else
-                                                <span class="badge bg-light text-dark border">
-                                                    #{{ $item->rank }}
-                                                </span>
+                                                <span class="badge bg-light text-dark border">#{{ $item->rank }}</span>
                                             @endif
 
                                         </td>
@@ -346,17 +264,11 @@
                                         <td>
 
                                             @if ($item->status_pengambilan == 'sudah_ambil')
-                                                <span class="badge bg-success">
-                                                    Sudah Ambil
-                                                </span>
+                                                <span class="badge bg-success">Sudah Ambil</span>
                                             @elseif ($item->status_pengambilan == 'ditunda')
-                                                <span class="badge bg-danger">
-                                                    Ditunda
-                                                </span>
+                                                <span class="badge bg-danger">Ditunda</span>
                                             @else
-                                                <span class="badge bg-warning text-dark">
-                                                    Belum Ambil
-                                                </span>
+                                                <span class="badge bg-warning text-dark">Belum Ambil</span>
                                             @endif
 
                                         </td>
@@ -379,33 +291,20 @@
 
                                                 </small>
                                             @else
-                                                <small class="text-muted">
-                                                    -
-                                                </small>
+                                                <small class="text-muted">-</small>
                                             @endif
 
                                         </td>
 
                                         {{-- DIAMBIL OLEH --}}
-                                        <td>
-
-                                            {{ $item->diambil_oleh ?? '-' }}
-
-                                        </td>
+                                        <td>{{ $item->diambil_oleh ?? '-' }}</td>
 
                                         {{-- PETUGAS --}}
-                                        <td>
-
-                                            {{ $item->petugas ?? '-' }}
-
-                                        </td>
+                                        <td>{{ $item->petugas ?? '-' }}</td>
 
                                         {{-- AKSI --}}
                                         <td>
-
-                                            @php
-                                                $role = auth()->user()?->role?->name;
-                                            @endphp
+                                            @php $role = auth()->user()?->role?->name; @endphp
 
                                             {{-- LURAH --}}
                                             @if ($role === 'Lurah')
@@ -413,44 +312,33 @@
                                                     <i class="bi bi-eye"></i>
                                                 </a>
 
-                                                {{-- ADMIN --}}
+                                            {{-- ADMIN --}}
                                             @elseif ($role === 'Admin')
                                                 <div class="d-flex gap-1">
-
-                                                    <a href="/monitoring/{{ $item->id }}"
-                                                        class="btn btn-info btn-sm">
+                                                    <a href="/monitoring/{{ $item->id }}" class="btn btn-info btn-sm">
                                                         <i class="bi bi-eye"></i>
                                                     </a>
 
                                                     @if ($item->status_pengambilan != 'sudah_ambil')
-                                                        <form action="{{ route('monitoring.batalkan', $item->id) }}"
-                                                            method="POST" class="d-inline"
-                                                            onsubmit="return confirm('Yakin ingin membatalkan penetapan penerima ini?')">
-
-                                                            @csrf
-                                                            @method('DELETE')
-
-                                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                                <i class="bi bi-arrow-counterclockwise"></i>
-                                                            </button>
-
-                                                        </form>
+                                                        <button type="button"
+                                                            class="btn btn-danger btn-sm"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#batalModal{{ $item->id }}">
+                                                            <i class="bi bi-arrow-counterclockwise"></i>
+                                                        </button>
                                                     @endif
 
                                                 </div>
 
-                                                {{-- PETUGAS --}}
+                                            {{-- PETUGAS --}}
                                             @else
                                                 @if ($item->status_pengambilan == 'sudah_ambil')
-                                                    <a href="/monitoring/{{ $item->id }}"
-                                                        class="btn btn-info btn-sm">
+                                                    <a href="/monitoring/{{ $item->id }}" class="btn btn-info btn-sm">
                                                         <i class="bi bi-eye"></i>
                                                     </a>
                                                 @else
-                                                    <a href="/monitoring/{{ $item->id }}/edit"
-                                                        class="btn btn-primary btn-sm">
-                                                        <i class="bi bi-pencil-square"></i>
-                                                        Catat
+                                                    <a href="/monitoring/{{ $item->id }}/edit" class="btn btn-primary btn-sm">
+                                                        <i class="bi bi-pencil-square"></i> Catat
                                                     </a>
                                                 @endif
                                             @endif
@@ -459,14 +347,53 @@
 
                                     </tr>
 
+                                    {{-- MODAL BATALKAN --}}
+                                    @if(auth()->user()?->role?->name === 'Admin' && $item->status_pengambilan != 'sudah_ambil')
+                                        <div class="modal fade" id="batalModal{{ $item->id }}" tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">
+                                                            <i class="bi bi-exclamation-triangle text-danger me-2"></i>
+                                                            Konfirmasi Pembatalan
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        <p class="mb-3">Yakin ingin membatalkan penetapan penerima ini?</p>
+                                                        <div class="alert alert-warning py-2 mb-0">
+                                                            <i class="bi bi-person-fill me-1"></i>
+                                                            <strong>{{ $item->resident->nama }}</strong>
+                                                            <br>
+                                                            <small class="text-muted">NIK: {{ $item->resident->nik }}</small>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                            Batal
+                                                        </button>
+                                                        <form action="{{ route('monitoring.batalkan', $item->id) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">
+                                                                <i class="bi bi-arrow-counterclockwise me-1"></i>
+                                                                Ya, Batalkan
+                                                            </button>
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+
                                 @empty
 
                                     <tr>
-                                        <td colspan="9" class="text-center">
-
-                                            Tidak ada data monitoring
-
-                                        </td>
+                                        <td colspan="9" class="text-center">Tidak ada data monitoring</td>
                                     </tr>
                                 @endforelse
 
