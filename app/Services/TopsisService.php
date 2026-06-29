@@ -22,6 +22,7 @@ class TopsisService
         ])
             ->where('periode_id', $periode_id)
             ->where('status', 'selesai')
+            ->orderBy('penduduk_id', 'asc')
             ->get();
 
         // VALIDASI DATA KOSONG

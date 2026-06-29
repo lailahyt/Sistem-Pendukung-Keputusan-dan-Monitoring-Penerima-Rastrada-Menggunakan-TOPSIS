@@ -31,13 +31,12 @@ class PenilaianController extends Controller
         $residents = Resident::where('status', 'active')
             ->with([
                 'penilaian' => function ($q) use ($periode_id) {
-
                     $q->where('periode_id', $periode_id);
                 },
-
                 'penilaian.penilaianDetail'
-
-            ])->get();
+            ])
+            ->orderBy('id', 'asc')
+            ->get();
 
         foreach ($residents as $p) {
 

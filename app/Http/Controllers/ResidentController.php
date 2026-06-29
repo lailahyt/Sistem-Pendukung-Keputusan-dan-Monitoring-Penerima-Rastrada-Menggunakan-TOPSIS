@@ -28,7 +28,9 @@ class ResidentController extends Controller
             });
         }
 
-        $residents = $query->get();
+        $residents = $query
+            ->orderBy('id', 'asc')
+            ->get();
 
         $wilayah = Wilayah::all();
 
