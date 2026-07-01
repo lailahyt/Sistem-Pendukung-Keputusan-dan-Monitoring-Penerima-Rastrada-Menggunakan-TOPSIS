@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kriteria;
+use Illuminate\Support\Facades\Auth;
 
 class KriteriaController extends Controller
 {
     // Helper: cek apakah user adalah Admin (role_id = 1)
     private function isAdmin(): bool
     {
-        return auth()->user()->role_id == 1;
+        return Auth::user()->role_id == 1; 
     }
 
     public function index()
@@ -36,7 +37,6 @@ class KriteriaController extends Controller
             'nama_kriteria' => 'required',
             'bobot'         => 'required|numeric',
             'atribut'       => 'required|in:benefit,cost',
-            'butuh_bukti'   => 'required|boolean',
         ]);
 
         Kriteria::create([
@@ -44,7 +44,7 @@ class KriteriaController extends Controller
             'nama_kriteria' => $request->nama_kriteria,
             'bobot'         => $request->bobot,
             'atribut'       => $request->atribut,
-            'butuh_bukti'   => $request->butuh_bukti,
+            'butuh_bukti'   => true,
         ]);
 
         return redirect('/kriteria')->with('success', 'Data kriteria berhasil ditambahkan');
@@ -66,7 +66,6 @@ class KriteriaController extends Controller
             'nama_kriteria' => 'required',
             'bobot'         => 'required|numeric',
             'atribut'       => 'required|in:benefit,cost',
-            'butuh_bukti'   => 'required|boolean',
         ]);
 
         $kriteria = Kriteria::where('kode', $kode)->firstOrFail();
@@ -74,7 +73,7 @@ class KriteriaController extends Controller
             'nama_kriteria' => $request->nama_kriteria,
             'bobot'         => $request->bobot,
             'atribut'       => $request->atribut,
-            'butuh_bukti'   => $request->butuh_bukti,
+            'butuh_bukti'   => true,
         ]);
 
         return redirect('/kriteria')->with('success', 'Data berhasil diupdate');

@@ -37,10 +37,8 @@
                                 {{-- Subkriteria --}}
                                 <div class="col-md-4 mb-2">
                                     <label>Sub Kriteria</label>
-                                    <select name="subkriteria[{{ $k->id }}]"
-                                            class="form-select"
-                                            required>
-                                                <option value="">-- Pilih --</option>
+                                    <select name="subkriteria[{{ $k->id }}]" class="form-select" required>
+                                        <option value="">-- Pilih --</option>
                                         @foreach ($k->subkriteria as $sub)
                                             <option value="{{ $sub->id }}"
                                                 {{ ($detail[$k->id]['subkriteria_id'] ?? '') == $sub->id ? 'selected' : '' }}>
@@ -50,16 +48,12 @@
                                     </select>
                                 </div>
 
-                                @if($k->butuh_bukti)
-
+                                @if ($k->butuh_bukti)
                                     {{-- Upload Bukti --}}
                                     <div class="col-md-4 mb-2">
                                         <label>Upload Bukti</label>
-                                        <input type="file"
-                                            name="bukti[{{ $k->id }}]"
-                                            class="form-control"
-                                            accept="image/*,.pdf"
-                                            capture="environment">
+                                        <input type="file" name="bukti[{{ $k->id }}]" class="form-control"
+                                            accept="image/*,.pdf" capture="environment">
                                     </div>
 
                                     {{-- Bukti Lama --}}
@@ -68,15 +62,13 @@
 
                                         @if (!empty($detail[$k->id]['bukti_file']))
                                             <a href="{{ asset('storage/' . $detail[$k->id]['bukti_file']) }}"
-                                            target="_blank"
-                                            class="btn btn-sm btn-info">
+                                                target="_blank" class="btn btn-sm btn-info">
                                                 Lihat
                                             </a>
                                         @else
                                             <span class="text-muted">Tidak ada</span>
                                         @endif
                                     </div>
-
                                 @endif
 
                                 {{-- Catatan --}}
@@ -90,7 +82,8 @@
 
                         {{-- Tombol --}}
                         <div class="mt-3 d-flex justify-content-end gap-2">
-                            <a href="/penilaian?periode_id={{ $periode_id }}" class="btn btn-outline-secondary me-1 mb-1">
+                            <a href="/penilaian?periode_id={{ $periode_id }}"
+                                class="btn btn-outline-secondary me-1 mb-1">
                                 Kembali
                             </a>
 

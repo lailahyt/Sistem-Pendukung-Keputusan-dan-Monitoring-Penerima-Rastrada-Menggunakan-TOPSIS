@@ -84,62 +84,69 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            document.querySelectorAll('.btn-detail').forEach(button => {
-                button.addEventListener('click', function() {
+            document.addEventListener('click', function(e) {
 
-                    let id = this.dataset.id;
-                    let nama = this.dataset.nama;
+                const button = e.target.closest('.btn-detail');
 
-                    let periode_id = document.getElementById('periode').value;
+                if (!button) return;
 
-                    document.getElementById('namaPenduduk').innerText = nama;
+                let id = button.dataset.id;
+                let nama = button.dataset.nama;
 
-                    let tbody = document.getElementById('detailBody');
-                    tbody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
+                let periode_id = document.getElementById('periode').value;
 
-                    fetch(`/penilaian/detail-json/${id}?periode_id=${periode_id}`)
-                        .then(res => {
-                            if (!res.ok) throw new Error('Gagal mengambil data');
-                            return res.json();
-                        })
-                        .then(data => {
+                document.getElementById('namaPenduduk').innerText = nama;
 
-                            let html = '';
+                let tbody = document.getElementById('detailBody');
+                tbody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
 
-                            if (!data || data.length === 0) {
-                                html = '<tr><td colspan="5">Tidak ada data</td></tr>';
-                            } else {
-                                data.forEach(item => {
+                fetch(`/penilaian/detail-json/${id}?periode_id=${periode_id}`)
+                    .then(res => {
+                        if (!res.ok) throw new Error('Gagal mengambil data');
+                        return res.json();
+                    })
+                    .then(data => {
 
-                                    let bukti = item.bukti_file ?
-                                        `<a href="/storage/${item.bukti_file}" target="_blank">Lihat</a>` :
-                                        '-';
+                        let html = '';
 
-                                    html += `
-                                <tr>
-                                    <td>${item.kriteria.nama_kriteria}</td>
-                                    <td>${item.subkriteria.label_subkriteria}</td>
-                                    <td>${item.nilai}</td>
-                                    <td>${bukti}</td>
-                                    <td>${item.catatan ?? '-'}</td>
-                                </tr>
-                            `;
-                                });
-                            }
+                        if (!data || data.length === 0) {
+                            html = '<tr><td colspan="5">Tidak ada data</td></tr>';
+                        } else {
 
-                            tbody.innerHTML = html;
-                        })
-                        .catch(err => {
-                            console.error(err);
-                            tbody.innerHTML = '<tr><td colspan="5">Terjadi error</td></tr>';
-                        });
+                            data.forEach(item => {
 
-                    let modalEl = document.getElementById('modalDetail');
-                    let modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-                    modal.show();
-                });
+                                let bukti = item.bukti_file ?
+                                    `<a href="/storage/${item.bukti_file}" target="_blank">Lihat</a>` :
+                                    '-';
+
+                                html += `
+                        <tr>
+                            <td>${item.kriteria.nama_kriteria}</td>
+                            <td>${item.subkriteria.label_subkriteria}</td>
+                            <td>${item.nilai}</td>
+                            <td>${bukti}</td>
+                            <td>${item.catatan ?? '-'}</td>
+                        </tr>
+                    `;
+                            });
+
+                        }
+
+                        tbody.innerHTML = html;
+                    })
+                    .catch(err => {
+
+                        console.error(err);
+
+                        tbody.innerHTML =
+                            '<tr><td colspan="5">Terjadi error</td></tr>';
+                    });
+
+                bootstrap.Modal.getOrCreateInstance(
+                    document.getElementById('modalDetail')
+                ).show();
+
             });
-
         });
     </script>
 

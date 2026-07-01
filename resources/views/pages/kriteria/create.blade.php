@@ -40,15 +40,6 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label>Perlu Bukti Pendukung?</label>
-
-                                <select name="butuh_bukti" class="form-control" required>
-                                    <option value="1">Ya</option>
-                                    <option value="0">Tidak</option>
-                                </select>
-                            </div>
-
                         </div>
 
                         <div class="mt-3 d-flex justify-content-end gap-2">

@@ -56,15 +56,13 @@
 
             <input type="hidden" name="penduduk_id" value="{{ $penduduk->id }}">
             <input type="hidden" name="periode_id" value="{{ $periode_id }}">
-                @foreach ($kriteria as $k)
+            @foreach ($kriteria as $k)
                 <div class="card mb-3">
                     <div class="card-body">
                         <label><strong>{{ $k->nama_kriteria }}</strong></label>
 
-                        <select name="subkriteria[{{ $k->id }}]"
-                                class="form-control"
-                                required>
-                                <option value="">-- Pilih --</option>
+                        <select name="subkriteria[{{ $k->id }}]" class="form-control" required>
+                            <option value="">-- Pilih --</option>
                             @foreach ($k->subkriteria as $sub)
                                 <option value="{{ $sub->id }}">
                                     {{ $sub->label_subkriteria }} ({{ $sub->nilai }})
@@ -72,17 +70,16 @@
                             @endforeach
                         </select>
 
-                        @if($k->butuh_bukti)
-                            <div class="mt-2">
-                                <label>Bukti (foto/file)</label>
-                                <input type="file"
-                                    name="bukti[{{ $k->id }}]"
-                                    class="form-control"
-                                    accept="image/*,.pdf"
-                                    capture="environment"
-                                    {{ $k->butuh_bukti ? 'required' : '' }}>
-                            </div>
-                        @endif
+                        <div class="mt-2">
+                            <label>Bukti Pendukung <span class="text-danger">*</span></label>
+
+                            <input type="file" name="bukti[{{ $k->id }}]" class="form-control"
+                                accept="image/*,.pdf" capture="environment" required>
+
+                            <small class="text-muted">
+                                Upload foto atau file PDF sebagai bukti pendukung penilaian.
+                            </small>
+                        </div>
 
                         <div class="mt-2">
                             <label>Catatan</label>
@@ -92,10 +89,10 @@
                 </div>
             @endforeach
 
-                                        <div class="col-12 d-flex justify-content-end">
-                                            <a href="/penilaian" class="btn btn-outline-secondary me-1 mb-1">Kembali</a>
-                                            <button type="submit" class="btn btn-primary me-1 mb-1">Simpan</button>
-                                        </div>
+            <div class="col-12 d-flex justify-content-end">
+                <a href="/penilaian" class="btn btn-outline-secondary me-1 mb-1">Kembali</a>
+                <button type="submit" class="btn btn-primary me-1 mb-1">Simpan</button>
+            </div>
         </form>
     </div>
 @endsection

@@ -27,11 +27,23 @@ class PegawaiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
-            'jabatan' => 'required'
+            'nama' => 'required|string|max:100',
+            'jabatan' => 'required',
+            'no_hp' => [
+                'required',
+                'regex:/^08[0-9]{8,11}$/'
+            ],
+        ], [
+            'no_hp.regex' => 'Nomor HP harus diawali dengan 08 dan terdiri dari 10 sampai 13 digit.',
         ]);
 
-        Pegawai::create($request->all());
+        Pegawai::create($request->only([
+            'nama',
+            'nip',
+            'jabatan',
+            'no_hp',
+            'alamat'
+        ]));
 
         return redirect('/employee')->with('success', 'Data berhasil ditambahkan');
     }
@@ -47,11 +59,29 @@ class PegawaiController extends Controller
     // 🔹 Update data
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nama' => 'required|string|max:100',
+            'jabatan' => 'required',
+            'no_hp' => [
+                'required',
+                'regex:/^08[0-9]{8,11}$/'
+            ],
+        ], [
+            'no_hp.regex' => 'Nomor HP harus diawali dengan 08 dan terdiri dari 10 sampai 13 digit.',
+        ]);
+
         $pegawai = Pegawai::findOrFail($id);
 
-        $pegawai->update($request->all());
+        $pegawai->update($request->only([
+            'nama',
+            'nip',
+            'jabatan',
+            'no_hp',
+            'alamat'
+        ]));
 
-        return redirect('/employee')->with('success', 'Data berhasil diupdate');
+        return redirect('/employee')
+            ->with('success', 'Data berhasil diupdate');
     }
 
     // 🔹 Hapus data
