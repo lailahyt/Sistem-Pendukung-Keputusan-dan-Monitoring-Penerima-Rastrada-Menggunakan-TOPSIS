@@ -224,9 +224,14 @@ class PenilaianController extends Controller
             ->where('periode_id', $periode_id)
             ->first();
 
-        if ($penilaian && $penilaian->isLocked()) {
-            return redirect('/penilaian?periode_id=' . $periode_id)
-                ->with('error', 'Penilaian yang telah selesai tidak dapat diubah.');
+        if ($penilaian) {
+            foreach ($penilaian->penilaianDetail as $d) {
+                $detail[$d->kriteria_id] = [
+                    'subkriteria_id' => $d->subkriteria_id,
+                    'catatan' => $d->catatan,
+                    'bukti_file' => $d->bukti_file
+                ];
+            }
         }
 
         $detail = [];
@@ -263,11 +268,6 @@ class PenilaianController extends Controller
         $penilaian = Penilaian::where('penduduk_id', $id)
             ->where('periode_id', $periode_id)
             ->firstOrFail();
-
-        if ($penilaian->isLocked()) {
-            return redirect('/penilaian?periode_id=' . $periode_id)
-                ->with('error', 'Penilaian yang telah selesai tidak dapat diubah.');
-        }
 
         foreach ($request->subkriteria ?? [] as $kriteria_id => $sub_id) {
 
@@ -328,10 +328,16 @@ class PenilaianController extends Controller
             ->where('periode_id', $periode_id)
             ->firstOrFail();
 
-        if ($penilaian->isLocked()) {
-            return redirect('/penilaian?periode_id=' . $periode_id)
-                ->with('error', 'Penilaian yang telah selesai tidak dapat dihapus.');
+        $detail = PenilaianDetail::where('penilaian_id', $penilaian->id)->get();
+
+        foreach ($detail as $item) {
+            if ($item->bukti_file) {
+                Storage::disk('public')->delete($item->bukti_file);
+            }
         }
+
+        PenilaianDetail::where('penilaian_id', $penilaian->id)->delete();
+        $penilaian->delete();
 
         $detail = PenilaianDetail::where('penilaian_id', $penilaian->id)->get();
 

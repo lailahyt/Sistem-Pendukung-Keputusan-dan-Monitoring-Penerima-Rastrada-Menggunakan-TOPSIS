@@ -117,29 +117,57 @@
                                         <td>
                                             <div class="d-flex gap-1 flex-nowrap">
 
+                                                {{-- Tambah hanya jika penilaian belum selesai --}}
                                                 @if ($item->status !== 'selesai')
                                                     <a href="/penilaian/{{ $item->id }}?periode_id={{ $periode_id }}"
-                                                        class="btn btn-primary btn-sm">
+                                                        class="btn btn-primary btn-sm" title="Tambah Penilaian">
                                                         <i class="bi bi-plus-circle"></i>
                                                     </a>
                                                 @endif
 
+                                                {{-- Detail selalu tersedia --}}
                                                 <button class="btn btn-sm btn-info text-white btn-detail"
                                                     data-id="{{ $item->id }}" data-nama="{{ $item->nama }}"
-                                                    data-bs-toggle="modal" data-bs-target="#modalDetail">
+                                                    data-bs-toggle="modal" data-bs-target="#modalDetail"
+                                                    title="Lihat Detail Penilaian">
+
                                                     <i class="bi bi-eye-fill"></i>
+
                                                 </button>
 
-                                                @if ($item->status !== 'selesai')
+                                                @if ($item->status == 'selesai')
+                                                    <button type="button"
+                                                        class="btn btn-warning btn-sm text-white btn-edit-confirm"
+                                                        data-url="/penilaian/{{ $item->id }}/edit?periode_id={{ request('periode_id') ?? $periode_id }}"
+                                                        data-nama="{{ $item->nama }}">
+
+                                                        <i class="bi bi-pencil-square"></i>
+
+                                                    </button>
+                                                @else
                                                     <a href="/penilaian/{{ $item->id }}/edit?periode_id={{ request('periode_id') ?? $periode_id }}"
                                                         class="btn btn-warning btn-sm text-white">
-                                                        <i class="bi bi-pencil-square"></i>
-                                                    </a>
 
+                                                        <i class="bi bi-pencil-square"></i>
+
+                                                    </a>
+                                                @endif
+
+                                                @if ($item->status == 'selesai')
+                                                    <button type="button" class="btn btn-danger btn-sm btn-delete-confirm"
+                                                        data-target="#deleteModal{{ $item->id }}"
+                                                        data-nama="{{ $item->nama }}">
+
+                                                        <i class="bi bi-eraser-fill"></i>
+
+                                                    </button>
+                                                @else
                                                     <button type="button" class="btn btn-danger btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#deleteModal{{ $item->id }}">
+
                                                         <i class="bi bi-eraser-fill"></i>
+
                                                     </button>
                                                 @endif
 
@@ -227,6 +255,172 @@
 
                             </div>
                         </div>
+                    </div>
+
+                    <!-- MODAL PREVIEW BUKTI -->
+                    <div class="modal fade" id="modalPreview" tabindex="-1">
+
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+
+                                    <h5 class="modal-title" id="previewTitle">
+
+                                        Bukti Penilaian
+
+                                    </h5>
+
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                    </button>
+
+                                </div>
+
+                                <div class="modal-body text-center">
+
+                                    <div id="previewContainer">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal fade" id="modalEditConfirm" tabindex="-1">
+
+                        <div class="modal-dialog">
+
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+
+                                    <h5 class="modal-title">
+
+                                        Konfirmasi Edit Penilaian
+
+                                    </h5>
+
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                    </button>
+
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <p>
+
+                                        Data penilaian ini telah berstatus
+                                        <strong>Selesai</strong>.
+
+                                    </p>
+
+                                    <p>
+
+                                        Perubahan dapat memengaruhi hasil
+                                        <strong>perhitungan TOPSIS.</strong>
+
+                                    </p>
+
+                                    <p class="mb-0">
+
+                                        Apakah Anda ingin melanjutkan?
+
+                                    </p>
+
+                                </div>
+
+                                <div class="modal-footer">
+
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal">
+
+                                        Batal
+
+                                    </button>
+
+                                    <a href="#" class="btn btn-warning" id="btnLanjutEdit">
+
+                                        Ya, Lanjutkan
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- MODAL KONFIRMASI HAPUS -->
+                    <div class="modal fade" id="modalDeleteConfirm" tabindex="-1">
+
+                        <div class="modal-dialog">
+
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+
+                                    <h5 class="modal-title">
+
+                                        Konfirmasi Hapus Penilaian
+
+                                    </h5>
+
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                    </button>
+
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <p>
+
+                                        Data penilaian ini telah berstatus
+                                        <strong>Selesai</strong>.
+
+                                    </p>
+
+                                    <p>
+
+                                        Menghapus data ini akan menghapus seluruh
+                                        hasil penilaian beserta bukti yang telah
+                                        diunggah dan dapat memengaruhi hasil
+                                        perhitungan TOPSIS.
+
+                                    </p>
+
+                                    <p class="mb-0">
+
+                                        Apakah Anda ingin melanjutkan?
+
+                                    </p>
+
+                                </div>
+
+                                <div class="modal-footer">
+
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal">
+
+                                        Batal
+
+                                    </button>
+
+                                    <button class="btn btn-danger" id="btnLanjutDelete">
+
+                                        Ya, Lanjutkan
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>

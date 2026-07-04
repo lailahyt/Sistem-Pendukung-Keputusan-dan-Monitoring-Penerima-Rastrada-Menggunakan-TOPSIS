@@ -84,69 +84,337 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
+            /*
+            |--------------------------------------------------------------------------
+            | EVENT CLICK
+            |--------------------------------------------------------------------------
+            | Semua aksi klik pada halaman ditangani di sini.
+            | - btn-detail  : Membuka modal detail penilaian
+            | - btn-preview : Membuka modal preview bukti
+            |--------------------------------------------------------------------------
+            */
             document.addEventListener('click', function(e) {
 
+                /*
+                |--------------------------------------------------------------------------
+                | PREVIEW BUKTI
+                |--------------------------------------------------------------------------
+                | Saat tombol "Lihat" pada kolom Bukti diklik,
+                | tampilkan gambar atau PDF ke dalam modal preview.
+                |--------------------------------------------------------------------------
+                */
+                const previewButton = e.target.closest('.btn-preview');
+
+                if (previewButton) {
+
+                    e.preventDefault();
+
+                    const file = previewButton.dataset.file;
+                    const title = previewButton.dataset.title;
+
+                    // Judul modal mengikuti nama kriteria
+                    document.getElementById('previewTitle').innerText = title;
+
+                    const previewContainer = document.getElementById('previewContainer');
+
+                    // Ambil ekstensi file
+                    const ext = file.split('.').pop().toLowerCase();
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Preview Gambar
+                    |--------------------------------------------------------------------------
+                    */
+                    if (['jpg', 'jpeg', 'png', 'webp'].includes(ext)) {
+
+                        previewContainer.innerHTML = `
+                    <img
+                        src="${file}"
+                        class="img-fluid rounded shadow-sm"
+                        alt="Bukti Penilaian">
+                `;
+
+                    }
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Preview PDF
+                    |--------------------------------------------------------------------------
+                    */
+                    else if (ext === 'pdf') {
+
+                        previewContainer.innerHTML = `
+                    <iframe
+                        src="${file}"
+                        width="100%"
+                        height="650"
+                        style="border:none;">
+                    </iframe>
+                `;
+
+                    }
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | File selain gambar & PDF
+                    |--------------------------------------------------------------------------
+                    */
+                    else {
+
+                        previewContainer.innerHTML = `
+                    <a
+                        href="${file}"
+                        target="_blank"
+                        class="btn btn-primary">
+
+                        <i class="bi bi-download me-1"></i>
+
+                        Download File
+
+                    </a>
+                `;
+
+                    }
+
+                    // Tampilkan modal preview
+                    bootstrap.Modal.getOrCreateInstance(
+                        document.getElementById('modalPreview')
+                    ).show();
+
+                    return;
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | DETAIL PENILAIAN
+                |--------------------------------------------------------------------------
+                | Saat tombol mata diklik, ambil data detail penilaian
+                | menggunakan AJAX kemudian tampilkan ke modal detail.
+                |--------------------------------------------------------------------------
+                */
                 const button = e.target.closest('.btn-detail');
 
                 if (!button) return;
 
-                let id = button.dataset.id;
-                let nama = button.dataset.nama;
+                const id = button.dataset.id;
+                const nama = button.dataset.nama;
 
-                let periode_id = document.getElementById('periode').value;
+                // Ambil periode yang sedang dipilih
+                const periode_id = document.getElementById('periode').value;
 
+                // Tampilkan nama penduduk
                 document.getElementById('namaPenduduk').innerText = nama;
 
-                let tbody = document.getElementById('detailBody');
-                tbody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
+                // Loading sementara
+                const tbody = document.getElementById('detailBody');
 
+                tbody.innerHTML = `
+            <tr>
+                <td colspan="5" class="text-center">
+                    Loading...
+                </td>
+            </tr>
+        `;
+
+                /*
+                |--------------------------------------------------------------------------
+                | AJAX Ambil Detail Penilaian
+                |--------------------------------------------------------------------------
+                */
                 fetch(`/penilaian/detail-json/${id}?periode_id=${periode_id}`)
+
                     .then(res => {
-                        if (!res.ok) throw new Error('Gagal mengambil data');
+
+                        if (!res.ok)
+                            throw new Error('Gagal mengambil data');
+
                         return res.json();
+
                     })
+
                     .then(data => {
 
                         let html = '';
 
                         if (!data || data.length === 0) {
-                            html = '<tr><td colspan="5">Tidak ada data</td></tr>';
+
+                            html = `
+                        <tr>
+                            <td colspan="5" class="text-center">
+                                Tidak ada data
+                            </td>
+                        </tr>
+                    `;
+
                         } else {
 
                             data.forEach(item => {
 
-                                let bukti = item.bukti_file ?
-                                    `<a href="/storage/${item.bukti_file}" target="_blank">Lihat</a>` :
-                                    '-';
+                                /*
+                                |--------------------------------------------------------------------------
+                                | Tombol Lihat Bukti
+                                |--------------------------------------------------------------------------
+                                */
+                                let bukti = '-';
+
+                                if (item.bukti_file) {
+
+                                    bukti = `
+                                <button
+                                    type="button"
+                                    class="btn btn-link btn-sm p-0 btn-preview"
+
+                                    data-file="/storage/${item.bukti_file}"
+
+                                    data-title="${item.kriteria.nama_kriteria}">
+
+                                    Lihat
+
+                                </button>
+                            `;
+
+                                }
 
                                 html += `
-                        <tr>
-                            <td>${item.kriteria.nama_kriteria}</td>
-                            <td>${item.subkriteria.label_subkriteria}</td>
-                            <td>${item.nilai}</td>
-                            <td>${bukti}</td>
-                            <td>${item.catatan ?? '-'}</td>
-                        </tr>
-                    `;
+                            <tr>
+
+                                <td>
+                                    ${item.kriteria.nama_kriteria}
+                                </td>
+
+                                <td>
+                                    ${item.subkriteria.label_subkriteria}
+                                </td>
+
+                                <td class="text-center">
+                                    ${item.nilai}
+                                </td>
+
+                                <td class="text-center">
+                                    ${bukti}
+                                </td>
+
+                                <td>
+                                    ${item.catatan ?? '-'}
+                                </td>
+
+                            </tr>
+                        `;
+
                             });
 
                         }
 
                         tbody.innerHTML = html;
+
                     })
+
                     .catch(err => {
 
                         console.error(err);
 
-                        tbody.innerHTML =
-                            '<tr><td colspan="5">Terjadi error</td></tr>';
+                        tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center text-danger">
+                            Terjadi kesalahan saat mengambil data.
+                        </td>
+                    </tr>
+                `;
+
                     });
 
+                /*
+                |--------------------------------------------------------------------------
+                | Tampilkan Modal Detail
+                |--------------------------------------------------------------------------
+                */
                 bootstrap.Modal.getOrCreateInstance(
                     document.getElementById('modalDetail')
                 ).show();
 
             });
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Reset Modal Preview
+            |--------------------------------------------------------------------------
+            | Menghapus isi preview ketika modal ditutup
+            | agar gambar/PDF tidak tetap termuat di browser.
+            |--------------------------------------------------------------------------
+            */
+            document.getElementById('modalPreview')
+                .addEventListener('hidden.bs.modal', function() {
+
+                    document.getElementById('previewContainer').innerHTML = '';
+
+                    document.getElementById('previewTitle').innerText = 'Bukti Penilaian';
+
+                });
+
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Konfirmasi Edit
+        |--------------------------------------------------------------------------
+        */
+
+        document.addEventListener('click', function(e) {
+
+            const btn = e.target.closest('.btn-edit-confirm');
+
+            if (!btn) return;
+
+            document
+                .getElementById('btnLanjutEdit')
+                .href = btn.dataset.url;
+
+            bootstrap.Modal
+                .getOrCreateInstance(
+                    document.getElementById('modalEditConfirm')
+                )
+                .show();
+
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | Konfirmasi Hapus
+        |--------------------------------------------------------------------------
+        */
+
+        document.addEventListener('click', function(e) {
+
+            const btn = e.target.closest('.btn-delete-confirm');
+
+            if (!btn) return;
+
+            const targetModal = btn.dataset.target;
+
+            document.getElementById('btnLanjutDelete').onclick = function() {
+
+                // Tutup modal konfirmasi
+                bootstrap.Modal
+                    .getInstance(document.getElementById('modalDeleteConfirm'))
+                    .hide();
+
+                // Buka modal hapus asli
+                bootstrap.Modal
+                    .getOrCreateInstance(
+                        document.querySelector(targetModal)
+                    )
+                    .show();
+
+            };
+
+            bootstrap.Modal
+                .getOrCreateInstance(
+                    document.getElementById('modalDeleteConfirm')
+                )
+                .show();
+
         });
     </script>
 
