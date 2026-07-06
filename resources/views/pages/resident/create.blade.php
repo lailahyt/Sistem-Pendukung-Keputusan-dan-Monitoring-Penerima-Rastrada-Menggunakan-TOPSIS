@@ -35,9 +35,17 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="first-name-column">NIK</label>
-                                                <input type="number" inputmode="numeric"
+                                                <input
+                                                    type="text"
+                                                    name="nik"
+                                                    maxlength="16"
+                                                    minlength="16"
+                                                    inputmode="numeric"
+                                                    pattern="[0-9]{16}"
+                                                    oninput="this.value=this.value.replace(/[^0-9]/g,'')"
                                                     class="form-control @error('nik') is-invalid @enderror"
-                                                    placeholder="Nomor NIK" name="nik" value="{{ old('nik') }}"
+                                                    placeholder="Nomor NIK"
+                                                    value="{{ old('nik') }}"
                                                     required>
                                                 @error('nik')
                                                     <span class="invalid-feedback">{{ $message }}</span>
@@ -59,8 +67,16 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="age-column">Usia</label>
-                                                <input type="number" id="usia" name="usia" class="form-control @error('usia') is-invalid @enderror"
-                                                    placeholder="Usia" value="{{ old('usia') }}" required>
+                                                <input
+                                                    type="number"
+                                                    id="usia"
+                                                    name="usia"
+                                                    class="form-control @error('usia') is-invalid @enderror"
+                                                    placeholder="Usia"
+                                                    value="{{ old('usia') }}"
+                                                    min="0"
+                                                    max="120"
+                                                    required>
                                                 @error('usia')
                                                     <span class="invalid-feedback">{{ $message }}</span>
                                                 @enderror

@@ -54,9 +54,9 @@ class ResidentController extends Controller
     {
         // Logic to store a new resident in the database
         $validatedData = $request->validate([
-            'nik' => 'required',
+            'nik' => 'required|digits:16|unique:residents,nik',
             'nama' => 'required',
-            'usia' => 'required|integer|min:0',
+            'usia' => 'required|integer|min:0|max:120',
             'jenis_kelamin' => 'required|in:L,P',
             'alamat' => 'required',
             'desa' => 'required',
@@ -86,9 +86,9 @@ class ResidentController extends Controller
     {
         // Logic to update an existing resident in the database
         $validatedData = $request->validate([
-            'nik' => 'required',
+            'nik' => 'required|digits:16|unique:residents,nik,' . $id,
             'nama' => 'required',
-            'usia' => 'required|integer|min:0',
+            'usia' => 'required|integer|min:0|max:120',
             'jenis_kelamin' => 'required|in:L,P',
             'alamat' => 'required',
             'desa' => 'required',

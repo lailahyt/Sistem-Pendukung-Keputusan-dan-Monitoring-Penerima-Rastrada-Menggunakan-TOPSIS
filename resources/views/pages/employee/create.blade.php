@@ -38,8 +38,16 @@
 
                             <div class="col-md-6 mb-3">
                                 <label>NIP</label>
-                                <input type="text" name="nip" class="form-control"
-                                    placeholder="Masukkan NIP (opsional)">
+                                <input
+                                    type="text"
+                                    name="nip"
+                                    class="form-control"
+                                    placeholder="Masukkan NIP (opsional)"
+                                    maxlength="18"
+                                    minlength="18"
+                                    inputmode="numeric"
+                                    pattern="[0-9]{18}"
+                                    oninput="this.value=this.value.replace(/[^0-9]/g,'')">
                             </div>
 
                             <div class="col-md-6 mb-3">
