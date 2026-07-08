@@ -3,9 +3,9 @@
 @section('content')
     @php
         $role = auth()->user()?->role?->name;
-        $isAdmin   = $role === 'Admin';
+        $isAdmin = $role === 'Admin';
         $isPetugas = $role === 'Petugas';
-        $isLurah   = $role === 'Lurah';
+        $isLurah = $role === 'Lurah';
     @endphp
 
     {{-- ============================================================ --}}
@@ -16,9 +16,12 @@
             <div class="row align-items-center">
                 <div class="col-12 col-md-6 order-md-1 order-last">
                     <h3>
-                        @if($isAdmin)   Dashboard Admin
-                        @elseif($isPetugas) Dashboard Petugas
-                        @elseif($isLurah)   Dashboard Lurah
+                        @if ($isAdmin)
+                            Dashboard Admin
+                        @elseif($isPetugas)
+                            Dashboard Petugas
+                        @elseif($isLurah)
+                            Dashboard Lurah
                         @endif
                     </h3>
                     {{-- <p class="text-muted mb-0">
@@ -48,7 +51,7 @@
                 {{-- ---------------------------------------------------- --}}
                 {{-- ADMIN & PETUGAS --}}
                 {{-- ---------------------------------------------------- --}}
-                @if($isAdmin || $isPetugas)
+                @if ($isAdmin || $isPetugas)
 
                     {{-- STAT CARDS --}}
                     <div class="row g-3 dashboard-stats">
@@ -116,7 +119,7 @@
                     </div>
 
                     {{-- KRITERIA AKTIF — khusus Admin --}}
-                    {{-- @if($isAdmin)
+                    {{-- @if ($isAdmin)
                         <div class="row g-3 mt-0">
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div class="card shadow-sm border-0 h-100">
@@ -145,7 +148,8 @@
                         <div class="card-body pt-3">
                             <div class="d-flex justify-content-between mb-1">
                                 <span class="small text-muted">Realisasi</span>
-                                <span class="small fw-bold
+                                <span
+                                    class="small fw-bold
                                     {{ $realisasi >= 100 ? 'text-success' : ($realisasi >= 50 ? 'text-warning' : 'text-danger') }}">
                                     {{ number_format($realisasi, 1) }}%
                                 </span>
@@ -154,12 +158,9 @@
                                 <div class="progress-bar
                                     {{ $realisasi >= 100 ? 'bg-success' : ($realisasi >= 50 ? 'bg-warning' : 'bg-danger') }}
                                     rounded-pill"
-                                    role="progressbar"
-                                    style="width: {{ $realisasi }}%"
-                                    aria-valuenow="{{ $realisasi }}"
-                                    aria-valuemin="0"
-                                    aria-valuemax="100">
-                                    @if($realisasi >= 15)
+                                    role="progressbar" style="width: {{ $realisasi }}%"
+                                    aria-valuenow="{{ $realisasi }}" aria-valuemin="0" aria-valuemax="100">
+                                    @if ($realisasi >= 15)
                                         <span class="small px-2">{{ number_format($realisasi, 1) }}%</span>
                                     @endif
                                 </div>
@@ -178,22 +179,28 @@
                         <div class="card-header border-0 d-flex align-items-center justify-content-between">
                             <div>
                                 <h5 class="mb-0">
-                                    @if($isAdmin) Top Ranking TOPSIS
-                                    @else Prioritas Distribusi Bantuan
+                                    @if ($isAdmin)
+                                        Top Ranking TOPSIS
+                                    @else
+                                        Prioritas Distribusi Bantuan
                                     @endif
                                 </h5>
                                 <small class="text-muted">5 penerima teratas periode ini</small>
                             </div>
+
                             <a href="/hasil" class="btn btn-sm btn-outline-primary">
                                 Lihat Semua <i class="bi bi-arrow-right"></i>
                             </a>
                         </div>
+
                         <div class="card-body p-0">
-                            @if($topRanking->isEmpty())
+
+                            @if (empty($topRanking) || $topRanking->isEmpty())
                                 <div class="text-center py-5 text-muted">
                                     <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                                     <p class="mb-1">Belum ada data ranking.</p>
-                                    @if($isAdmin)
+
+                                    @if ($isAdmin)
                                         <a href="/topsis" class="btn btn-sm btn-primary mt-1">
                                             Jalankan TOPSIS
                                         </a>
@@ -204,56 +211,60 @@
                             @else
                                 <div class="table-responsive">
                                     <table class="table table-hover mb-0">
+
                                         <thead class="table-light">
                                             <tr>
                                                 <th class="ps-3">Rank</th>
                                                 <th>Nama</th>
                                                 <th>Nilai Vi</th>
-                                                @if($isPetugas)
-                                                    <th>Status</th>
-                                                @endif
                                             </tr>
                                         </thead>
+
                                         <tbody>
-                                            @foreach($topRanking as $item)
+
+                                            @foreach ($topRanking as $item)
                                                 <tr>
+
                                                     <td class="ps-3">
-                                                        <span class="badge
-                                                            {{ $item->rank == 1 ? 'bg-warning text-dark' :
-                                                               ($item->rank == 2 ? 'bg-secondary' :
-                                                               ($item->rank == 3 ? 'bg-danger bg-opacity-75' : 'bg-light text-dark')) }}">
-                                                            #{{ $item->rank }}
+                                                        <span
+                                                            class="badge
+                                        {{ $item['rank'] == 1
+                                            ? 'bg-warning text-dark'
+                                            : ($item['rank'] == 2
+                                                ? 'bg-secondary'
+                                                : ($item['rank'] == 3
+                                                    ? 'bg-danger bg-opacity-75'
+                                                    : 'bg-light text-dark')) }}">
+                                                            #{{ $item['rank'] }}
                                                         </span>
                                                     </td>
-                                                    <td class="fw-semibold">{{ $item->resident->nama ?? '-' }}</td>
+
+                                                    <td class="fw-semibold">
+                                                        {{ $item['nama'] }}
+                                                    </td>
+
                                                     <td>
                                                         <span class="font-monospace">
-                                                            {{ number_format($item->nilai_preferensi, 3) }}
+                                                            {{ number_format($item['nilai'], 3) }}
                                                         </span>
                                                     </td>
-                                                    @if($isPetugas)
-                                                        <td>
-                                                            @if($item->status_pengambilan == 'sudah_ambil')
-                                                                <span class="badge bg-success">Sudah Ambil</span>
-                                                            @else
-                                                                <span class="badge bg-warning text-dark">Belum Ambil</span>
-                                                            @endif
-                                                        </td>
-                                                    @endif
+
                                                 </tr>
                                             @endforeach
+
                                         </tbody>
+
                                     </table>
                                 </div>
                             @endif
+
                         </div>
                     </div>
 
-                {{-- ---------------------------------------------------- --}}
-                {{-- LURAH --}}
-                {{-- ---------------------------------------------------- --}}
+                    {{-- ---------------------------------------------------- --}}
+                    {{-- LURAH --}}
+                    {{-- ---------------------------------------------------- --}}
                 @elseif($isLurah)
-
                     {{-- STAT CARDS --}}
                     <div class="row g-3">
                         <div class="col-12 col-md-4">
@@ -308,7 +319,8 @@
                         <div class="card-body pt-3">
                             <div class="d-flex justify-content-between mb-1">
                                 <span class="small text-muted">Realisasi</span>
-                                <span class="small fw-bold
+                                <span
+                                    class="small fw-bold
                                     {{ $realisasi >= 100 ? 'text-success' : ($realisasi >= 50 ? 'text-warning' : 'text-danger') }}">
                                     {{ number_format($realisasi, 1) }}%
                                 </span>
@@ -317,12 +329,9 @@
                                 <div class="progress-bar
                                     {{ $realisasi >= 100 ? 'bg-success' : ($realisasi >= 50 ? 'bg-warning' : 'bg-danger') }}
                                     rounded-pill"
-                                    role="progressbar"
-                                    style="width: {{ $realisasi }}%"
-                                    aria-valuenow="{{ $realisasi }}"
-                                    aria-valuemin="0"
-                                    aria-valuemax="100">
-                                    @if($realisasi >= 15)
+                                    role="progressbar" style="width: {{ $realisasi }}%"
+                                    aria-valuenow="{{ $realisasi }}" aria-valuemin="0" aria-valuemax="100">
+                                    @if ($realisasi >= 15)
                                         <span class="small px-2">{{ number_format($realisasi, 1) }}%</span>
                                     @endif
                                 </div>
@@ -347,7 +356,7 @@
                             </a>
                         </div>
                         <div class="card-body p-0">
-                            @if($topRanking->isEmpty())
+                            @if ($topRanking->isEmpty())
                                 <div class="text-center py-5 text-muted">
                                     <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                                     <p class="mb-0">Belum ada data rekomendasi untuk periode ini.</p>
@@ -364,13 +373,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($topRanking as $item)
+                                            @foreach ($topRanking as $item)
                                                 <tr>
                                                     <td class="ps-3">
-                                                        <span class="badge
-                                                            {{ $item->rank == 1 ? 'bg-warning text-dark' :
-                                                               ($item->rank == 2 ? 'bg-secondary' :
-                                                               ($item->rank == 3 ? 'bg-danger bg-opacity-75' : 'bg-light text-dark')) }}">
+                                                        <span
+                                                            class="badge
+                                                            {{ $item->rank == 1
+                                                                ? 'bg-warning text-dark'
+                                                                : ($item->rank == 2
+                                                                    ? 'bg-secondary'
+                                                                    : ($item->rank == 3
+                                                                        ? 'bg-danger bg-opacity-75'
+                                                                        : 'bg-light text-dark')) }}">
                                                             #{{ $item->rank }}
                                                         </span>
                                                     </td>
@@ -381,7 +395,7 @@
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        @if($item->status_pengambilan == 'sudah_ambil')
+                                                        @if ($item->status_pengambilan == 'sudah_ambil')
                                                             <span class="badge bg-success">Sudah Ambil</span>
                                                         @else
                                                             <span class="badge bg-warning text-dark">Belum Ambil</span>
@@ -413,11 +427,11 @@
                             </div>
                             <div class="ms-3">
                                 <h5 class="fw-bold mb-1">{{ auth()->user()->name }}</h5>
-                                <span class="badge
-                                    @if($isAdmin) bg-primary
+                                <span
+                                    class="badge
+                                    @if ($isAdmin) bg-primary
                                     @elseif($isPetugas) bg-success
-                                    @elseif($isLurah) bg-warning text-dark
-                                    @endif">
+                                    @elseif($isLurah) bg-warning text-dark @endif">
                                     {{ auth()->user()?->role?->name ?? '-' }}
                                 </span>
                             </div>
@@ -431,14 +445,14 @@
                         <h6 class="mb-0"><i class="bi bi-calendar-event me-1 text-primary"></i> Periode Aktif</h6>
                     </div>
                     <div class="card-body pt-0">
-                        @if($periode)
+                        @if ($periode)
                             <h5 class="fw-bold text-primary mb-1">{{ $periode->nama_periode }}</h5>
                             <p class="text-muted small mb-0">Sistem monitoring distribusi bantuan Rastrada.</p>
                         @else
                             <p class="text-danger small mb-0">
                                 <i class="bi bi-exclamation-circle me-1"></i>
                                 Belum ada periode aktif.
-                                @if($isAdmin)
+                                @if ($isAdmin)
                                     <a href="/periode" class="d-block mt-1">Atur Periode →</a>
                                 @endif
                             </p>
@@ -462,8 +476,7 @@
                         </div>
                         {{-- Mini progress --}}
                         <div class="progress rounded-pill" style="height:8px">
-                            <div class="progress-bar bg-success rounded-pill"
-                                 style="width: {{ $realisasi }}%"></div>
+                            <div class="progress-bar bg-success rounded-pill" style="width: {{ $realisasi }}%"></div>
                         </div>
                         <div class="text-end mt-1">
                             <small class="text-muted">{{ number_format($realisasi, 1) }}% selesai</small>
@@ -477,7 +490,7 @@
                         <h6 class="mb-0"><i class="bi bi-lightning-fill me-1 text-warning"></i> Aksi Cepat</h6>
                     </div>
                     <div class="card-body pt-0 d-grid gap-2">
-                        @if($isAdmin)
+                        @if ($isAdmin)
                             <a href="/resident" class="btn btn-sm btn-outline-primary text-start">
                                 <i class="bi bi-people me-1"></i> Data Penduduk
                             </a>
