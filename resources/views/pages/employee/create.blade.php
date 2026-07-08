@@ -62,7 +62,7 @@
                             <div class="col-md-6 mb-3">
                                 <label>No HP</label>
                                 <input type="text" name="no_hp" class="form-control" maxlength="13" minlength="10"
-                                    pattern="[0-9]{10,13}" inputmode="numeric" placeholder="Contoh: 081234567890">
+                                    pattern="08[0-9]{8,11}" inputmode="numeric" placeholder="Contoh: 081234567890">
                             </div>
 
                             <div class="col-md-12 mb-3">

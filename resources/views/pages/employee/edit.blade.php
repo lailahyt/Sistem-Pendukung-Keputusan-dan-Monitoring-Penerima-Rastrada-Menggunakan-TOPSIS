@@ -17,10 +17,10 @@
 
                         <div class="row">
 
-                            <div class="col-md-6 mb-3">
+                            {{-- <div class="col-md-6 mb-3">
                                 <label>ID</label>
                                 <input type="text" class="form-control" value="{{ $pegawai->id }}" readonly>
-                            </div>
+                            </div> --}}
 
                             <div class="col-md-6 mb-3">
                                 <label>Nama Pegawai</label>

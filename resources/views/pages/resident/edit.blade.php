@@ -45,7 +45,7 @@
                                                     oninput="this.value=this.value.replace(/[^0-9]/g,'')"
                                                     class="form-control @error('nik') is-invalid @enderror"
                                                     placeholder="Nomor NIK"
-                                                    value="{{ old('nik') }}"
+                                                    value="{{ old('nik', $resident->nik) }}"
                                                     required>
                                             @error('nik')
                                                 <span class="invalid-feedback">{{ $message }}</span>
@@ -72,7 +72,7 @@
                                                     name="usia"
                                                     class="form-control @error('usia') is-invalid @enderror"
                                                     placeholder="Usia"
-                                                    value="{{ old('usia') }}"
+                                                    value="{{ old('usia', $resident->usia) }}"
                                                     min="0"
                                                     max="120"
                                                     required>
