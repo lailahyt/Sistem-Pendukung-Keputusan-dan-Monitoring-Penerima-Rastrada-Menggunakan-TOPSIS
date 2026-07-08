@@ -6,12 +6,14 @@ use App\Models\Resident;
 use App\Models\MonitoringDistribusi;
 use App\Models\Kriteria;
 use App\Models\Periode;
+use Illuminate\Support\Facades\Auth;
+
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $role = auth()->user()?->role?->name;
+        $role = Auth::user()?->role?->name;
 
         // =========================
         // PERIODE AKTIF
@@ -40,6 +42,7 @@ class DashboardController extends Controller
         // (dipakai semua role termasuk Lurah)
         // =========================
         $topRanking = MonitoringDistribusi::with('resident')
+            ->where('periode_id', $periode->id)
             ->orderBy('rank')
             ->take(5)
             ->get();
