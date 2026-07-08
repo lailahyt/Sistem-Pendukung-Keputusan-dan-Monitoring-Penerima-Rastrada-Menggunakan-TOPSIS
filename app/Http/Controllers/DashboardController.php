@@ -6,12 +6,12 @@ use App\Models\Resident;
 use App\Models\MonitoringDistribusi;
 use App\Models\Kriteria;
 use App\Models\Periode;
-use App\Services\TopsisService;
 use Illuminate\Support\Facades\Auth;
+
 
 class DashboardController extends Controller
 {
-    public function index(TopsisService $topsisService)
+    public function index()
     {
         $role = Auth::user()?->role?->name;
 
@@ -26,15 +26,9 @@ class DashboardController extends Controller
         // =========================
         $totalPenerima = MonitoringDistribusi::count();
 
-        $sudahAmbil = MonitoringDistribusi::where(
-            'status_pengambilan',
-            'sudah_ambil'
-        )->count();
+        $sudahAmbil = MonitoringDistribusi::where('status_pengambilan', 'sudah_ambil')->count();
 
-        $belumAmbil = MonitoringDistribusi::where(
-            'status_pengambilan',
-            'belum_ambil'
-        )->count();
+        $belumAmbil = MonitoringDistribusi::where('status_pengambilan', 'belum_ambil')->count();
 
         // =========================
         // PERSENTASE REALISASI
@@ -45,12 +39,12 @@ class DashboardController extends Controller
 
         // =========================
         // TOP 5 RANKING TOPSIS
-        // (menggunakan hasil perhitungan TOPSIS)
+        // (dipakai semua role termasuk Lurah)
         // =========================
-        $dataTopsis = $topsisService->calculate($periode->id);
-
-        $topRanking = collect($dataTopsis['hasil'] ?? [])
-            ->take(5);
+        $topRanking = MonitoringDistribusi::with('resident')
+            ->orderBy('rank')
+            ->take(5)
+            ->get();
 
         // =========================
         // TOTAL PENDUDUK
@@ -76,7 +70,7 @@ class DashboardController extends Controller
             'belumAmbil',
             'realisasi',
             'topRanking',
-            'totalKriteria'
+            'totalKriteria',
         ));
     }
 }
