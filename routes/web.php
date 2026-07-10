@@ -93,6 +93,22 @@ Route::get('/account-list', [UserController::class, 'account_list_view'])->middl
 Route::get('/account-request', [UserController::class, 'account_request_view'])->middleware(['role:Admin']);
 Route::post('/account-request/approval/{id}', [UserController::class, 'account_approval'])->middleware(['role:Admin']);
 
+Route::get('/account-list/create', [UserController::class, 'account_create_view'])
+    ->middleware(['role:Admin'])
+    ->name('account.create');
+
+Route::post('/account-list/store', [UserController::class, 'account_store'])
+    ->middleware(['role:Admin'])
+    ->name('account.store');
+
+Route::get('/account-list/{id}/edit', [UserController::class, 'account_edit_view'])
+    ->middleware(['role:Admin'])
+    ->name('account.edit');
+
+Route::put('/account-list/{id}', [UserController::class, 'account_update'])
+    ->middleware(['role:Admin'])
+    ->name('account.update');
+
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 Route::put('/profile/update', [ProfileController::class, 'update']);
 Route::get('/profile/ubah-password', [ProfileController::class, 'ubahPassword']);

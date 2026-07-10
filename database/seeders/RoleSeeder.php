@@ -33,5 +33,12 @@ class RoleSeeder extends Seeder
             'keterangan' => 'Validasi dan persetujuan hasil',
             'is_active' => true,
         ]);
+
+        Role::create([
+            'id' => 4,
+            'name' => 'RT/RW',
+            'keterangan' => 'Input data penduduk',
+            'is_active' => true,
+        ]);
     }
 }
