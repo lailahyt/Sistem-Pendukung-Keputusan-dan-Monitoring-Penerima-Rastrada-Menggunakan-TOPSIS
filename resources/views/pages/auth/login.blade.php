@@ -14,7 +14,9 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
 
-        *, *::before, *::after {
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -160,7 +162,9 @@
             justify-content: center;
         }
 
-        .toggle-password:hover { color: #2D44A0; }
+        .toggle-password:hover {
+            color: #2D44A0;
+        }
 
         .row-meta {
             display: flex;
@@ -177,7 +181,9 @@
             font-weight: 500;
         }
 
-        .link-forgot:hover { text-decoration: underline; }
+        .link-forgot:hover {
+            text-decoration: underline;
+        }
 
         .btn-login {
             width: 100%;
@@ -200,7 +206,9 @@
             box-shadow: 0 6px 18px rgba(45, 68, 160, 0.38);
         }
 
-        .btn-login:active { transform: scale(0.98); }
+        .btn-login:active {
+            transform: scale(0.98);
+        }
 
         .divider {
             display: flex;
@@ -209,7 +217,11 @@
             margin: 1.4rem 0;
         }
 
-        .divider-line { flex: 1; height: 1px; background: #e5e7eb; }
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
+        }
 
         .divider span {
             font-size: 12px;
@@ -228,7 +240,9 @@
             text-decoration: none;
         }
 
-        .signup-row a:hover { text-decoration: underline; }
+        .signup-row a:hover {
+            text-decoration: underline;
+        }
 
         /* ── Right Panel ── */
         .login-right {
@@ -246,7 +260,7 @@
         .bubble {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255,255,255,0.06);
+            background: rgba(255, 255, 255, 0.06);
         }
 
         .right-illustration {
@@ -258,7 +272,7 @@
         .right-title {
             font-size: 20px;
             font-weight: 600;
-            color: rgba(255,255,255,0.95);
+            color: rgba(255, 255, 255, 0.95);
             text-align: center;
             line-height: 1.45;
             position: relative;
@@ -268,7 +282,7 @@
 
         .right-desc {
             font-size: 13px;
-            color: rgba(255,255,255,0.55);
+            color: rgba(255, 255, 255, 0.55);
             text-align: center;
             position: relative;
             z-index: 1;
@@ -284,20 +298,29 @@
         }
 
         .badge {
-            background: rgba(255,255,255,0.12);
-            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
             padding: 5px 12px;
             font-size: 11.5px;
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
             font-weight: 500;
         }
 
         /* ── Responsive ── */
         @media (max-width: 680px) {
-            .login-right { display: none; }
-            .login-left { flex: 0 0 100%; border-radius: 20px; }
-            .login-wrapper { border-radius: 20px; }
+            .login-right {
+                display: none;
+            }
+
+            .login-left {
+                flex: 0 0 100%;
+                border-radius: 20px;
+            }
+
+            .login-wrapper {
+                border-radius: 20px;
+            }
         }
     </style>
 </head>
@@ -305,18 +328,18 @@
 <body>
     <script src="{{ asset('assets/static/js/initTheme.js') }}"></script>
 
-    @if($errors->any())
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            Swal.fire({
-                title: "Login Gagal",
-                text: "@foreach ($errors->all() as $error){{ $error }}{{ $loop->last ? '' : ' ' }}@endforeach",
-                icon: "error",
-                confirmButtonColor: "#2D44A0",
-                confirmButtonText: "Coba lagi"
+    @if ($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Login Gagal",
+                    text: "@foreach ($errors->all() as $error){{ $error }}{{ $loop->last ? '' : ' ' }}@endforeach",
+                    icon: "error",
+                    confirmButtonColor: "#2D44A0",
+                    confirmButtonText: "Coba lagi"
+                });
             });
-        });
-    </script>
+        </script>
     @endif
 
     <div class="login-wrapper">
@@ -327,8 +350,9 @@
             <div class="brand">
                 <div class="brand-icon">
                     <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 2a4 4 0 100 8 4 4 0 000-8z" fill="white"/>
-                        <path d="M2 16c0-3.866 3.134-6 7-6s7 2.134 7 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+                        <path d="M9 2a4 4 0 100 8 4 4 0 000-8z" fill="white" />
+                        <path d="M2 16c0-3.866 3.134-6 7-6s7 2.134 7 6" stroke="white" stroke-width="1.8"
+                            stroke-linecap="round" />
                     </svg>
                 </div>
                 <span class="brand-name">SPK Rastrada</span>
@@ -344,39 +368,27 @@
                 <label class="field-label" for="inputEmail">Email</label>
                 <div class="field-wrap">
                     <svg class="field-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <rect x="2" y="4" width="12" height="9" rx="1.5"/>
-                        <path d="M2 6l6 4 6-4"/>
+                        <rect x="2" y="4" width="12" height="9" rx="1.5" />
+                        <path d="M2 6l6 4 6-4" />
                     </svg>
-                    <input
-                        type="email"
-                        id="inputEmail"
-                        name="email"
-                        placeholder="email@contoh.com"
-                        value="{{ old('email') }}"
-                        required
-                        autofocus
-                    >
+                    <input type="email" id="inputEmail" name="email" placeholder="email@contoh.com"
+                        value="{{ old('email') }}" required autofocus>
                 </div>
 
                 {{-- Password --}}
                 <label class="field-label" for="inputPassword">Password</label>
                 <div class="field-wrap">
                     <svg class="field-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <rect x="3" y="7" width="10" height="7" rx="1.5"/>
-                        <path d="M5 7V5a3 3 0 016 0v2"/>
-                        <circle cx="8" cy="10.5" r="1" fill="currentColor" stroke="none"/>
+                        <rect x="3" y="7" width="10" height="7" rx="1.5" />
+                        <path d="M5 7V5a3 3 0 016 0v2" />
+                        <circle cx="8" cy="10.5" r="1" fill="currentColor" stroke="none" />
                     </svg>
-                    <input
-                        type="password"
-                        id="inputPassword"
-                        name="password"
-                        placeholder="••••••••"
-                        required
-                    >
-                    <button type="button" class="toggle-password" onclick="togglePassword()" title="Tampilkan password">
+                    <input type="password" id="inputPassword" name="password" placeholder="••••••••" required>
+                    <button type="button" class="toggle-password" onclick="togglePassword()"
+                        title="Tampilkan password">
                         <svg id="eye-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z"/>
-                            <circle cx="8" cy="8" r="2"/>
+                            <path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" />
+                            <circle cx="8" cy="8" r="2" />
                         </svg>
                     </button>
                 </div>
@@ -388,7 +400,7 @@
                 <button type="submit" class="btn-login">Masuk</button>
             </form>
 
-            <div class="divider">
+            {{-- <div class="divider">
                 <div class="divider-line"></div>
                 <span>atau</span>
                 <div class="divider-line"></div>
@@ -396,7 +408,7 @@
 
             <div class="signup-row">
                 Belum punya akun? <a href="/register">Daftar sekarang</a>
-            </div>
+            </div> --}}
 
         </div>
 
@@ -408,53 +420,78 @@
             <div class="bubble" style="width:50px;height:50px;top:20%;left:20px;"></div>
 
             <div class="right-illustration">
-                <svg width="220" height="200" viewBox="0 0 220 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="220" height="200" viewBox="0 0 220 200" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
                     <!-- Main card -->
-                    <rect x="20" y="35" width="180" height="125" rx="12" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                    <rect x="20" y="35" width="180" height="125" rx="12" fill="rgba(255,255,255,0.1)"
+                        stroke="rgba(255,255,255,0.2)" stroke-width="1" />
                     <!-- Header bar -->
-                    <rect x="20" y="35" width="180" height="32" rx="12" fill="rgba(255,255,255,0.15)"/>
-                    <rect x="20" y="55" width="180" height="12" fill="rgba(255,255,255,0.15)"/>
+                    <rect x="20" y="35" width="180" height="32" rx="12" fill="rgba(255,255,255,0.15)" />
+                    <rect x="20" y="55" width="180" height="12" fill="rgba(255,255,255,0.15)" />
                     <!-- Header dots -->
-                    <circle cx="36" cy="51" r="4" fill="rgba(255,255,255,0.5)"/>
-                    <circle cx="52" cy="51" r="4" fill="rgba(255,255,255,0.3)"/>
-                    <circle cx="68" cy="51" r="4" fill="rgba(255,255,255,0.2)"/>
+                    <circle cx="36" cy="51" r="4" fill="rgba(255,255,255,0.5)" />
+                    <circle cx="52" cy="51" r="4" fill="rgba(255,255,255,0.3)" />
+                    <circle cx="68" cy="51" r="4" fill="rgba(255,255,255,0.2)" />
                     <!-- Title in header -->
-                    <rect x="95" y="47" width="60" height="7" rx="3.5" fill="rgba(255,255,255,0.4)"/>
+                    <rect x="95" y="47" width="60" height="7" rx="3.5" fill="rgba(255,255,255,0.4)" />
                     <!-- Bar chart -->
-                    <rect x="38" y="100" width="18" height="40" rx="4" fill="rgba(255,255,255,0.35)"/>
-                    <rect x="62" y="82" width="18" height="58" rx="4" fill="rgba(255,255,255,0.55)"/>
-                    <rect x="86" y="91" width="18" height="49" rx="4" fill="rgba(255,255,255,0.4)"/>
-                    <rect x="110" y="73" width="18" height="67" rx="4" fill="rgba(255,255,255,0.65)"/>
-                    <rect x="134" y="85" width="18" height="55" rx="4" fill="rgba(255,255,255,0.45)"/>
-                    <rect x="158" y="95" width="18" height="45" rx="4" fill="rgba(255,255,255,0.35)"/>
+                    <rect x="38" y="100" width="18" height="40" rx="4"
+                        fill="rgba(255,255,255,0.35)" />
+                    <rect x="62" y="82" width="18" height="58" rx="4"
+                        fill="rgba(255,255,255,0.55)" />
+                    <rect x="86" y="91" width="18" height="49" rx="4" fill="rgba(255,255,255,0.4)" />
+                    <rect x="110" y="73" width="18" height="67" rx="4"
+                        fill="rgba(255,255,255,0.65)" />
+                    <rect x="134" y="85" width="18" height="55" rx="4"
+                        fill="rgba(255,255,255,0.45)" />
+                    <rect x="158" y="95" width="18" height="45" rx="4"
+                        fill="rgba(255,255,255,0.35)" />
                     <!-- Trend line -->
-                    <polyline points="47,100 71,83 95,91 119,73 143,85 167,97" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" fill="none" stroke-dasharray="3 2"/>
+                    <polyline points="47,100 71,83 95,91 119,73 143,85 167,97" stroke="rgba(255,255,255,0.8)"
+                        stroke-width="1.5" fill="none" stroke-dasharray="3 2" />
                     <!-- Dots on line -->
-                    <circle cx="47" cy="100" r="3" fill="white" opacity="0.7"/>
-                    <circle cx="71" cy="83" r="3" fill="white" opacity="0.7"/>
-                    <circle cx="119" cy="73" r="3.5" fill="white" opacity="0.9"/>
-                    <circle cx="167" cy="97" r="3" fill="white" opacity="0.7"/>
+                    <circle cx="47" cy="100" r="3" fill="white" opacity="0.7" />
+                    <circle cx="71" cy="83" r="3" fill="white" opacity="0.7" />
+                    <circle cx="119" cy="73" r="3.5" fill="white" opacity="0.9" />
+                    <circle cx="167" cy="97" r="3" fill="white" opacity="0.7" />
                     <!-- Bottom row label -->
-                    <rect x="38" y="146" width="18" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
-                    <rect x="62" y="146" width="18" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
-                    <rect x="86" y="146" width="18" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
-                    <rect x="110" y="146" width="18" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
-                    <rect x="134" y="146" width="18" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
-                    <rect x="158" y="146" width="18" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
+                    <rect x="38" y="146" width="18" height="4" rx="2"
+                        fill="rgba(255,255,255,0.25)" />
+                    <rect x="62" y="146" width="18" height="4" rx="2"
+                        fill="rgba(255,255,255,0.25)" />
+                    <rect x="86" y="146" width="18" height="4" rx="2"
+                        fill="rgba(255,255,255,0.25)" />
+                    <rect x="110" y="146" width="18" height="4" rx="2"
+                        fill="rgba(255,255,255,0.25)" />
+                    <rect x="134" y="146" width="18" height="4" rx="2"
+                        fill="rgba(255,255,255,0.25)" />
+                    <rect x="158" y="146" width="18" height="4" rx="2"
+                        fill="rgba(255,255,255,0.25)" />
                     <!-- Small stat cards below -->
-                    <rect x="20" y="170" width="56" height="24" rx="7" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
-                    <rect x="82" y="170" width="56" height="24" rx="7" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
-                    <rect x="144" y="170" width="56" height="24" rx="7" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
-                    <rect x="28" y="177" width="22" height="4" rx="2" fill="rgba(255,255,255,0.5)"/>
-                    <rect x="28" y="184" width="14" height="3" rx="1.5" fill="rgba(255,255,255,0.25)"/>
-                    <rect x="90" y="177" width="22" height="4" rx="2" fill="rgba(255,255,255,0.5)"/>
-                    <rect x="90" y="184" width="14" height="3" rx="1.5" fill="rgba(255,255,255,0.25)"/>
-                    <rect x="152" y="177" width="22" height="4" rx="2" fill="rgba(255,255,255,0.5)"/>
-                    <rect x="152" y="184" width="14" height="3" rx="1.5" fill="rgba(255,255,255,0.25)"/>
+                    <rect x="20" y="170" width="56" height="24" rx="7" fill="rgba(255,255,255,0.12)"
+                        stroke="rgba(255,255,255,0.2)" stroke-width="0.5" />
+                    <rect x="82" y="170" width="56" height="24" rx="7" fill="rgba(255,255,255,0.12)"
+                        stroke="rgba(255,255,255,0.2)" stroke-width="0.5" />
+                    <rect x="144" y="170" width="56" height="24" rx="7" fill="rgba(255,255,255,0.12)"
+                        stroke="rgba(255,255,255,0.2)" stroke-width="0.5" />
+                    <rect x="28" y="177" width="22" height="4" rx="2"
+                        fill="rgba(255,255,255,0.5)" />
+                    <rect x="28" y="184" width="14" height="3" rx="1.5"
+                        fill="rgba(255,255,255,0.25)" />
+                    <rect x="90" y="177" width="22" height="4" rx="2"
+                        fill="rgba(255,255,255,0.5)" />
+                    <rect x="90" y="184" width="14" height="3" rx="1.5"
+                        fill="rgba(255,255,255,0.25)" />
+                    <rect x="152" y="177" width="22" height="4" rx="2"
+                        fill="rgba(255,255,255,0.5)" />
+                    <rect x="152" y="184" width="14" height="3" rx="1.5"
+                        fill="rgba(255,255,255,0.25)" />
                     <!-- User avatar top -->
-                    <circle cx="110" cy="18" r="16" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-                    <circle cx="110" cy="13" r="5.5" fill="rgba(255,255,255,0.6)"/>
-                    <path d="M99 26c0-6.075 4.925-9 11-9s11 2.925 11 9" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="110" cy="18" r="16" fill="rgba(255,255,255,0.15)"
+                        stroke="rgba(255,255,255,0.3)" stroke-width="1" />
+                    <circle cx="110" cy="13" r="5.5" fill="rgba(255,255,255,0.6)" />
+                    <path d="M99 26c0-6.075 4.925-9 11-9s11 2.925 11 9" stroke="rgba(255,255,255,0.6)"
+                        stroke-width="1.5" stroke-linecap="round" />
                 </svg>
             </div>
 
@@ -473,7 +510,7 @@
     <script>
         function togglePassword() {
             const input = document.getElementById('inputPassword');
-            const icon  = document.getElementById('eye-icon');
+            const icon = document.getElementById('eye-icon');
             if (input.type === 'password') {
                 input.type = 'text';
                 icon.innerHTML = `
@@ -493,4 +530,5 @@
     </script>
 
 </body>
+
 </html>

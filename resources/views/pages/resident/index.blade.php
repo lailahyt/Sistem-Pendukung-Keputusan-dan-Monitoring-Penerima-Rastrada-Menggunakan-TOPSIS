@@ -33,42 +33,49 @@
                 <div class="card-body">
 
                     {{-- Filter --}}
-                    <form method="GET" action="/resident">
-                        <div class="row mb-3 g-2 align-items-end">
-                            <div class="col-md-3">
-                                <label class="form-label mb-1" style="font-size:13px">RW</label>
-                                <select name="rw" id="selectRW" class="form-select form-select-sm">
-                                    <option value="">Semua RW</option>
-                                    @foreach ($wilayah->unique('rw') as $w)
-                                        <option value="{{ $w->rw }}" {{ request('rw') == $w->rw ? 'selected' : '' }}>
-                                            RW {{ $w->rw }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                    @if (auth()->user()->role_id != 4)
+                        <form method="GET" action="/resident">
+                            <div class="row mb-3 g-2 align-items-end">
+
+                                <div class="col-md-3">
+                                    <label class="form-label mb-1" style="font-size:13px">RW</label>
+                                    <select name="rw" id="selectRW" class="form-select form-select-sm">
+                                        <option value="">Semua RW</option>
+                                        @foreach ($wilayah->unique('rw') as $w)
+                                            <option value="{{ $w->rw }}"
+                                                {{ request('rw') == $w->rw ? 'selected' : '' }}>
+                                                RW {{ $w->rw }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label mb-1" style="font-size:13px">RT</label>
+                                    <select name="rt" id="selectRT" class="form-select form-select-sm">
+                                        <option value="">Semua RT</option>
+                                        @foreach ($wilayah as $w)
+                                            <option value="{{ $w->rt }}"
+                                                {{ request('rt') == $w->rt ? 'selected' : '' }}>
+                                                RT {{ $w->rt }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-sm btn-primary w-100">
+                                        <i class="bi bi-search"></i> Filter
+                                    </button>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="/resident" class="btn btn-sm btn-secondary w-100">
+                                        <i class="bi bi-x"></i> Reset
+                                    </a>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <label class="form-label mb-1" style="font-size:13px">RT</label>
-                                <select name="rt" id="selectRT" class="form-select form-select-sm">
-                                    <option value="">Semua RT</option>
-                                    @foreach ($wilayah as $w)
-                                        <option value="{{ $w->rt }}" {{ request('rt') == $w->rt ? 'selected' : '' }}>
-                                            RT {{ $w->rt }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="submit" class="btn btn-sm btn-primary w-100">
-                                    <i class="bi bi-search"></i> Filter
-                                </button>
-                            </div>
-                            <div class="col-md-2">
-                                <a href="/resident" class="btn btn-sm btn-secondary w-100">
-                                    <i class="bi bi-x"></i> Reset
-                                </a>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    @endif
 
                     <table class="table table-striped table-responsive" id="table1">
                         <thead>

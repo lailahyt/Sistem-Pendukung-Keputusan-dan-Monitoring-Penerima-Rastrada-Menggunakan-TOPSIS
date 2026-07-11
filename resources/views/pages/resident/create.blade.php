@@ -35,18 +35,11 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="first-name-column">NIK</label>
-                                                <input
-                                                    type="text"
-                                                    name="nik"
-                                                    maxlength="16"
-                                                    minlength="16"
-                                                    inputmode="numeric"
-                                                    pattern="[0-9]{16}"
+                                                <input type="text" name="nik" maxlength="16" minlength="16"
+                                                    inputmode="numeric" pattern="[0-9]{16}"
                                                     oninput="this.value=this.value.replace(/[^0-9]/g,'')"
                                                     class="form-control @error('nik') is-invalid @enderror"
-                                                    placeholder="Nomor NIK"
-                                                    value="{{ old('nik') }}"
-                                                    required>
+                                                    placeholder="Nomor NIK" value="{{ old('nik') }}" required>
                                                 @error('nik')
                                                     <span class="invalid-feedback">{{ $message }}</span>
                                                 @enderror
@@ -67,16 +60,10 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="age-column">Usia</label>
-                                                <input
-                                                    type="number"
-                                                    id="usia"
-                                                    name="usia"
+                                                <input type="number" id="usia" name="usia"
                                                     class="form-control @error('usia') is-invalid @enderror"
-                                                    placeholder="Usia"
-                                                    value="{{ old('usia') }}"
-                                                    min="0"
-                                                    max="120"
-                                                    required>
+                                                    placeholder="Usia" value="{{ old('usia') }}" min="0"
+                                                    max="120" required>
                                                 @error('usia')
                                                     <span class="invalid-feedback">{{ $message }}</span>
                                                 @enderror
@@ -85,10 +72,16 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="gender-column">Jenis Kelamin</label>
-                                                <select name="jenis_kelamin" id="jenis_kelamin" class="form-control @error('jenis_kelamin') is-invalid @enderror" required>
+                                                <select name="jenis_kelamin" id="jenis_kelamin"
+                                                    class="form-control @error('jenis_kelamin') is-invalid @enderror"
+                                                    required>
                                                     <option value="">Pilih Jenis Kelamin</option>
-                                                    <option value="L" {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-laki</option>
-                                                    <option value="P" {{ old('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan</option>
+                                                    <option value="L"
+                                                        {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-laki
+                                                    </option>
+                                                    <option value="P"
+                                                        {{ old('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan
+                                                    </option>
                                                 </select>
                                                 @error('jenis_kelamin')
                                                     <span class="invalid-feedback">{{ $message }}</span>
@@ -128,33 +121,51 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label>RW</label>
+                                        @if (auth()->user()->role_id == 4)
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label>Wilayah</label>
 
-                                                <select id="rw" class="form-control">
-                                                    <option value="">Pilih RW</option>
+                                                    <input type="text" class="form-control"
+                                                        value="RW {{ auth()->user()->rw }} / RT {{ auth()->user()->rt }}"
+                                                        readonly>
 
-                                                    @foreach ($wilayah->unique('rw') as $w)
-                                                        <option value="{{ $w->rw }}">
-                                                            RW {{ $w->rw }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
+                                                    <input type="hidden" name="wilayah_id"
+                                                        value="{{ $wilayah->first()->id }}">
+                                                </div>
                                             </div>
-                                        </div>
+                                        @else
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label>RW</label>
 
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label>RT</label>
+                                                    <select id="rw" class="form-control">
 
-                                                <select id="rt" name="wilayah_id" class="form-control" disabled>
+                                                        <option value="">Pilih RW</option>
 
-                                                    <option value="">Pilih RT</option>
+                                                        @foreach ($wilayah->unique('rw') as $w)
+                                                            <option value="{{ $w->rw }}">
+                                                                RW {{ $w->rw }}
+                                                            </option>
+                                                        @endforeach
 
-                                                </select>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
+
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label>RT</label>
+
+                                                    <select id="rt" name="wilayah_id" class="form-control"
+                                                        disabled>
+
+                                                        <option value="">Pilih RT</option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        @endif
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label>Status</label>

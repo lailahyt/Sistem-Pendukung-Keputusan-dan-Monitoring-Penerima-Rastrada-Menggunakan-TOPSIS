@@ -27,17 +27,17 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'login']);
 Route::post('/login', [AuthController::class, 'authenticate']);
 Route::post('/logout', [AuthController::class, 'logout']);
-Route::get('/register', [AuthController::class, 'registerView']);
-Route::post('/register', [AuthController::class, 'register']);
+// Route::get('/register', [AuthController::class, 'registerView']);
+// Route::post('/register', [AuthController::class, 'register']);
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('role:Admin,Petugas,Lurah');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('role:Admin,Petugas,Lurah,RT/RW');
 
-Route::get('/resident', [ResidentController::class, 'index'])->middleware(['role:Admin,Petugas,Lurah']);
-Route::get('/resident/create', [ResidentController::class, 'create'])->middleware(['role:Admin,Petugas,Lurah ']);
-Route::get('/resident/{id}', [ResidentController::class, 'edit'])->middleware(['role:Admin,Petugas,Lurah']);
-Route::post('/resident', [ResidentController::class, 'store'])->middleware(['role:Admin,Petugas,Lurah']);
-Route::put('/resident/{id}', [ResidentController::class, 'update'])->middleware(['role:Admin,Petugas,Lurah']);
-Route::delete('/resident/{id}', [ResidentController::class, 'destroy'])->middleware(['role:Admin,Petugas,Lurah']);
+Route::get('/resident', [ResidentController::class, 'index'])->middleware(['role:Admin,Petugas,Lurah,RT/RW']);
+Route::get('/resident/create', [ResidentController::class, 'create'])->middleware(['role:Admin,Petugas,Lurah,RT/RW']);
+Route::get('/resident/{id}', [ResidentController::class, 'edit'])->middleware(['role:Admin,Petugas,Lurah,RT/RW']);
+Route::post('/resident', [ResidentController::class, 'store'])->middleware(['role:Admin,Petugas,Lurah,RT/RW']);
+Route::put('/resident/{id}', [ResidentController::class, 'update'])->middleware(['role:Admin,Petugas,Lurah,RT/RW']);
+Route::delete('/resident/{id}', [ResidentController::class, 'destroy'])->middleware(['role:Admin,Petugas,Lurah,RT/RW']);
 
 Route::get('/employee', [PegawaiController::class, 'index'])->middleware(['role:Admin']);
 Route::get('/employee/create', [PegawaiController::class, 'create'])->middleware(['role:Admin']);
@@ -90,8 +90,8 @@ Route::get('/report/export-excel', [LaporanController::class, 'exportExcel'])->m
 
 Route::get('/account-list', [UserController::class, 'account_list_view'])->middleware(['role:Admin']);
 
-Route::get('/account-request', [UserController::class, 'account_request_view'])->middleware(['role:Admin']);
-Route::post('/account-request/approval/{id}', [UserController::class, 'account_approval'])->middleware(['role:Admin']);
+// Route::get('/account-request', [UserController::class, 'account_request_view'])->middleware(['role:Admin']);
+// Route::post('/account-request/approval/{id}', [UserController::class, 'account_approval'])->middleware(['role:Admin']);
 
 Route::get('/account-list/create', [UserController::class, 'account_create_view'])
     ->middleware(['role:Admin'])

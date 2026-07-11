@@ -14,6 +14,7 @@ class DashboardController extends Controller
     public function index()
     {
         $role = Auth::user()?->role?->name;
+        $user = Auth::user();
 
         // =========================
         // PERIODE AKTIF
@@ -48,11 +49,36 @@ class DashboardController extends Controller
 
         // =========================
         // TOTAL PENDUDUK
-        // (hanya Admin & Petugas)
-        // =========================
-        $totalPenduduk = ($role === 'Admin' || $role === 'Petugas')
-            ? Resident::count()
-            : 0;
+        if ($role === 'RT/RW') {
+
+            $totalPenduduk = Resident::whereHas('wilayah', function ($q) use ($user) {
+
+                $q->where('rt', $user->rt)
+                    ->where('rw', $user->rw);
+            })->count();
+
+            $totalLakiLaki = Resident::where('jenis_kelamin', 'L')
+                ->whereHas('wilayah', function ($q) use ($user) {
+
+                    $q->where('rt', $user->rt)
+                        ->where('rw', $user->rw);
+                })->count();
+
+            $totalPerempuan = Resident::where('jenis_kelamin', 'P')
+                ->whereHas('wilayah', function ($q) use ($user) {
+
+                    $q->where('rt', $user->rt)
+                        ->where('rw', $user->rw);
+                })->count();
+        } else {
+
+            $totalPenduduk = ($role === 'Admin' || $role === 'Petugas')
+                ? Resident::count()
+                : 0;
+
+            $totalLakiLaki = 0;
+            $totalPerempuan = 0;
+        }
 
         // =========================
         // TOTAL KRITERIA AKTIF
@@ -71,6 +97,8 @@ class DashboardController extends Controller
             'realisasi',
             'topRanking',
             'totalKriteria',
+            'totalLakiLaki',
+            'totalPerempuan'
         ));
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Resident;
 use App\Models\Wilayah;
+use Illuminate\Support\Facades\Auth;
 
 class ResidentController extends Controller
 {
@@ -12,27 +13,44 @@ class ResidentController extends Controller
     {
         $query = Resident::with('wilayah');
 
-        if ($request->rw) {
+        $user = Auth::user();
 
-            $query->whereHas('wilayah', function ($q) use ($request) {
+        // RT/RW hanya melihat wilayahnya
+        if ($user->role_id == 4) {
 
-                $q->where('rw', $request->rw);
+            $query->whereHas('wilayah', function ($q) use ($user) {
+
+                $q->where('rt', $user->rt)
+                    ->where('rw', $user->rw);
             });
-        }
+        } else {
 
-        if ($request->rt) {
+            if ($request->rw) {
 
-            $query->whereHas('wilayah', function ($q) use ($request) {
+                $query->whereHas('wilayah', function ($q) use ($request) {
 
-                $q->where('rt', $request->rt);
-            });
+                    $q->where('rw', $request->rw);
+                });
+            }
+
+            if ($request->rt) {
+
+                $query->whereHas('wilayah', function ($q) use ($request) {
+
+                    $q->where('rt', $request->rt);
+                });
+            }
         }
 
         $residents = $query
             ->orderBy('id', 'asc')
             ->get();
 
-        $wilayah = Wilayah::all();
+        $wilayah = ($user->role_id == 4)
+            ? Wilayah::where('rt', $user->rt)
+            ->where('rw', $user->rw)
+            ->get()
+            : Wilayah::all();
 
         return view('pages.resident.index', [
             'residents' => $residents,
@@ -42,8 +60,17 @@ class ResidentController extends Controller
 
     public function create()
     {
-        // Logic to show the form for creating a new resident
-        $wilayah = Wilayah::all();
+        $user = Auth::user();
+
+        if ($user->role_id == 4) {
+
+            $wilayah = Wilayah::where('rt', $user->rt)
+                ->where('rw', $user->rw)
+                ->get();
+        } else {
+
+            $wilayah = Wilayah::all();
+        }
 
         return view('pages.resident.create', [
             'wilayah' => $wilayah
@@ -52,6 +79,7 @@ class ResidentController extends Controller
 
     public function store(Request $request)
     {
+
         // Logic to store a new resident in the database
         $validatedData = $request->validate([
             'nik' => 'required|digits:16|unique:residents,nik',
@@ -66,15 +94,43 @@ class ResidentController extends Controller
             'status' => 'required|in:active,moved,deceased',
         ]);
 
+        $user = Auth::user();
+
+        if ($user->role_id == 4) {
+
+            $wilayah = Wilayah::where('rt', $user->rt)
+                ->where('rw', $user->rw)
+                ->first();
+
+            $validatedData['wilayah_id'] = $wilayah->id;
+        }
+
         Resident::create($validatedData);
         return redirect('/resident')->with('success', 'Data berhasil di simpan.');
     }
 
     public function edit($id)
     {
-        // Logic to show the form for editing an existing resident
-        $resident = Resident::findOrFail($id);
-        $wilayah = Wilayah::all();
+        $resident = Resident::with('wilayah')
+            ->findOrFail($id);
+
+        $user = Auth::user();
+
+        if (
+            $user->role_id == 4 &&
+            (
+                $resident->wilayah->rt != $user->rt ||
+                $resident->wilayah->rw != $user->rw
+            )
+        ) {
+            abort(403);
+        }
+
+        $wilayah = ($user->role_id == 4)
+            ? Wilayah::where('rt', $user->rt)
+            ->where('rw', $user->rw)
+            ->get()
+            : Wilayah::all();
 
         return view('pages.resident.edit', [
             'resident' => $resident,
@@ -84,6 +140,21 @@ class ResidentController extends Controller
 
     public function update(Request $request, $id)
     {
+        $resident = Resident::with('wilayah')
+            ->findOrFail($id);
+
+        $user = Auth::user();
+
+        if (
+            $user->role_id == 4 &&
+            (
+                $resident->wilayah->rt != $user->rt ||
+                $resident->wilayah->rw != $user->rw
+            )
+        ) {
+            abort(403);
+        }
+
         // Logic to update an existing resident in the database
         $validatedData = $request->validate([
             'nik' => 'required|digits:16|unique:residents,nik,' . $id,
@@ -104,9 +175,24 @@ class ResidentController extends Controller
 
     public function destroy($id)
     {
-        // Logic to delete a resident from the database
-        $resident = Resident::findOrFail($id);
+        $resident = Resident::with('wilayah')
+            ->findOrFail($id);
+
+        $user = Auth::user();
+
+        if (
+            $user->role_id == 4 &&
+            (
+                $resident->wilayah->rt != $user->rt ||
+                $resident->wilayah->rw != $user->rw
+            )
+        ) {
+            abort(403);
+        }
+
         $resident->delete();
-        return redirect('/resident')->with('success', 'Data penduduk berhasil dihapus!');
+
+        return redirect('/resident')
+            ->with('success', 'Data penduduk berhasil dihapus!');
     }
 }

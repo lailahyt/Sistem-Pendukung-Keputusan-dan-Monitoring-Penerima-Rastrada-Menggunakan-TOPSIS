@@ -3,9 +3,10 @@
 @section('content')
     @php
         $role = auth()->user()?->role?->name;
-        $isAdmin   = $role === 'Admin';
+        $isAdmin = $role === 'Admin';
         $isPetugas = $role === 'Petugas';
-        $isLurah   = $role === 'Lurah';
+        $isLurah = $role === 'Lurah';
+        $isRTRW = $role === 'RT/RW';
     @endphp
 
     {{-- ============================================================ --}}
@@ -16,20 +17,18 @@
             <div class="row align-items-center">
                 <div class="col-12 col-md-6 order-md-1 order-last">
                     <h3>
-                        @if($isAdmin)   Dashboard Admin
-                        @elseif($isPetugas) Dashboard Petugas
-                        @elseif($isLurah)   Dashboard Lurah
+                        @if ($isAdmin)
+                            Dashboard Admin
+                        @elseif($isPetugas)
+                            Dashboard Petugas
+                        @elseif($isLurah)
+                            Dashboard Lurah
                         @endif
                     </h3>
-                    {{-- <p class="text-muted mb-0">
-                        Periode aktif:
-                        <strong>{{ $periode->nama_periode ?? 'Belum ada periode aktif' }}</strong>
-                    </p> --}}
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header text-md-end">
                         <ol class="breadcrumb justify-content-md-end">
-                            {{-- <li class="breadcrumb-item active" aria-current="page">Dashboard</li> --}}
                         </ol>
                     </nav>
                 </div>
@@ -48,7 +47,7 @@
                 {{-- ---------------------------------------------------- --}}
                 {{-- ADMIN & PETUGAS --}}
                 {{-- ---------------------------------------------------- --}}
-                @if($isAdmin || $isPetugas)
+                @if ($isAdmin || $isPetugas)
 
                     {{-- STAT CARDS --}}
                     <div class="row g-3 dashboard-stats">
@@ -115,25 +114,6 @@
 
                     </div>
 
-                    {{-- KRITERIA AKTIF — khusus Admin --}}
-                    {{-- @if($isAdmin)
-                        <div class="row g-3 mt-0">
-                            <div class="col-12 col-md-6 col-lg-4">
-                                <div class="card shadow-sm border-0 h-100">
-                                    <div class="card-body d-flex align-items-center gap-3">
-                                        <div class="bg-warning bg-opacity-10 p-3 rounded-4" style="flex-shrink: 0">
-                                            <i class="bi bi-filter-square-fill text-warning fs-3"></i>
-                                        </div>
-                                        <div>
-                                            <div class="text-muted small">Kriteria Aktif</div>
-                                            <div class="fs-4 fw-bold">{{ $totalKriteria ?? 0 }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif --}}
-
                     {{-- PROGRESS DISTRIBUSI --}}
                     <div class="card shadow-sm border-0 mt-3">
                         <div class="card-header  border-0 pb-0">
@@ -145,7 +125,8 @@
                         <div class="card-body pt-3">
                             <div class="d-flex justify-content-between mb-1">
                                 <span class="small text-muted">Realisasi</span>
-                                <span class="small fw-bold
+                                <span
+                                    class="small fw-bold
                                     {{ $realisasi >= 100 ? 'text-success' : ($realisasi >= 50 ? 'text-warning' : 'text-danger') }}">
                                     {{ number_format($realisasi, 1) }}%
                                 </span>
@@ -154,12 +135,9 @@
                                 <div class="progress-bar
                                     {{ $realisasi >= 100 ? 'bg-success' : ($realisasi >= 50 ? 'bg-warning' : 'bg-danger') }}
                                     rounded-pill"
-                                    role="progressbar"
-                                    style="width: {{ $realisasi }}%"
-                                    aria-valuenow="{{ $realisasi }}"
-                                    aria-valuemin="0"
-                                    aria-valuemax="100">
-                                    @if($realisasi >= 15)
+                                    role="progressbar" style="width: {{ $realisasi }}%"
+                                    aria-valuenow="{{ $realisasi }}" aria-valuemin="0" aria-valuemax="100">
+                                    @if ($realisasi >= 15)
                                         <span class="small px-2">{{ number_format($realisasi, 1) }}%</span>
                                     @endif
                                 </div>
@@ -178,22 +156,24 @@
                         <div class="card-header border-0 d-flex align-items-center justify-content-between">
                             <div>
                                 <h5 class="mb-0">
-                                    @if($isAdmin) Top Ranking TOPSIS
-                                    @else Prioritas Distribusi Bantuan
+                                    @if ($isAdmin)
+                                        Top Ranking TOPSIS
+                                    @else
+                                        Prioritas Distribusi Bantuan
                                     @endif
                                 </h5>
                                 <small class="text-muted">5 penerima teratas periode ini</small>
                             </div>
                             <a href="/hasil" class="btn btn-sm btn-outline-primary">
                                 Lihat Semua <i class="bi bi-arrow-right"></i>
-                            </a> 
+                            </a>
                         </div>
                         <div class="card-body p-0">
-                            @if($topRanking->isEmpty())
+                            @if ($topRanking->isEmpty())
                                 <div class="text-center py-5 text-muted">
                                     <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                                     <p class="mb-1">Belum ada data ranking.</p>
-                                    @if($isAdmin)
+                                    @if ($isAdmin)
                                         <a href="/topsis" class="btn btn-sm btn-primary mt-1">
                                             Jalankan TOPSIS
                                         </a>
@@ -209,19 +189,24 @@
                                                 <th class="ps-3">Rank</th>
                                                 <th>Nama</th>
                                                 <th>Nilai Vi</th>
-                                                @if($isPetugas)
+                                                @if ($isPetugas)
                                                     <th>Status</th>
                                                 @endif
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($topRanking as $item)
+                                            @foreach ($topRanking as $item)
                                                 <tr>
                                                     <td class="ps-3">
-                                                        <span class="badge
-                                                            {{ $item->rank == 1 ? 'bg-warning text-dark' :
-                                                               ($item->rank == 2 ? 'bg-secondary' :
-                                                               ($item->rank == 3 ? 'bg-danger bg-opacity-75' : 'bg-light text-dark')) }}">
+                                                        <span
+                                                            class="badge
+                                                            {{ $item->rank == 1
+                                                                ? 'bg-warning text-dark'
+                                                                : ($item->rank == 2
+                                                                    ? 'bg-secondary'
+                                                                    : ($item->rank == 3
+                                                                        ? 'bg-danger bg-opacity-75'
+                                                                        : 'bg-light text-dark')) }}">
                                                             #{{ $item->rank }}
                                                         </span>
                                                     </td>
@@ -231,9 +216,9 @@
                                                             {{ number_format($item->nilai_preferensi, 3) }}
                                                         </span>
                                                     </td>
-                                                    @if($isPetugas)
+                                                    @if ($isPetugas)
                                                         <td>
-                                                            @if($item->status_pengambilan == 'sudah_ambil')
+                                                            @if ($item->status_pengambilan == 'sudah_ambil')
                                                                 <span class="badge bg-success">Sudah Ambil</span>
                                                             @else
                                                                 <span class="badge bg-warning text-dark">Belum Ambil</span>
@@ -249,11 +234,10 @@
                         </div>
                     </div>
 
-                {{-- ---------------------------------------------------- --}}
-                {{-- LURAH --}}
-                {{-- ---------------------------------------------------- --}}
+                    {{-- ---------------------------------------------------- --}}
+                    {{-- LURAH --}}
+                    {{-- ---------------------------------------------------- --}}
                 @elseif($isLurah)
-
                     {{-- STAT CARDS --}}
                     <div class="row g-3">
                         <div class="col-12 col-md-4">
@@ -308,7 +292,8 @@
                         <div class="card-body pt-3">
                             <div class="d-flex justify-content-between mb-1">
                                 <span class="small text-muted">Realisasi</span>
-                                <span class="small fw-bold
+                                <span
+                                    class="small fw-bold
                                     {{ $realisasi >= 100 ? 'text-success' : ($realisasi >= 50 ? 'text-warning' : 'text-danger') }}">
                                     {{ number_format($realisasi, 1) }}%
                                 </span>
@@ -317,12 +302,9 @@
                                 <div class="progress-bar
                                     {{ $realisasi >= 100 ? 'bg-success' : ($realisasi >= 50 ? 'bg-warning' : 'bg-danger') }}
                                     rounded-pill"
-                                    role="progressbar"
-                                    style="width: {{ $realisasi }}%"
-                                    aria-valuenow="{{ $realisasi }}"
-                                    aria-valuemin="0"
-                                    aria-valuemax="100">
-                                    @if($realisasi >= 15)
+                                    role="progressbar" style="width: {{ $realisasi }}%"
+                                    aria-valuenow="{{ $realisasi }}" aria-valuemin="0" aria-valuemax="100">
+                                    @if ($realisasi >= 15)
                                         <span class="small px-2">{{ number_format($realisasi, 1) }}%</span>
                                     @endif
                                 </div>
@@ -347,7 +329,7 @@
                             </a>
                         </div>
                         <div class="card-body p-0">
-                            @if($topRanking->isEmpty())
+                            @if ($topRanking->isEmpty())
                                 <div class="text-center py-5 text-muted">
                                     <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                                     <p class="mb-0">Belum ada data rekomendasi untuk periode ini.</p>
@@ -364,13 +346,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($topRanking as $item)
+                                            @foreach ($topRanking as $item)
                                                 <tr>
                                                     <td class="ps-3">
-                                                        <span class="badge
-                                                            {{ $item->rank == 1 ? 'bg-warning text-dark' :
-                                                               ($item->rank == 2 ? 'bg-secondary' :
-                                                               ($item->rank == 3 ? 'bg-danger bg-opacity-75' : 'bg-light text-dark')) }}">
+                                                        <span
+                                                            class="badge
+                                                            {{ $item->rank == 1
+                                                                ? 'bg-warning text-dark'
+                                                                : ($item->rank == 2
+                                                                    ? 'bg-secondary'
+                                                                    : ($item->rank == 3
+                                                                        ? 'bg-danger bg-opacity-75'
+                                                                        : 'bg-light text-dark')) }}">
                                                             #{{ $item->rank }}
                                                         </span>
                                                     </td>
@@ -381,7 +368,7 @@
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        @if($item->status_pengambilan == 'sudah_ambil')
+                                                        @if ($item->status_pengambilan == 'sudah_ambil')
                                                             <span class="badge bg-success">Sudah Ambil</span>
                                                         @else
                                                             <span class="badge bg-warning text-dark">Belum Ambil</span>
@@ -393,6 +380,172 @@
                                     </table>
                                 </div>
                             @endif
+                        </div>
+                    </div>
+                @elseif($isRTRW)
+                    @php
+                        $persenLakiLaki = $totalPenduduk > 0 ? ($totalLakiLaki / $totalPenduduk) * 100 : 0;
+                        $persenPerempuan = $totalPenduduk > 0 ? ($totalPerempuan / $totalPenduduk) * 100 : 0;
+                    @endphp
+
+                    {{-- Statistik --}}
+                    <div class="row g-3">
+
+                        {{-- Total Penduduk --}}
+                        <div class="col-6 col-md-6 col-lg-3">
+                            <div class="card shadow-sm border-0 h-100">
+                                <div class="card-body d-flex align-items-center gap-3">
+                                    <div class="bg-primary bg-opacity-10 p-3 rounded-4">
+                                        <i class="bi bi-people-fill text-primary fs-3"></i>
+                                    </div>
+
+                                    <div>
+                                        <div class="text-muted small">
+                                            Total Penduduk
+                                        </div>
+
+                                        <div class="fs-4 fw-bold">
+                                            {{ $totalPenduduk }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Laki-Laki --}}
+                        <div class="col-6 col-md-6 col-lg-3">
+                            <div class="card shadow-sm border-0 h-100">
+                                <div class="card-body d-flex align-items-center gap-3">
+                                    <div class="bg-success bg-opacity-10 p-3 rounded-4">
+                                        <i class="bi bi-person-fill text-success fs-3"></i>
+                                    </div>
+
+                                    <div>
+                                        <div class="text-muted small">
+                                            Laki-Laki
+                                        </div>
+
+                                        <div class="fs-4 fw-bold text-success">
+                                            {{ $totalLakiLaki }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Perempuan --}}
+                        <div class="col-6 col-md-6 col-lg-3">
+                            <div class="card shadow-sm border-0 h-100">
+                                <div class="card-body d-flex align-items-center gap-3">
+                                    <div class="bg-danger bg-opacity-10 p-3 rounded-4">
+                                        <i class="bi bi-person-fill text-danger fs-3"></i>
+                                    </div>
+
+                                    <div>
+                                        <div class="text-muted small">
+                                            Perempuan
+                                        </div>
+
+                                        <div class="fs-4 fw-bold text-danger">
+                                            {{ $totalPerempuan }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Wilayah --}}
+                        <div class="col-6 col-md-6 col-lg-3">
+                            <div class="card shadow-sm border-0 h-100">
+                                <div class="card-body d-flex align-items-center gap-3">
+                                    <div class="bg-warning bg-opacity-10 p-3 rounded-4">
+                                        <i class="bi bi-geo-alt-fill text-warning fs-3"></i>
+                                    </div>
+
+                                    <div>
+                                        <div class="text-muted small">
+                                            Wilayah
+                                        </div>
+
+                                        <div class="fw-bold">
+                                            RW {{ auth()->user()->rw }}
+                                        </div>
+
+                                        <div class="fw-bold">
+                                            RT {{ auth()->user()->rt }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                 
+
+                    {{-- Komposisi Penduduk --}}
+                    <div class="card shadow-sm border-0 mt-3">
+
+                        <div class="card-header border-0 pb-0">
+                            <h5 class="mb-0">
+                                Komposisi Penduduk
+                            </h5>
+
+                            <small class="text-muted">
+                                Perbandingan penduduk laki-laki dan perempuan
+                            </small>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="mb-3">
+
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>Laki-Laki</span>
+                                    <strong>{{ $totalLakiLaki }}</strong>
+                                </div>
+
+                                <div class="progress rounded-pill">
+                                    <div class="progress-bar bg-success" style="width: {{ $persenLakiLaki }}%">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div>
+
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>Perempuan</span>
+                                    <strong>{{ $totalPerempuan }}</strong>
+                                </div>
+
+                                <div class="progress rounded-pill">
+                                    <div class="progress-bar bg-danger" style="width: {{ $persenPerempuan }}%">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {{-- Informasi --}}
+                    <div class="card shadow-sm border-0 mt-3">
+                        <div class="card-body">
+                            <h5>
+                                <i class="bi bi-info-circle-fill text-info me-2"></i>
+                                Informasi
+                            </h5>
+
+                            <p class="mb-0">
+                                Kelola data penduduk wilayah
+                                <strong>RT {{ auth()->user()->rt }}</strong>
+                                dan
+                                <strong>RW {{ auth()->user()->rw }}</strong>
+                                melalui menu
+                                <strong>Data Penduduk</strong>.
+                            </p>
                         </div>
                     </div>
 
@@ -413,11 +566,12 @@
                             </div>
                             <div class="ms-3">
                                 <h5 class="fw-bold mb-1">{{ auth()->user()->name }}</h5>
-                                <span class="badge
-                                    @if($isAdmin) bg-primary
+                                <span
+                                    class="badge
+                                    @if ($isAdmin) bg-primary
                                     @elseif($isPetugas) bg-success
                                     @elseif($isLurah) bg-warning text-dark
-                                    @endif">
+                                    @elseif($isRTRW) bg-info @endif">
                                     {{ auth()->user()?->role?->name ?? '-' }}
                                 </span>
                             </div>
@@ -425,51 +579,77 @@
                     </div>
                 </div>
 
-                {{-- PERIODE AKTIF --}}
-                {{-- <div class="card shadow-sm border-0 mb-3">
-                    <div class="card-header bg-white border-0">
-                        <h6 class="mb-0"><i class="bi bi-calendar-event me-1 text-primary"></i> Periode Aktif</h6>
-                    </div>
-                    <div class="card-body pt-0">
-                        @if($periode)
-                            <h5 class="fw-bold text-primary mb-1">{{ $periode->nama_periode }}</h5>
-                            <p class="text-muted small mb-0">Sistem monitoring distribusi bantuan Rastrada.</p>
-                        @else
-                            <p class="text-danger small mb-0">
-                                <i class="bi bi-exclamation-circle me-1"></i>
-                                Belum ada periode aktif.
-                                @if($isAdmin)
-                                    <a href="/periode" class="d-block mt-1">Atur Periode →</a>
-                                @endif
-                            </p>
-                        @endif
-                    </div>
-                </div> --}}
+                @if (!$isRTRW)
+                    {{-- STATUS DISTRIBUSI --}}
+                    <div class="card shadow-sm border-0 mb-3">
+                        <div class="card-header border-0">
+                            <h6 class="mb-0">
+                                <i class="bi bi-bar-chart-fill me-1 text-success"></i>
+                                Status Distribusi
+                            </h6>
+                        </div>
 
-                {{-- STATUS DISTRIBUSI --}}
-                <div class="card shadow-sm border-0 mb-3">
-                    <div class="card-header border-0">
-                        <h6 class="mb-0"><i class="bi bi-bar-chart-fill me-1 text-success"></i> Status Distribusi</h6>
+                        <div class="card-body pt-0">
+
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="small">Sudah Ambil</span>
+                                <span class="fw-bold text-success">{{ $sudahAmbil }}</span>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="small">Belum Ambil</span>
+                                <span class="fw-bold text-danger">{{ $belumAmbil }}</span>
+                            </div>
+
+                            <div class="progress rounded-pill" style="height:8px">
+                                <div class="progress-bar bg-success rounded-pill" style="width: {{ $realisasi }}%">
+                                </div>
+                            </div>
+
+                            <div class="text-end mt-1">
+                                <small class="text-muted">
+                                    {{ number_format($realisasi, 1) }}% selesai
+                                </small>
+                            </div>
+
+                        </div>
                     </div>
-                    <div class="card-body pt-0">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="small">Sudah Ambil</span>
-                            <span class="fw-bold text-success">{{ $sudahAmbil }}</span>
+                @else
+                    {{-- INFO WILAYAH RT/RW --}}
+                    <div class="card shadow-sm border-0 mb-3">
+
+                        <div class="card-header border-0">
+                            <h6 class="mb-0">
+                                <i class="bi bi-geo-alt-fill me-1 text-primary"></i>
+                                Wilayah Tugas
+                            </h6>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="small">Belum Ambil</span>
-                            <span class="fw-bold text-danger">{{ $belumAmbil }}</span>
+
+                        <div class="card-body pt-0">
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>RW</span>
+                                <strong>{{ auth()->user()->rw }}</strong>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>RT</span>
+                                <strong>{{ auth()->user()->rt }}</strong>
+                            </div>
+
+                            <hr>
+
+                            <div class="d-flex justify-content-between">
+                                <span>Total Penduduk</span>
+                                <strong class="text-primary">
+                                    {{ $totalPenduduk }}
+                                </strong>
+                            </div>
+
                         </div>
-                        {{-- Mini progress --}}
-                        <div class="progress rounded-pill" style="height:8px">
-                            <div class="progress-bar bg-success rounded-pill"
-                                 style="width: {{ $realisasi }}%"></div>
-                        </div>
-                        <div class="text-end mt-1">
-                            <small class="text-muted">{{ number_format($realisasi, 1) }}% selesai</small>
-                        </div>
+
                     </div>
-                </div>
+                @endif
 
                 {{-- SHORTCUT AKSI — sesuai role --}}
                 <div class="card shadow-sm border-0">
@@ -477,7 +657,7 @@
                         <h6 class="mb-0"><i class="bi bi-lightning-fill me-1 text-warning"></i> Aksi Cepat</h6>
                     </div>
                     <div class="card-body pt-0 d-grid gap-2">
-                        @if($isAdmin)
+                        @if ($isAdmin)
                             <a href="/resident" class="btn btn-sm btn-outline-primary text-start">
                                 <i class="bi bi-people me-1"></i> Data Penduduk
                             </a>
@@ -509,6 +689,21 @@
                             </a>
                             <a href="/report" class="btn btn-sm btn-outline-secondary text-start">
                                 <i class="bi bi-file-earmark-text me-1"></i> Cetak Laporan
+                            </a>
+                        @elseif($isRTRW)
+                            <a href="/resident" class="btn btn-sm btn-outline-primary text-start">
+                                <i class="bi bi-people me-1"></i>
+                                Data Penduduk
+                            </a>
+
+                            <a href="/resident/create" class="btn btn-sm btn-outline-success text-start">
+                                <i class="bi bi-plus-circle me-1"></i>
+                                Tambah Penduduk
+                            </a>
+
+                            <a href="/profile" class="btn btn-sm btn-outline-secondary text-start">
+                                <i class="bi bi-person-circle me-1"></i>
+                                Profil Saya
                             </a>
                         @endif
                     </div>

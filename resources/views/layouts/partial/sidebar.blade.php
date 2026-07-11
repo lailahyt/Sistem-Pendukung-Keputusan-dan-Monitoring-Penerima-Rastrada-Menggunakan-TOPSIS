@@ -65,21 +65,9 @@
                 'icon' => 'bi bi-calendar-event',
             ],
             (object) [
-                'type' => 'dropdown',
-                'title' => 'User Management',
-                'icon' => 'bi bi-person-badge',
-                'children' => [
-                    (object) [
-                        'title' => 'Daftar Akun',
-                        'path' => 'account-list',
-                        'icon' => 'bi bi-person-lines-fill',
-                    ],
-                    (object) [
-                        'title' => 'Permintaan Akun',
-                        'path' => 'account-request',
-                        'icon' => 'bi bi-person-plus',
-                    ],
-                ],
+                'title' => 'Daftar Akun',
+                'path' => 'account-list',
+                'icon' => 'bi bi-person-lines-fill',
             ],
         ],
 
@@ -171,6 +159,28 @@
                 'title' => 'Laporan',
                 'path' => 'report',
                 'icon' => 'bi bi-file-earmark-text',
+            ],
+        ],
+
+        // ============================================================
+        // 4 = RT/RW
+        // ============================================================
+        4 => [
+            (object) [
+                'type' => 'title',
+                'title' => 'Menu',
+            ],
+
+            (object) [
+                'title' => 'Dashboard',
+                'path' => 'dashboard',
+                'icon' => 'bi bi-grid',
+            ],
+
+            (object) [
+                'title' => 'Data Penduduk',
+                'path' => 'resident',
+                'icon' => 'bi bi-people',
             ],
         ],
     ];
