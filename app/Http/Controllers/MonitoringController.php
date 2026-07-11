@@ -98,18 +98,29 @@ class MonitoringController extends Controller
         $request->validate([
             'diambil_oleh' => 'required',
             'nama_wakil' => 'nullable|string|max:255',
-            'foto_bukti' => 'required|image|max:2048',
+
+            'foto_ktp' => 'required|image|max:2048',
+
+            'foto_distribusi' => 'required|image|max:2048',
+
             'catatan' => 'nullable|string'
         ]);
 
         $monitoring = MonitoringDistribusi::findOrFail($id);
 
         // upload bukti
-        $foto = $monitoring->bukti_distribusi;
+        $fotoKtp = $monitoring->foto_ktp;
+        $fotoDistribusi = $monitoring->bukti_distribusi;
 
-        if ($request->hasFile('foto_bukti')) {
+        if ($request->hasFile('foto_ktp')) {
 
-            $foto = $request->file('foto_bukti')
+            $fotoKtp = $request->file('foto_ktp')
+                ->store('foto_ktp', 'public');
+        }
+
+        if ($request->hasFile('foto_distribusi')) {
+
+            $fotoDistribusi = $request->file('foto_distribusi')
                 ->store('bukti_distribusi', 'public');
         }
 
@@ -131,7 +142,8 @@ class MonitoringController extends Controller
             'petugas' => Auth::check()
                 ? Auth::user()->name
                 : 'Admin',
-            'bukti_distribusi' => $foto,
+            'foto_ktp' => $fotoKtp,
+            'bukti_distribusi' => $fotoDistribusi,
             'catatan' => $request->catatan
         ]);
 
@@ -149,27 +161,50 @@ class MonitoringController extends Controller
         ));
     }
 
-    public function tetapkanBulk(Request $request)
-    {
+    public function tetapkanKuota(
+        Request $request,
+        TopsisService $topsisService
+    ) {
 
         $request->validate([
-            'periode_id' => 'required',
-            'selected' => 'required|array|min:1'
-        ], [
-            'selected.required' => 'Pilih minimal satu calon penerima.'
+            'periode_id' => 'required'
         ]);
+
+        $periode = Periode::findOrFail(
+            $request->periode_id
+        );
+
+        $kuota = $periode->kuota ?? 0;
+
+        if ($kuota <= 0) {
+
+            return back()->with(
+                'error',
+                'Kuota penerima belum diisi.'
+            );
+        }
+
+        $data = $topsisService->calculate(
+            $periode->id
+        );
+
+        $hasil = $data['hasil'];
 
         $berhasil = 0;
 
-        foreach ($request->selected as $pendudukId) {
+        foreach ($hasil as $row) {
+
+            if ($row['rank'] > $kuota) {
+                continue;
+            }
 
             $cek = MonitoringDistribusi::where(
                 'penduduk_id',
-                $pendudukId
+                $row['id']
             )
                 ->where(
                     'periode_id',
-                    $request->periode_id
+                    $periode->id
                 )
                 ->exists();
 
@@ -177,15 +212,15 @@ class MonitoringController extends Controller
 
                 MonitoringDistribusi::create([
 
-                    'penduduk_id' => $pendudukId,
+                    'penduduk_id' => $row['id'],
 
-                    'periode_id' => $request->periode_id,
+                    'periode_id' => $periode->id,
 
-                    'rank' => $request->ranks[$pendudukId],
+                    'rank' => $row['rank'],
 
-                    'nilai_preferensi' => $request->nilai[$pendudukId],
+                    'nilai_preferensi' => $row['nilai'],
 
-                    'status_pengambilan' => 'belum_ambil',
+                    'status_pengambilan' => 'belum_ambil'
 
                 ]);
 
@@ -195,7 +230,7 @@ class MonitoringController extends Controller
 
         return back()->with(
             'success',
-            $berhasil . ' calon penerima berhasil ditetapkan.'
+            $berhasil . ' penerima RASTRADA berhasil ditetapkan.'
         );
     }
 

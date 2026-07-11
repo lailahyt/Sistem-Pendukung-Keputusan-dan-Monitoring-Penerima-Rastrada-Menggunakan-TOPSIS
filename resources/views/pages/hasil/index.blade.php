@@ -179,48 +179,40 @@
                             Ranking Hasil TOPSIS
                         </h5>
 
-                        @if (auth()->user()->role->name == 'Petugas')
+                        @if (auth()->user()->role->name == 'Lurah')
                             <div
                                 class="ranking-actions d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-2">
 
-                                <div class="form-check mb-0">
-                                    <input class="form-check-input" type="checkbox" id="checkAll">
-
-                                    <label class="form-check-label" for="checkAll">
-                                        Pilih Semua
-                                    </label>
-                                </div>
-
-                                <span class="badge bg-secondary px-3 py-2">
-                                    Dipilih:
-                                    <span id="selectedCount">0</span>
-                                    data
+                                <span class="badge bg-primary px-3 py-2">
+                                    Kuota Penerima: {{ $kuota }}
                                 </span>
 
-                                <button type="button" class="btn btn-success" id="btnBulk"
-                                    onclick="document.getElementById('bulkForm').submit()">
+                                <form action="{{ route('hasil.tetapkan.kuota') }}" method="POST">
 
-                                    <i class="bi bi-check2-square"></i>
-                                    Tetapkan Terpilih
-                                </button>
+                                    @csrf
+
+                                    <input type="hidden" name="periode_id" value="{{ $periode_id }}">
+
+                                    <button type="submit" class="btn btn-success">
+
+                                        <i class="bi bi-check2-circle"></i>
+                                        Tetapkan Sesuai Kuota
+
+                                    </button>
+
+                                </form>
 
                             </div>
+                        @else
+                            <span class="badge bg-primary px-3 py-2">
+                                Kuota Penerima: {{ $kuota }}
+                            </span>
                         @endif
 
                     </div>
                 </div>
 
                 <div class="card-body">
-
-                    @if (auth()->user()->role->name != 'Lurah')
-                        <form id="bulkForm" action="{{ route('monitoring.tetapkan.bulk') }}" method="POST">
-
-                            @csrf
-
-                            <input type="hidden" name="periode_id" value="{{ $periode_id }}">
-
-                        </form>
-                    @endif
 
                     <div class="table-responsive">
 
@@ -238,15 +230,9 @@
                                         Nilai Preferensi (Vi)
                                     </th>
 
-                                    @if (auth()->user()->role->name == 'Petugas')
-                                        <th class="text-center" style="width: 90px;">
-                                            Aksi
-                                        </th>
-                                    @else
-                                        <th class="text-center" style="width: 90px;">
-                                            Status
-                                        </th>
-                                    @endif
+                                    <th>
+                                        Status Penerima
+                                    </th>
                                 </tr>
                             </thead>
 
@@ -287,43 +273,30 @@
                                                     {{ number_format($row['nilai'], 3) }} </small>
                                             </div>
                                         </td>
-                                        <!-- AKSI -->
-                                        <td class="text-center">
+                                        <td>
 
-                                            @if (auth()->user()->role->name == 'Petugas')
+                                            @if ($row['rank'] <= $kuota)
                                                 @if (in_array($row['id'], $ditetapkan))
                                                     <span class="badge bg-success">
-                                                        <i class="bi bi-check-circle-fill"></i>
-                                                        Ditetapkan
+                                                        Penerima
                                                     </span>
                                                 @else
-                                                    <input type="checkbox" class="item-check" form="bulkForm"
-                                                        name="selected[]" value="{{ $row['id'] }}">
-
-                                                    <input type="hidden" form="bulkForm"
-                                                        name="ranks[{{ $row['id'] }}]" value="{{ $row['rank'] }}">
-
-                                                    <input type="hidden" form="bulkForm"
-                                                        name="nilai[{{ $row['id'] }}]" value="{{ $row['nilai'] }}">
+                                                    <span class="badge bg-primary">
+                                                        Calon Penerima
+                                                    </span>
                                                 @endif
                                             @else
-                                                @if (in_array($row['id'], $ditetapkan))
-                                                    <span class="badge bg-success">
-                                                        <i class="bi bi-check-circle-fill"></i>
-                                                        Ditetapkan
-                                                    </span>
-                                                @else
-                                                    <span class="badge bg-secondary">
-                                                        Belum Ditetapkan
-                                                    </span>
-                                                @endif
+                                                <span class="badge bg-secondary">
+                                                    Tidak Masuk Kuota
+                                                </span>
                                             @endif
 
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="{{ auth()->user()->role->name == 'Petugas' ? 5 : 4 }}">
+                                        <td colspan="{{ auth()->user()->role->name == 'Lurah' ? 5 : 4 }}"
+                                            class="text-center">
                                             Tidak ada data
                                         </td>
                                     </tr>
@@ -337,41 +310,7 @@
                 </div>
 
             </div>
-
         </section>
 
     </div>
-
-    <script>
-        function updateSelectedCount() {
-
-            const total =
-                document.querySelectorAll('.item-check:checked').length;
-
-            document.getElementById('selectedCount').textContent = total;
-
-            document.getElementById('btnBulk').disabled = total === 0;
-        }
-
-        document.addEventListener('change', function(e) {
-
-            if (e.target.id === 'checkAll') {
-
-                document.querySelectorAll('.item-check')
-                    .forEach(cb => {
-
-                        cb.checked = e.target.checked;
-
-                    });
-
-                updateSelectedCount();
-            }
-
-            if (e.target.classList.contains('item-check')) {
-
-                updateSelectedCount();
-            }
-
-        });
-    </script>
 @endsection

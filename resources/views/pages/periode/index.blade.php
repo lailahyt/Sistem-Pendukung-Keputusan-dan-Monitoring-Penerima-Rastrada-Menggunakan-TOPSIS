@@ -37,7 +37,7 @@
 
                 <div class="card-header">
                     <h5 class="card-title">Data Periode Seleksi</h5>
-                        <small class="text-muted">Total {{ $periode->count() }} periode terdaftar</small>
+                    <small class="text-muted">Total {{ $periode->count() }} periode terdaftar</small>
                 </div>
 
                 <div class="card-body">
@@ -47,6 +47,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Periode</th>
+                                <th>Kuota</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -65,6 +66,15 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->nama_periode }}</td>
+                                        <td>
+                                            @if ($item->kuota)
+                                                {{ $item->kuota }} KK
+                                            @else
+                                                <span class="badge bg-light-secondary">
+                                                    Belum Diisi
+                                                </span>
+                                            @endif
+                                        </td>
                                         <td>
                                             <div class="d-flex align-items-center" style="gap: 10px;">
 
@@ -101,6 +111,12 @@
                                                     <div class="modal-body">
                                                         <input type="text" name="nama_periode" class="form-control"
                                                             value="{{ $item->nama_periode }}">
+                                                    </div>
+
+                                                    <div>
+                                                        <label>Kuota Penerima</label>
+                                                        <input type="number" name="kuota" class="form-control"
+                                                            min="0" value="{{ $item->kuota }}">
                                                     </div>
 
                                                     <div class="modal-footer">
@@ -168,6 +184,12 @@
                     <div class="modal-body">
                         <input type="text" name="nama_periode" class="form-control"
                             placeholder="Contoh: Seleksi Januari 2026">
+                    </div>
+
+                    <div>
+                        <label>Kuota Penerima</label>
+                        <input type="number" name="kuota" class="form-control" min="0"
+                            value="{{ $item->kuota }}">
                     </div>
 
                     <div class="modal-footer">

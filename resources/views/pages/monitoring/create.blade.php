@@ -98,14 +98,27 @@
 
                                 <div class="mb-3">
                                     <label class="form-label">
-                                        Foto Bukti / KTP <span class="text-danger">*</span>
+                                        Foto KTP Penerima <span class="text-danger">*</span>
                                     </label>
 
-                                    <input type="file"
-                                        name="foto_bukti"
-                                        class="form-control"
-                                        accept="image/*"
+                                    <input type="file" name="foto_ktp" class="form-control" accept="image/*" required>
+
+                                    <small class="text-muted">
+                                        Upload foto KTP penerima bantuan.
+                                    </small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Foto Bukti Distribusi <span class="text-danger">*</span>
+                                    </label>
+
+                                    <input type="file" name="foto_distribusi" class="form-control" accept="image/*"
                                         required>
+
+                                    <small class="text-muted">
+                                        Upload foto saat bantuan RASTRADA diserahkan.
+                                    </small>
                                 </div>
 
                                 <div class="mb-3">

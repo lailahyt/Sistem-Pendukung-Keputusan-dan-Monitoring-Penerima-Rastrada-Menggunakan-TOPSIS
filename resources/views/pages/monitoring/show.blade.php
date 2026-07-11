@@ -179,20 +179,41 @@
                     {{-- BUKTI --}}
                     <div class="row p-3 border rounded">
 
-                        <div class="col-md-12">
+                        {{-- FOTO KTP --}}
+                        <div class="col-md-6 mb-4">
 
                             <label class="fw-bold mb-3">
-                                Bukti Distribusi
+                                Bukti Identitas Penerima (KTP)
+                            </label>
+
+                            <br>
+
+                            @if ($monitoring->foto_ktp)
+                                <img src="{{ asset('storage/' . $monitoring->foto_ktp) }}" class="img-fluid rounded border"
+                                    style="max-height:400px;">
+                            @else
+                                <div class="alert alert-light-warning">
+                                    Foto KTP belum tersedia
+                                </div>
+                            @endif
+
+                        </div>
+
+                        {{-- FOTO DISTRIBUSI --}}
+                        <div class="col-md-6 mb-4">
+
+                            <label class="fw-bold mb-3">
+                                Bukti Penyaluran Bantuan RASTRADA
                             </label>
 
                             <br>
 
                             @if ($monitoring->bukti_distribusi)
                                 <img src="{{ asset('storage/' . $monitoring->bukti_distribusi) }}"
-                                    class="img-fluid rounded border" style="max-height: 400px;">
+                                    class="img-fluid rounded border" style="max-height:400px;">
                             @else
                                 <div class="alert alert-light-warning">
-                                    Bukti distribusi belum tersedia
+                                    Foto distribusi belum tersedia
                                 </div>
                             @endif
 
@@ -204,11 +225,11 @@
                     <div class="mt-4">
                         <div class="col-12 d-flex justify-content-end">
 
-                        <a href="/monitoring" class="btn btn-secondary">
+                            <a href="/monitoring" class="btn btn-secondary">
 
-                            Kembali
+                                Kembali
 
-                        </a>
+                            </a>
 
                         </div>
 

@@ -17,6 +17,7 @@ class MonitoringDistribusi extends Model
         'tanggal_ambil',
         'diambil_oleh',
         'petugas',
+        'foto_ktp',
         'bukti_distribusi',
         'catatan'
     ];

@@ -17,10 +17,12 @@ class PeriodeController extends Controller
     {
         $request->validate([
             'nama_periode' => 'required|string|max:255',
+            'kuota' => 'nullable|integer|min:0'
         ]);
 
         Periode::create([
             'nama_periode' => $request->nama_periode,
+            'kuota' => $request->kuota
         ]);
 
         return back()->with('success', 'Periode berhasil ditambahkan');
@@ -30,11 +32,13 @@ class PeriodeController extends Controller
     {
         $request->validate([
             'nama_periode' => 'required|string|max:255',
+            'kuota' => 'nullable|integer|min:0'
         ]);
 
         $periode = Periode::findOrFail($id);
         $periode->update([
             'nama_periode' => $request->nama_periode,
+            'kuota' => $request->kuota
         ]);
 
         return back()->with('success', 'Periode berhasil diupdate');
@@ -44,5 +48,30 @@ class PeriodeController extends Controller
     {
         Periode::findOrFail($id)->delete();
         return back()->with('success', 'Periode berhasil dihapus');
+    }
+
+    public function kuotaIndex()
+    {
+        $periode = Periode::latest()->get();
+
+        return view(
+            'pages.kuota.index',
+            compact('periode')
+        );
+    }
+    
+    public function updateKuota(Request $request, Periode $periode)
+    {
+        $request->validate([
+            'kuota' => 'required|integer|min:0'
+        ]);
+
+        $periode->update([
+            'kuota' => $request->kuota
+        ]);
+
+        return redirect()
+            ->route('kuota.index')
+            ->with('success', 'Kuota berhasil diperbarui.');
     }
 }

@@ -28,6 +28,17 @@ class HasilController extends Controller
         $data = $topsisService->calculate($periode_id);
 
         $hasil = $data['hasil'];
+        $kuota = $periode->kuota ?? 0;
+
+        $calonPenerima = [];
+
+        foreach ($hasil as $item) {
+
+            if ($item['rank'] <= $kuota) {
+
+                $calonPenerima[] = $item['id'];
+            }
+        }
 
         $totalAlternatif = count($hasil);
 
@@ -53,7 +64,9 @@ class HasilController extends Controller
             'periode',
             'periode_id',
             'periodeList',
-            'ditetapkan'
+            'ditetapkan',
+            'kuota',
+            'calonPenerima'
         ));
     }
 }

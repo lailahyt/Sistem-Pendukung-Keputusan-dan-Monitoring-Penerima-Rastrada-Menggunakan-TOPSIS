@@ -68,21 +68,34 @@ Route::post('/penilaian/store', [PenilaianController::class, 'store'])->middlewa
 Route::get('/penilaian/detail-json/{id}', [PenilaianController::class, 'detailJson'])->middleware(['role:Admin,Petugas']);
 Route::delete('/penilaian/{id}', [PenilaianController::class, 'destroy'])->middleware(['role:Admin,Petugas']);
 
-Route::resource('periode', PeriodeController::class)->middleware(['role:Admin']);
+Route::resource('periode', PeriodeController::class)->middleware(['role:Admin, Lurah']);
+
+Route::middleware(['role:Lurah'])->group(function () {
+
+    Route::get(
+        '/kuota-penerima',
+        [PeriodeController::class, 'kuotaIndex']
+    )->name('kuota.index');
+
+    Route::put(
+        '/kuota-penerima/{periode}',
+        [PeriodeController::class, 'updateKuota']
+    )->name('kuota.update');
+});
+
 
 Route::get('/topsis', [TopsisController::class, 'index'])->middleware(['role:Admin,Petugas']);
 
 Route::get('/hasil', [HasilController::class, 'index'])->middleware(['role:Admin,Petugas,Lurah']);
+Route::post('/hasil/tetapkan-kuota', [MonitoringController::class, 'tetapkanKuota'])
+    ->middleware(['role:Lurah'])
+    ->name('hasil.tetapkan.kuota');
 
 Route::get('/monitoring', [MonitoringController::class, 'index'])->middleware(['role:Admin,Petugas,Lurah']);
 Route::get('/monitoring/{id}/edit', [MonitoringController::class, 'edit'])->middleware(['role:Admin,Petugas']);
 Route::put('/monitoring/{id}', [MonitoringController::class, 'update'])->middleware(['role:Admin,Petugas']);
 Route::get('/monitoring/{id}', [MonitoringController::class, 'show'])->middleware(['role:Admin,Petugas,Lurah']);
-Route::post('/monitoring/tetapkan-bulk', [MonitoringController::class, 'tetapkanBulk'])->middleware(['role:Petugas'])->name('monitoring.tetapkan.bulk');
-Route::delete(
-    '/monitoring/{id}/batalkan',
-    [MonitoringController::class, 'batalkan']
-)->name('monitoring.batalkan');
+Route::delete('/monitoring/{id}/batalkan', [MonitoringController::class, 'batalkan'])->name('monitoring.batalkan');
 
 Route::get('/report', [LaporanController::class, 'index'])->middleware(['role:Admin,Petugas,Lurah']);
 Route::get('/report/export-pdf', [LaporanController::class, 'exportPdf'])->middleware(['role:Admin,Petugas,Lurah']);

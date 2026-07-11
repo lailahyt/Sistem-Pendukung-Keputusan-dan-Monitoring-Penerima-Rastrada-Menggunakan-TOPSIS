@@ -151,10 +151,18 @@
                 'path' => 'monitoring',
                 'icon' => 'bi bi-activity',
             ],
+
             (object) [
                 'type' => 'title',
                 'title' => 'Sistem',
             ],
+
+            (object) [
+                'title' => 'Kuota Penerima',
+                'path' => 'kuota-penerima',
+                'icon' => 'bi bi-people-fill',
+            ],
+
             (object) [
                 'title' => 'Laporan',
                 'path' => 'report',

@@ -10,7 +10,8 @@ class Periode extends Model
 
     protected $fillable = [
         'nama_periode',
-        'tahun'
+        'tahun',
+        'kuota',
     ];
 
     public function penilaian()
