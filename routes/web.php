@@ -14,15 +14,13 @@ use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LandingController;
 use App\Models\Penilaian;
 use Illuminate\Support\Facades\Route;
 
 
 // Landing Page
-Route::get('/', function () {
-    return view('landingpage');
-});
-
+Route::get('/', [LandingController::class, 'index']);
 // Authentication
 Route::get('/login', [AuthController::class, 'login']);
 Route::post('/login', [AuthController::class, 'authenticate']);

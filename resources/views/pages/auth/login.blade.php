@@ -399,17 +399,6 @@
 
                 <button type="submit" class="btn-login">Masuk</button>
             </form>
-
-            {{-- <div class="divider">
-                <div class="divider-line"></div>
-                <span>atau</span>
-                <div class="divider-line"></div>
-            </div>
-
-            <div class="signup-row">
-                Belum punya akun? <a href="/register">Daftar sekarang</a>
-            </div> --}}
-
         </div>
 
         {{-- RIGHT: Decoration --}}
