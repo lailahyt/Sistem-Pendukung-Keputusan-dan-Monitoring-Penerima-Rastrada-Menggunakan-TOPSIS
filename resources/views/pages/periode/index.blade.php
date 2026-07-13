@@ -47,6 +47,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Periode</th>
+                                <th>Tahun</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -65,6 +66,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->nama_periode }}</td>
+                                        <td>{{ $item->tahun }}</td>
                                         <td>
                                             <div class="d-flex align-items-center" style="gap: 10px;">
 
@@ -101,6 +103,11 @@
                                                     <div class="modal-body">
                                                         <input type="text" name="nama_periode" class="form-control"
                                                             value="{{ $item->nama_periode }}">
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        <input type="text" name="tahun" class="form-control"
+                                                            value="{{ $item->tahun }}">
                                                     </div>
 
                                                     <div class="modal-footer">
@@ -167,7 +174,11 @@
 
                     <div class="modal-body">
                         <input type="text" name="nama_periode" class="form-control"
-                            placeholder="Contoh: Seleksi Januari 2026">
+                            placeholder="Contoh: Seleksi Januari">
+                    </div>
+
+                    <div class="modal-body">
+                        <input type="text" name="tahun" class="form-control" placeholder="Masukkan Tahun">
                     </div>
 
                     <div class="modal-footer">
