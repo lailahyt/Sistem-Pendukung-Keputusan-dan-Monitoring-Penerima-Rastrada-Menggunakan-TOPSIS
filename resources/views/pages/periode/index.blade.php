@@ -55,7 +55,7 @@
                         @if (count($periode) < 1)
                             <tbody>
                                 <tr>
-                                    <td colspan="3" class="text-center">
+                                    <td colspan="4" class="text-center">
                                         Tidak ada data periode
                                     </td>
                                 </tr>

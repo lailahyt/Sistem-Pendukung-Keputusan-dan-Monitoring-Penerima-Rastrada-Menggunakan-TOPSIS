@@ -38,6 +38,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Periode</th>
+                                <th>Tahun</th>
                                 <th>Kuota</th>
                                 <th>Aksi</th>
                             </tr>
@@ -50,6 +51,8 @@
                                     <td>{{ $loop->iteration }}</td>
 
                                     <td>{{ $item->nama_periode }}</td>
+
+                                    <td>{{ $item->tahun }}</td>
 
                                     <td width="250">
 
