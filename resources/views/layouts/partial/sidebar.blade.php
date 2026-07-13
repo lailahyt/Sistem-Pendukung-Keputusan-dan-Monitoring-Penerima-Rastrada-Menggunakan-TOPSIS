@@ -91,6 +91,11 @@
                 'icon' => 'bi bi-people',
             ],
             (object) [
+                'title' => 'Data Bantuan Lain',
+                'path' => 'bantuan-lain',
+                'icon' => 'bi bi-archive-fill',
+            ],
+            (object) [
                 'title' => 'Penilaian',
                 'path' => 'penilaian',
                 'icon' => 'bi bi-pencil-square',

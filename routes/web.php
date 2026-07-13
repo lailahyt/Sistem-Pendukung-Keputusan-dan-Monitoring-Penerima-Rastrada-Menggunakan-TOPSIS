@@ -15,6 +15,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\BantuanLainController;
 use App\Models\Penilaian;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,13 @@ Route::get('/resident/{id}', [ResidentController::class, 'edit'])->middleware(['
 Route::post('/resident', [ResidentController::class, 'store'])->middleware(['role:Admin,Petugas,Lurah,RT/RW']);
 Route::put('/resident/{id}', [ResidentController::class, 'update'])->middleware(['role:Admin,Petugas,Lurah,RT/RW']);
 Route::delete('/resident/{id}', [ResidentController::class, 'destroy'])->middleware(['role:Admin,Petugas,Lurah,RT/RW']);
+
+Route::get('/bantuan-lain', [BantuanLainController::class, 'index'])->middleware(['role:Admin,Petugas,Lurah']);
+Route::get('/bantuan-lain/create', [BantuanLainController::class, 'create'])->middleware(['role:Petugas']);
+Route::post('/bantuan-lain', [BantuanLainController::class, 'store'])->middleware(['role:Petugas']);
+Route::get('/bantuan-lain/{id}/edit', [BantuanLainController::class, 'edit'])->middleware(['role:Petugas']);
+Route::put('/bantuan-lain/{id}', [BantuanLainController::class, 'update'])->middleware(['role:Petugas']);
+Route::delete('/bantuan-lain/{id}', [BantuanLainController::class, 'destroy'])->middleware(['role:Petugas']);
 
 Route::get('/employee', [PegawaiController::class, 'index'])->middleware(['role:Admin']);
 Route::get('/employee/create', [PegawaiController::class, 'create'])->middleware(['role:Admin']);

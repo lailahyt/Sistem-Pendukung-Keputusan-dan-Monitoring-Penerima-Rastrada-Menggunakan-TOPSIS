@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Resident;
 use App\Models\Kriteria;
 use App\Models\Periode;
+use App\Models\BantuanLain;
 use App\Models\Penilaian;
 
 class TopsisService
@@ -15,6 +16,14 @@ class TopsisService
             ->orderBy('id', 'asc')
             ->get();
 
+        $periode = Periode::find($periode_id);
+
+        $tahunPeriode = $periode->tahun;
+
+        $excludedResidents = BantuanLain::where('tahun', $tahunPeriode)
+            ->pluck('penduduk_id')
+            ->toArray();
+
         // =========================
         // AMBIL DATA PENILAIAN
         // =========================
@@ -24,6 +33,7 @@ class TopsisService
         ])
             ->where('periode_id', $periode_id)
             ->where('status', 'selesai')
+            ->whereNotIn('penduduk_id', $excludedResidents)
             ->orderBy('penduduk_id', 'asc')
             ->get();
 

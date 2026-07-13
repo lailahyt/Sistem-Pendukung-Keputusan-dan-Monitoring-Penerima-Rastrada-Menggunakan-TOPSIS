@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\PenilaianDetail;
 use App\Models\Penilaian;
 use App\Models\Wilayah;
+use App\Models\BantuanLain;
 
 class Resident extends Model
 {
@@ -26,5 +27,13 @@ class Resident extends Model
     public function wilayah()
     {
         return $this->belongsTo(Wilayah::class);
+    }
+
+    public function bantuanLain()
+    {
+        return $this->hasMany(
+            BantuanLain::class,
+            'penduduk_id'
+        );
     }
 }

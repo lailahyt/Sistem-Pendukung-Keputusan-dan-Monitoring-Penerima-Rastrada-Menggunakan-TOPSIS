@@ -8,6 +8,7 @@ use App\Models\Periode;
 use App\Models\Penilaian;
 use App\Models\PenilaianDetail;
 use App\Models\Subkriteria;
+use App\Models\BantuanLain;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -28,7 +29,16 @@ class PenilaianController extends Controller
 
         $periode_id = request('periode_id') ?? $periode->id;
 
+        $periodeAktif = Periode::find($periode_id);
+
+        $tahunPeriode = $periodeAktif->tahun;
+
+        $excludedResidents = BantuanLain::where('tahun', $tahunPeriode)
+            ->pluck('penduduk_id')
+            ->toArray(); 
+
         $residents = Resident::where('status', 'active')
+            ->whereNotIn('id', $excludedResidents)
             ->with([
                 'penilaian' => function ($q) use ($periode_id) {
                     $q->where('periode_id', $periode_id);
