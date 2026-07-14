@@ -6,12 +6,13 @@ use App\Models\Resident;
 use App\Models\MonitoringDistribusi;
 use App\Models\Kriteria;
 use App\Models\Periode;
+use App\Services\TopsisService;
 use Illuminate\Support\Facades\Auth;
 
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(TopsisService $topsisService)
     {
         $role = Auth::user()?->role?->name;
         $user = Auth::user();
@@ -19,7 +20,7 @@ class DashboardController extends Controller
         // =========================
         // PERIODE AKTIF
         // =========================
-        $periode = Periode::latest()->first();
+        $periode = Periode::first();
 
         // =========================
         // STATISTIK DISTRIBUSI
@@ -42,10 +43,15 @@ class DashboardController extends Controller
         // TOP 5 RANKING TOPSIS
         // (dipakai semua role termasuk Lurah)
         // =========================
-        $topRanking = MonitoringDistribusi::with('resident')
-            ->orderBy('rank')
-            ->take(5)
-            ->get();
+        $topRanking = collect();
+
+        if ($periode) {
+
+            $hasilTopsis = $topsisService->calculate($periode->id);
+
+            $topRanking = collect($hasilTopsis['hasil'])
+                ->take(5);
+        }
 
         // =========================
         // TOTAL PENDUDUK

@@ -189,9 +189,6 @@
                                                 <th class="ps-3">Rank</th>
                                                 <th>Nama</th>
                                                 <th>Nilai Vi</th>
-                                                @if ($isPetugas)
-                                                    <th>Status</th>
-                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -200,31 +197,22 @@
                                                     <td class="ps-3">
                                                         <span
                                                             class="badge
-                                                            {{ $item->rank == 1
+                                                            {{ $item['rank'] == 1
                                                                 ? 'bg-warning text-dark'
-                                                                : ($item->rank == 2
+                                                                : ($item['rank'] == 2
                                                                     ? 'bg-secondary'
-                                                                    : ($item->rank == 3
+                                                                    : ($item['rank'] == 3
                                                                         ? 'bg-danger bg-opacity-75'
                                                                         : 'bg-light text-dark')) }}">
-                                                            #{{ $item->rank }}
+                                                            #{{ $item['rank'] }}
                                                         </span>
                                                     </td>
-                                                    <td class="fw-semibold">{{ $item->resident->nama ?? '-' }}</td>
+                                                    <td class="fw-semibold">{{ $item['nama'] }}</td>
                                                     <td>
                                                         <span class="font-monospace">
-                                                            {{ number_format($item->nilai_preferensi, 3) }}
+                                                            {{ number_format($item['nilai'], 3) }}
                                                         </span>
                                                     </td>
-                                                    @if ($isPetugas)
-                                                        <td>
-                                                            @if ($item->status_pengambilan == 'sudah_ambil')
-                                                                <span class="badge bg-success">Sudah Ambil</span>
-                                                            @else
-                                                                <span class="badge bg-warning text-dark">Belum Ambil</span>
-                                                            @endif
-                                                        </td>
-                                                    @endif
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -342,7 +330,6 @@
                                                 <th class="ps-3">Rank</th>
                                                 <th>Nama</th>
                                                 <th>Nilai Vi</th>
-                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -351,28 +338,21 @@
                                                     <td class="ps-3">
                                                         <span
                                                             class="badge
-                                                            {{ $item->rank == 1
+                                                            {{ $item['rank'] == 1
                                                                 ? 'bg-warning text-dark'
-                                                                : ($item->rank == 2
+                                                                : ($item['rank'] == 2
                                                                     ? 'bg-secondary'
-                                                                    : ($item->rank == 3
+                                                                    : ($item['rank'] == 3
                                                                         ? 'bg-danger bg-opacity-75'
                                                                         : 'bg-light text-dark')) }}">
-                                                            #{{ $item->rank }}
+                                                            #{{ $item['rank'] }}
                                                         </span>
                                                     </td>
-                                                    <td class="fw-semibold">{{ $item->resident->nama ?? '-' }}</td>
+                                                    <td class="fw-semibold">{{ $item['nama'] }}</td>
                                                     <td>
                                                         <span class="font-monospace">
-                                                            {{ number_format($item->nilai_preferensi, 3) }}
+                                                            {{ number_format($item['nilai'], 3) }}
                                                         </span>
-                                                    </td>
-                                                    <td>
-                                                        @if ($item->status_pengambilan == 'sudah_ambil')
-                                                            <span class="badge bg-success">Sudah Ambil</span>
-                                                        @else
-                                                            <span class="badge bg-warning text-dark">Belum Ambil</span>
-                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -481,7 +461,7 @@
 
                     </div>
 
-                 
+
 
                     {{-- Komposisi Penduduk --}}
                     <div class="card shadow-sm border-0 mt-3">
