@@ -29,22 +29,6 @@
 
         <section class="section">
 
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            @if (session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-            @endif
-
             <div class="card">
 
                 <div class="card-header">
@@ -63,11 +47,11 @@
                                 Penduduk <span class="text-danger">*</span>
                             </label>
 
-                            <select name="penduduk_id" class="form-select @error('penduduk_id') is-invalid @enderror"
-                                required>
+                            <select id="pendudukSelect" name="penduduk_id"
+                                class="form-select @error('penduduk_id') is-invalid @enderror" required>
 
                                 <option value="">
-                                    -- Pilih Penduduk --
+                                    <span></span>
                                 </option>
 
                                 @foreach ($residents as $resident)
@@ -168,4 +152,14 @@
         </section>
 
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            new TomSelect('#pendudukSelect', {
+                create: false
+            });
+
+        });
+    </script>
 @endsection
