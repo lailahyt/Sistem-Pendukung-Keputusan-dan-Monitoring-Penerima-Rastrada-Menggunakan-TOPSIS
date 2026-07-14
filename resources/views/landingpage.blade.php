@@ -872,6 +872,21 @@
             line-height: 1.6;
         }
 
+        #bantuan-sosial img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 14px;
+        }
+
+        #bantuan-sosial .feat-card {
+            transition: all .3s ease;
+        }
+
+        #bantuan-sosial .feat-card:hover {
+            transform: translateY(-6px);
+        }
+
         /* ── FOOTER ── */
         footer {
             background: linear-gradient(135deg, #1a2e6b 0%, #0f1e45 100%);
@@ -1023,6 +1038,7 @@
                     <li class="nav-item mt-2 mt-lg-0"><a class="nav-link" href="#tentang">Tentang</a></li>
                     <li class="nav-item mt-1 mt-lg-0"><a class="nav-link" href="#fitur">Fitur</a></li>
                     <li class="nav-item mt-1 mt-lg-0"><a class="nav-link" href="#metode">Statistik</a></li>
+                    <li class="nav-item mt-1 mt-lg-0"><a class="nav-link" href="#bantuan-sosial">Bantuan Sosial</a></li>
                     <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
                         <a href="/login" class="nav-link btn-nav">
                             <i class="bi bi-box-arrow-in-right me-1"></i> Masuk Sistem
@@ -1410,6 +1426,114 @@
                         </div>
                     @endforeach
 
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Bantuan Sosial -->
+    <section id="bantuan-sosial" class="metode py-5">
+        <div class="container">
+
+            <div class="metode-intro reveal">
+                <div class="section-eyebrow">
+                    <i class="bi bi-box2-heart-fill"></i>
+                    Bantuan Sosial
+                </div>
+
+                <h2 class="section-heading">
+                    Program Bantuan Sosial Kelurahan Kandangan Barat
+                </h2>
+
+                <p class="section-sub" style="font-size:15px">
+                    Selain Program RASTRADA, terdapat beberapa bantuan sosial yang
+                    disalurkan kepada masyarakat sesuai dengan kategori dan
+                    kriteria penerima yang telah ditetapkan.
+                </p>
+            </div>
+
+            <div class="row g-4">
+
+                <!-- RASTRADA -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="feat-card h-100 reveal">
+
+                        <img src="{{ asset('landing/images/rastrada.jpg') }}" class="img-fluid rounded mb-3"
+                            alt="RASTRADA">
+
+                        <div class="feat-title">
+                            RASTRADA
+                        </div>
+
+                        <div class="feat-text">
+                            Program bantuan pangan berupa beras yang diberikan
+                            kepada masyarakat kurang mampu untuk membantu
+                            memenuhi kebutuhan pangan sehari-hari.
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- JADUP -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="feat-card h-100 reveal">
+
+                        <img src="{{ asset('landing/images/jadup.jpg') }}" class="img-fluid rounded mb-3"
+                            alt="JADUP">
+
+                        <div class="feat-title">
+                            JADUP
+                        </div>
+
+                        <div class="feat-text">
+                            Jaminan Hidup Lanjut Usia yang diberikan kepada
+                            lansia yang membutuhkan dukungan untuk memenuhi
+                            kebutuhan hidup dasar dan meningkatkan kesejahteraan.
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- BERUPAYA -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="feat-card h-100 reveal">
+
+                        <img src="{{ asset('landing/images/berupaya.jpg') }}" class="img-fluid rounded mb-3"
+                            alt="BERUPAYA">
+
+                        <div class="feat-title">
+                            BERUPAYA
+                        </div>
+
+                        <div class="feat-text">
+                            Bersama Untuk Peduli Anak Yatim, yaitu bantuan sosial
+                            yang diberikan kepada anak yatim sebagai bentuk
+                            perhatian terhadap kesejahteraan anak.
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- PRS -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="feat-card h-100 reveal">
+
+                        <img src="{{ asset('landing/images/bedah.jpg') }}" class="img-fluid rounded mb-3"
+                            alt="PRS">
+
+                        <div class="feat-title">
+                            Program Rumah Sejahtera
+                        </div>
+
+                        <div class="feat-text">
+                            Program rehabilitasi dan perbaikan rumah bagi
+                            masyarakat kurang mampu agar memiliki tempat tinggal
+                            yang layak, sehat, dan aman untuk dihuni.
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
