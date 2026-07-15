@@ -305,39 +305,42 @@
                         </div>
                     </div>
 
-                    {{-- TOP RANKING untuk Lurah --}}
-                    <div class="card shadow-sm border-0 mt-3">
-                        <div class="card-header  border-0 d-flex align-items-center justify-content-between">
-                            <div>
-                                <h5 class="mb-0">Daftar Penerima Prioritas</h5>
-                                <small class="text-muted">5 penerima teratas berdasarkan perhitungan TOPSIS</small>
-                            </div>
-                            <a href="/hasil" class="btn btn-sm btn-outline-primary">
-                                Lihat Semua <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-                        <div class="card-body p-0">
-                            @if ($topRanking->isEmpty())
-                                <div class="text-center py-5 text-muted">
-                                    <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-                                    <p class="mb-0">Belum ada data rekomendasi untuk periode ini.</p>
+                    <div class="row mt-3">
+
+                        <div class="col-12 col-xl-6">
+                            {{-- TOP RANKING untuk Lurah --}}
+                            <div class="card shadow-sm border-0 mt-3">
+                                <div class="card-header  border-0 d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <h5 class="mb-0">Daftar Penerima Prioritas</h5>
+                                        <small class="text-muted">5 penerima teratas berdasarkan perhitungan TOPSIS</small>
+                                    </div>
+                                    <a href="/hasil" class="btn btn-sm btn-outline-primary">
+                                        Lihat Semua <i class="bi bi-arrow-right"></i>
+                                    </a>
                                 </div>
-                            @else
-                                <div class="table-responsive">
-                                    <table class="table table-hover mb-0">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th class="ps-3">Rank</th>
-                                                <th>Nama</th>
-                                                <th>Nilai Vi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($topRanking as $item)
-                                                <tr>
-                                                    <td class="ps-3">
-                                                        <span
-                                                            class="badge
+                                <div class="card-body p-0">
+                                    @if ($topRanking->isEmpty())
+                                        <div class="text-center py-5 text-muted">
+                                            <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                                            <p class="mb-0">Belum ada data rekomendasi untuk periode ini.</p>
+                                        </div>
+                                    @else
+                                        <div class="table-responsive">
+                                            <table class="table table-hover mb-0">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th class="ps-3">Rank</th>
+                                                        <th>Nama</th>
+                                                        <th>Nilai Vi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($topRanking as $item)
+                                                        <tr>
+                                                            <td class="ps-3">
+                                                                <span
+                                                                    class="badge
                                                             {{ $item['rank'] == 1
                                                                 ? 'bg-warning text-dark'
                                                                 : ($item['rank'] == 2
@@ -345,21 +348,47 @@
                                                                     : ($item['rank'] == 3
                                                                         ? 'bg-danger bg-opacity-75'
                                                                         : 'bg-light text-dark')) }}">
-                                                            #{{ $item['rank'] }}
-                                                        </span>
-                                                    </td>
-                                                    <td class="fw-semibold">{{ $item['nama'] }}</td>
-                                                    <td>
-                                                        <span class="font-monospace">
-                                                            {{ number_format($item['nilai'], 3) }}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                                                    #{{ $item['rank'] }}
+                                                                </span>
+                                                            </td>
+                                                            <td class="fw-semibold">{{ $item['nama'] }}</td>
+                                                            <td>
+                                                                <span class="font-monospace">
+                                                                    {{ number_format($item['nilai'], 3) }}
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @endif
                                 </div>
-                            @endif
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-xl-6">
+
+                            {{-- CARD GRAFIK --}}
+                            <div class="card shadow-sm border-0 mt-3">
+
+                                <div class="card-header border-0">
+                                    <h5 class="mb-0">Penerima RASTRADA per RW</h5>
+                                    <small class="text-muted">
+                                        Statistik penerima pada periode aktif
+                                    </small>
+                                </div>
+
+                                <div class="card-body">
+
+                                    <div style="height:240px;">
+                                        <canvas id="rwChart"></canvas>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                         </div>
                     </div>
                 @elseif($isRTRW)
@@ -694,4 +723,49 @@
 
         </section>
     </div>
+
+    @if ($isLurah)
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+
+                const rwLabels = @json($rwLabels);
+                const rwTotals = @json($rwTotals);
+
+                const ctx = document.getElementById('rwChart');
+
+                if (!ctx) return;
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: rwLabels,
+                        datasets: [{
+                            label: 'Jumlah Penerima',
+                            data: rwTotals
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+
+                        plugins: {
+                            legend: {
+                                display: true
+                            }
+                        },
+
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
+                        }
+                    }
+                });
+
+            });
+        </script>
+    @endif
 @endsection

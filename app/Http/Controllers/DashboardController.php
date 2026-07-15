@@ -86,13 +86,38 @@ class DashboardController extends Controller
             $totalPerempuan = 0;
         }
 
-        // =========================
-        // TOTAL KRITERIA AKTIF
-        // (hanya Admin)
-        // =========================
-        $totalKriteria = $role === 'Admin'
-            ? Kriteria::where('is_active', true)->count()
-            : 0;
+        $rwLabels = [
+            'RW 1',
+            'RW 2',
+            'RW 3',
+            'RW 4',
+            'RW 5',
+        ];
+
+        $rwTotals = [0, 0, 0, 0, 0];
+
+        if ($periode) {
+
+            $penerimaPerRw = MonitoringDistribusi::with([
+                'resident.wilayah'
+            ])
+                ->where('periode_id', $periode->id)
+                ->get()
+                ->groupBy(function ($item) {
+
+                    return optional(
+                        optional($item->resident)->wilayah
+                    )->rw;
+                });
+
+            foreach ($penerimaPerRw as $rw => $items) {
+
+                if ($rw >= 1 && $rw <= 5) {
+
+                    $rwTotals[$rw - 1] = $items->count();
+                }
+            }
+        }
 
         return view('pages.dashboard', compact(
             'periode',
@@ -102,7 +127,8 @@ class DashboardController extends Controller
             'belumAmbil',
             'realisasi',
             'topRanking',
-            'totalKriteria',
+            'rwLabels',
+            'rwTotals',
             'totalLakiLaki',
             'totalPerempuan'
         ));

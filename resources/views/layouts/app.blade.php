@@ -75,10 +75,6 @@
         });
     </script>
 
-    <!-- Need: Apexcharts -->
-    {{-- <script src="{{ asset('assets/extensions/apexcharts/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('assets/static/js/pages/dashboard.js') }}"></script> --}}
-
     <script src="{{ asset('assets/extensions/simple-datatables/umd/simple-datatables.js') }}"></script>
 
     <script>
@@ -87,6 +83,8 @@
             new simpleDatatables.DataTable(table);
         }
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
