@@ -35,9 +35,10 @@ class PenilaianController extends Controller
 
         $excludedResidents = BantuanLain::where('tahun', $tahunPeriode)
             ->pluck('penduduk_id')
-            ->toArray(); 
+            ->toArray();
 
         $residents = Resident::where('status', 'active')
+            ->where('status_pengajuan', 'diajukan')
             ->whereNotIn('id', $excludedResidents)
             ->with([
                 'penilaian' => function ($q) use ($periode_id) {

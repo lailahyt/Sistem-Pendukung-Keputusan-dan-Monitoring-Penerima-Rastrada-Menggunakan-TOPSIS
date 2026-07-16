@@ -37,6 +37,7 @@ Route::get('/resident/{id}', [ResidentController::class, 'edit'])->middleware(['
 Route::post('/resident', [ResidentController::class, 'store'])->middleware(['role:Admin,Petugas,Lurah,RT/RW']);
 Route::put('/resident/{id}', [ResidentController::class, 'update'])->middleware(['role:Admin,Petugas,Lurah,RT/RW']);
 Route::delete('/resident/{id}', [ResidentController::class, 'destroy'])->middleware(['role:Admin,Petugas,Lurah,RT/RW']);
+Route::post('/resident/{resident}/ajukan', [ResidentController::class, 'ajukan'])->middleware(['role:RT/RW']);
 
 Route::get('/bantuan-lain', [BantuanLainController::class, 'index'])->middleware(['role:Admin,Petugas,Lurah']);
 Route::get('/bantuan-lain/create', [BantuanLainController::class, 'create'])->middleware(['role:Petugas']);

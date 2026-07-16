@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Resident;
 use App\Models\Wilayah;
+use App\Models\Periode;
+use App\Models\BantuanLain;
 use Illuminate\Support\Facades\Auth;
 
 class ResidentController extends Controller
@@ -194,5 +196,56 @@ class ResidentController extends Controller
 
         return redirect('/resident')
             ->with('success', 'Data penduduk berhasil dihapus!');
+    }
+
+    public function ajukan(Resident $resident)
+    {
+        if ($resident->status !== 'active') {
+
+            return back()->with(
+                'error',
+                'Penduduk tidak dapat diajukan.'
+            );
+        }
+
+        if ($resident->status_pengajuan === 'diajukan') {
+
+            return back()->with(
+                'error',
+                'Penduduk sudah diajukan.'
+            );
+        }
+
+        $resident->update([
+            'status_pengajuan' => 'diajukan'
+        ]);
+
+        $periode = Periode::first();
+
+        if ($periode) {
+
+            $terdaftarBantuanLain = BantuanLain::where(
+                'penduduk_id',
+                $resident->id
+            )
+                ->where(
+                    'tahun',
+                    $periode->tahun
+                )
+                ->exists();
+
+            if ($terdaftarBantuanLain) {
+
+                return back()->with(
+                    'warning',
+                    'Pengajuan berhasil, namun penduduk terdaftar sebagai penerima bantuan lain sehingga tidak dapat diproses ke tahap penilaian RASTRADA.'
+                );
+            }
+        }
+
+        return back()->with(
+            'success',
+            'Calon penerima berhasil diajukan.'
+        );
     }
 }

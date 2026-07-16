@@ -90,6 +90,7 @@
                                 <th>Kecamatan</th>
                                 <th>RW/RT</th>
                                 <th>Status</th>
+                                <th>Status Pengajuan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -130,6 +131,19 @@
 
                                     </td>
                                     <td>
+
+                                        @if ($item->status_pengajuan == 'diajukan')
+                                            <span class="badge bg-primary">
+                                                Diajukan
+                                            </span>
+                                        @else
+                                            <span class="badge bg-secondary">
+                                                Belum Diajukan
+                                            </span>
+                                        @endif
+
+                                    </td>
+                                    <td>
                                         <div class="d-flex align-items-center" style="gap:8px">
                                             <a href="/resident/{{ $item->id }}" class="btn btn-warning btn-sm">
                                                 <i class="fas fa-edit text-white"></i>
@@ -138,6 +152,22 @@
                                                 data-bs-target="#confirmationDelete{{ $item->id }}">
                                                 <i class="fas fa-eraser"></i>
                                             </button>
+                                            @if (auth()->user()->role_id == 4)
+                                                @if ($item->status == 'active' && $item->status_pengajuan == 'belum_diajukan')
+                                                    <form action="/resident/{{ $item->id }}/ajukan" method="POST"
+                                                        style="display:inline;">
+                                                        @csrf
+
+                                                        <button type="submit" class="btn btn-success btn-sm">
+                                                            <i class="bi bi-send-check"></i>
+                                                        </button>
+                                                    </form>
+                                                @elseif($item->status_pengajuan == 'diajukan')
+                                                    <span class="badge bg-primary">
+                                                        Diajukan
+                                                    </span>
+                                                @endif
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
@@ -191,4 +221,46 @@
             }
         });
     </script>
+
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Berhasil",
+                    text: "{{ session('success') }}",
+                    icon: "success",
+                    confirmButtonColor: "#198754",
+                    confirmButtonText: "OK"
+                });
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Gagal",
+                    text: "{{ session('error') }}",
+                    icon: "error",
+                    confirmButtonColor: "#dc3545",
+                    confirmButtonText: "Tutup"
+                });
+            });
+        </script>
+    @endif
+
+    @if (session('warning'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Peringatan",
+                    text: "{{ session('warning') }}",
+                    icon: "warning",
+                    confirmButtonColor: "#f59e0b",
+                    confirmButtonText: "Mengerti"
+                });
+            });
+        </script>
+    @endif
 @endsection
