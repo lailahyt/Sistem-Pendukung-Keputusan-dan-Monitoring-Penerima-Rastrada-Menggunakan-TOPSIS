@@ -20,18 +20,20 @@ use App\Models\Penilaian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/debug-request', function (Request $request) {
+Route::get('/debug-header', function (\Illuminate\Http\Request $request) {
 
-    dd([
-        'url' => url('/'),
-        'fullUrl' => $request->fullUrl(),
-        'secure' => $request->secure(),
+    return response()->json([
         'scheme' => $request->getScheme(),
+        'secure' => $request->isSecure(),
+        'server_https' => $_SERVER['HTTPS'] ?? null,
+        'server_port' => $_SERVER['SERVER_PORT'] ?? null,
+        'forwarded_proto' => $request->header('X-Forwarded-Proto'),
+        'forwarded_host' => $request->header('X-Forwarded-Host'),
+        'forwarded_port' => $request->header('X-Forwarded-Port'),
+        'forwarded_for' => $request->header('X-Forwarded-For'),
         'host' => $request->getHost(),
-        'headers' => $request->headers->all(),
     ]);
 });
-
 
 // Landing Page
 Route::get('/', [LandingController::class, 'index']);
