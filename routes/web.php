@@ -17,7 +17,20 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\BantuanLainController;
 use App\Models\Penilaian;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/debug-request', function (Request $request) {
+
+    dd([
+        'url' => url('/'),
+        'fullUrl' => $request->fullUrl(),
+        'secure' => $request->secure(),
+        'scheme' => $request->getScheme(),
+        'host' => $request->getHost(),
+        'headers' => $request->headers->all(),
+    ]);
+});
 
 
 // Landing Page
