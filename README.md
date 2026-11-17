@@ -1,66 +1,113 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SPK dan Monitoring Penerima Rastrada
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web untuk membantu menentukan penerima bantuan Rastrada dan memantau penyalurannya. Penerima diurutkan dengan metode TOPSIS berdasarkan kriteria yang dinilai petugas, lalu hasilnya disetujui lurah dan penyalurannya dipantau di aplikasi yang sama.
 
-## About Laravel
+Proyek ini dikembangkan secara kolaboratif sebagai proyek akademik (Tugas Akhir).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Fitur
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Data penduduk:** input dan kelola data calon penerima. RT/RW dapat mengajukan warga untuk dinilai.
+- **Kriteria dan subkriteria:** atur bobot, jenis kriteria (benefit atau cost), subkriteria, status aktif, dan apakah suatu kriteria butuh bukti.
+- **Periode:** penilaian dan perhitungan dikelompokkan per periode.
+- **Penilaian:** petugas menilai tiap calon penerima berdasarkan kriteria.
+- **Perhitungan TOPSIS:** menampilkan tiap langkah, yaitu matriks keputusan, normalisasi, normalisasi terbobot, solusi ideal positif dan negatif, jarak, nilai preferensi, dan peringkat.
+- **Bantuan lain:** warga yang sudah menerima bantuan lain pada tahun yang sama dikeluarkan dari perhitungan.
+- **Hasil dan kuota:** lurah menetapkan kuota penerima berdasarkan peringkat.
+- **Monitoring distribusi:** memantau status pengambilan bantuan, termasuk bukti pengambilan.
+- **Laporan:** ekspor ke PDF dan Excel.
+- **Akun dan hak akses:** empat peran dengan akses berbeda, yaitu Admin, Petugas, Lurah, dan RT/RW.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Peran pengguna
 
-## Learning Laravel
+| Peran | Tugas utama |
+|---|---|
+| Admin | Akses penuh sistem, kelola akun dan pegawai |
+| Petugas | Input data, penilaian, perhitungan, dan monitoring |
+| Lurah | Melihat hasil, validasi dan persetujuan, menetapkan kuota |
+| RT/RW | Input data penduduk dan mengajukan warga |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Metode TOPSIS singkat
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+TOPSIS (Technique for Order Preference by Similarity to Ideal Solution) mengurutkan pilihan berdasarkan kedekatannya dengan solusi ideal. Langkah di aplikasi ini:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Susun matriks keputusan dari nilai penilaian tiap calon pada tiap kriteria.
+2. Normalisasi matriks, lalu kalikan dengan bobot kriteria.
+3. Tentukan solusi ideal positif dan negatif. Kriteria benefit mengambil nilai terbesar sebagai ideal positif, sedangkan kriteria cost mengambil nilai terkecil.
+4. Hitung jarak tiap calon ke solusi ideal positif dan negatif.
+5. Hitung nilai preferensi, lalu urutkan dari yang tertinggi.
 
-## Laravel Sponsors
+## Teknologi
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- Laravel 12 (PHP 8.2 atau lebih baru)
+- MySQL
+- Bootstrap
+- `maatwebsite/excel` untuk ekspor Excel dan `barryvdh/laravel-dompdf` untuk ekspor PDF
+- Vite
 
-### Premium Partners
+## Cara menjalankan di komputer sendiri
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Yang dibutuhkan: PHP 8.2+, Composer, Node.js dan npm, serta MySQL.
 
-## Contributing
+```bash
+git clone https://github.com/lailahyt/Sistem-Pendukung-Keputusan-dan-Monitoring-Penerima-Rastrada-Menggunakan-TOPSIS.git
+cd Sistem-Pendukung-Keputusan-dan-Monitoring-Penerima-Rastrada-Menggunakan-TOPSIS
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+composer install
+npm install
 
-## Code of Conduct
+cp .env.example .env
+php artisan key:generate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Buat database kosong di MySQL, lalu ubah bagian database di file `.env`:
 
-## Security Vulnerabilities
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nama_database_kamu
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Lanjutkan dengan migrasi, data awal, dan build tampilan:
 
-## License
+```bash
+php artisan migrate --seed
+npm run build
+php artisan serve
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Buka `http://localhost:8000`.
+
+### Akun contoh
+
+Data awal (`php artisan migrate --seed`) berisi peran, data wilayah RT/RW, dan tiga akun percobaan:
+
+| Peran | Email | Password |
+|---|---|---|
+| Admin | `admin@gmail.com` | `password` |
+| Petugas | `petugas@gmail.com` | `password` |
+| Lurah | `lurah@gmail.com` | `password` |
+
+Akun RT/RW dibuat oleh Admin lewat menu akun. Akun di atas hanya untuk percobaan di komputer sendiri. Ganti password sebelum aplikasi dipakai sungguhan.
+
+## Struktur singkat
+
+```
+app/Services/TopsisService.php   Perhitungan TOPSIS
+app/Http/Controllers/            Penduduk, kriteria, penilaian, hasil, monitoring, laporan
+app/Exports/LaporanExport.php    Ekspor laporan Excel
+database/migrations/             Struktur tabel
+database/seeders/                Peran, akun percobaan, data wilayah
+resources/views/                 Tampilan Blade
+routes/web.php                   Rute dan pembatasan akses per peran
+```
+
+## Catatan data
+
+Repo ini tidak berisi data warga asli. Semua data penduduk, penilaian, dan bukti pengambilan dimasukkan lewat aplikasi, dan sebaiknya tidak dipublikasikan.
+
+## Penulis
+
+Laila Hayati — [GitHub](https://github.com/lailahyt)
