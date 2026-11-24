@@ -111,3 +111,4 @@ Repo ini tidak berisi data warga asli. Semua data penduduk, penilaian, dan bukti
 ## Penulis
 
 Laila Hayati — [GitHub](https://github.com/lailahyt)
+Trindah Agustina
