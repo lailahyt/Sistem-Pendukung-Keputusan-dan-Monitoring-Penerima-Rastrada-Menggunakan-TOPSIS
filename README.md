@@ -1,52 +1,52 @@
-# SPK dan Monitoring Penerima Rastrada
+# Decision Support and Monitoring System for Rastrada Aid Recipients (TOPSIS)
 
-Aplikasi web untuk membantu menentukan penerima bantuan Rastrada dan memantau penyalurannya. Penerima diurutkan dengan metode TOPSIS berdasarkan kriteria yang dinilai petugas, lalu hasilnya disetujui lurah dan penyalurannya dipantau di aplikasi yang sama.
+A web app that helps decide who receives Rastrada aid and monitors how it is distributed. Candidates are ranked with the TOPSIS method based on criteria scored by staff. The village head (lurah) then approves the result, and distribution is tracked in the same app.
 
-Proyek ini dikembangkan secara kolaboratif sebagai proyek akademik (Tugas Akhir).
+This project was developed collaboratively as an academic project (final project, "Tugas Akhir").
 
-## Fitur
+## Features
 
-- **Data penduduk:** input dan kelola data calon penerima. RT/RW dapat mengajukan warga untuk dinilai.
-- **Kriteria dan subkriteria:** atur bobot, jenis kriteria (benefit atau cost), subkriteria, status aktif, dan apakah suatu kriteria butuh bukti.
-- **Periode:** penilaian dan perhitungan dikelompokkan per periode.
-- **Penilaian:** petugas menilai tiap calon penerima berdasarkan kriteria.
-- **Perhitungan TOPSIS:** menampilkan tiap langkah, yaitu matriks keputusan, normalisasi, normalisasi terbobot, solusi ideal positif dan negatif, jarak, nilai preferensi, dan peringkat.
-- **Bantuan lain:** warga yang sudah menerima bantuan lain pada tahun yang sama dikeluarkan dari perhitungan.
-- **Hasil dan kuota:** lurah menetapkan kuota penerima berdasarkan peringkat.
-- **Monitoring distribusi:** memantau status pengambilan bantuan, termasuk bukti pengambilan.
-- **Laporan:** ekspor ke PDF dan Excel.
-- **Akun dan hak akses:** empat peran dengan akses berbeda, yaitu Admin, Petugas, Lurah, dan RT/RW.
+- **Resident data:** enter and manage data on candidate recipients. Neighborhood heads (RT/RW) can nominate residents to be scored.
+- **Criteria and sub-criteria:** set weights, criterion type (benefit or cost), sub-criteria, active status, and whether a criterion requires proof.
+- **Periods:** scoring and calculations are grouped by period.
+- **Scoring:** staff score each candidate against the criteria.
+- **TOPSIS calculation:** shows every step: decision matrix, normalization, weighted normalization, positive and negative ideal solutions, distances, preference values, and ranking.
+- **Other aid:** residents who have already received other aid in the same year are excluded from the calculation.
+- **Results and quota:** the village head sets the recipient quota based on the ranking.
+- **Distribution monitoring:** tracks the status of aid collection, including proof of collection.
+- **Reports:** export to PDF and Excel.
+- **Accounts and access rights:** four roles with different access: Admin, Staff (Petugas), Village Head (Lurah), and RT/RW.
 
-## Peran pengguna
+## User roles
 
-| Peran | Tugas utama |
+| Role | Main tasks |
 |---|---|
-| Admin | Akses penuh sistem, kelola akun dan pegawai |
-| Petugas | Input data, penilaian, perhitungan, dan monitoring |
-| Lurah | Melihat hasil, validasi dan persetujuan, menetapkan kuota |
-| RT/RW | Input data penduduk dan mengajukan warga |
+| Admin | Full system access, manages accounts and staff |
+| Staff (Petugas) | Data entry, scoring, calculation, and monitoring |
+| Village Head (Lurah) | Views results, validates and approves, sets the quota |
+| RT/RW | Enters resident data and nominates residents |
 
-## Metode TOPSIS singkat
+## TOPSIS in brief
 
-TOPSIS (Technique for Order Preference by Similarity to Ideal Solution) mengurutkan pilihan berdasarkan kedekatannya dengan solusi ideal. Langkah di aplikasi ini:
+TOPSIS (Technique for Order Preference by Similarity to Ideal Solution) ranks options by how close they are to the ideal solution. The steps in this app:
 
-1. Susun matriks keputusan dari nilai penilaian tiap calon pada tiap kriteria.
-2. Normalisasi matriks, lalu kalikan dengan bobot kriteria.
-3. Tentukan solusi ideal positif dan negatif. Kriteria benefit mengambil nilai terbesar sebagai ideal positif, sedangkan kriteria cost mengambil nilai terkecil.
-4. Hitung jarak tiap calon ke solusi ideal positif dan negatif.
-5. Hitung nilai preferensi, lalu urutkan dari yang tertinggi.
+1. Build the decision matrix from each candidate's score on each criterion.
+2. Normalize the matrix, then multiply by the criteria weights.
+3. Determine the positive and negative ideal solutions. For benefit criteria, the highest value is the positive ideal; for cost criteria, the lowest value is.
+4. Calculate each candidate's distance to the positive and negative ideal solutions.
+5. Calculate the preference value, then sort from highest to lowest.
 
-## Teknologi
+## Tech stack
 
-- Laravel 12 (PHP 8.2 atau lebih baru)
+- Laravel 12 (PHP 8.2 or later)
 - MySQL
 - Bootstrap
-- `maatwebsite/excel` untuk ekspor Excel dan `barryvdh/laravel-dompdf` untuk ekspor PDF
+- `maatwebsite/excel` for Excel export and `barryvdh/laravel-dompdf` for PDF export
 - Vite
 
-## Cara menjalankan di komputer sendiri
+## Running it locally
 
-Yang dibutuhkan: PHP 8.2+, Composer, Node.js dan npm, serta MySQL.
+Requirements: PHP 8.2+, Composer, Node.js and npm, and MySQL.
 
 ```bash
 git clone https://github.com/lailahyt/Sistem-Pendukung-Keputusan-dan-Monitoring-Penerima-Rastrada-Menggunakan-TOPSIS.git
@@ -59,18 +59,18 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-Buat database kosong di MySQL, lalu ubah bagian database di file `.env`:
+Create an empty MySQL database, then update the database section of your `.env` file:
 
 ```env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=nama_database_kamu
+DB_DATABASE=your_database_name
 DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-Lanjutkan dengan migrasi, data awal, dan build tampilan:
+Then run the migrations, load the initial data, and build the frontend:
 
 ```bash
 php artisan migrate --seed
@@ -78,37 +78,37 @@ npm run build
 php artisan serve
 ```
 
-Buka `http://localhost:8000`.
+Open `http://localhost:8000`.
 
-### Akun contoh
+### Sample accounts
 
-Data awal (`php artisan migrate --seed`) berisi peran, data wilayah RT/RW, dan tiga akun percobaan:
+The initial data (`php artisan migrate --seed`) contains roles, RT/RW area data, and three test accounts:
 
-| Peran | Email | Password |
+| Role | Email | Password |
 |---|---|---|
 | Admin | `admin@gmail.com` | `password` |
-| Petugas | `petugas@gmail.com` | `password` |
-| Lurah | `lurah@gmail.com` | `password` |
+| Staff (Petugas) | `petugas@gmail.com` | `password` |
+| Village Head (Lurah) | `lurah@gmail.com` | `password` |
 
-Akun RT/RW dibuat oleh Admin lewat menu akun. Akun di atas hanya untuk percobaan di komputer sendiri. Ganti password sebelum aplikasi dipakai sungguhan.
+RT/RW accounts are created by the Admin through the accounts menu. The accounts above are for local testing only. Change the passwords before using the app for real.
 
-## Struktur singkat
+## Project structure
 
 ```
-app/Services/TopsisService.php   Perhitungan TOPSIS
-app/Http/Controllers/            Penduduk, kriteria, penilaian, hasil, monitoring, laporan
-app/Exports/LaporanExport.php    Ekspor laporan Excel
-database/migrations/             Struktur tabel
-database/seeders/                Peran, akun percobaan, data wilayah
-resources/views/                 Tampilan Blade
-routes/web.php                   Rute dan pembatasan akses per peran
+app/Services/TopsisService.php   TOPSIS calculation
+app/Http/Controllers/            Residents, criteria, scoring, results, monitoring, reports
+app/Exports/LaporanExport.php    Excel report export
+database/migrations/             Table structure
+database/seeders/                Roles, test accounts, area data
+resources/views/                 Blade views
+routes/web.php                   Routes and per-role access restrictions
 ```
 
-## Catatan data
+## Data note
 
-Repo ini tidak berisi data warga asli. Semua data penduduk, penilaian, dan bukti pengambilan dimasukkan lewat aplikasi, dan sebaiknya tidak dipublikasikan.
+This repository contains no real resident data. All resident data, scores, and proof of collection are entered through the app and should not be published.
 
-## Penulis
+## Authors
 
-Laila Hayati — [GitHub](https://github.com/lailahyt)
-Trindah Agustina
+- Laila Hayati — [GitHub](https://github.com/lailahyt)
+- Trindah Agustina — [GitHub](https://github.com/trindah)
